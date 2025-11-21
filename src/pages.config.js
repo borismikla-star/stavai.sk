@@ -3,6 +3,11 @@ import Dashboard from './pages/Dashboard';
 import AITools from './pages/AITools';
 import CostEstimator from './pages/CostEstimator';
 import Projects from './pages/Projects';
+import TimelineGenerator from './pages/TimelineGenerator';
+import FeasibilityAnalyzer from './pages/FeasibilityAnalyzer';
+import ProjectCreate from './pages/ProjectCreate';
+import ProjectDetail from './pages/ProjectDetail';
+import Knowledge from './pages/Knowledge';
 import __Layout from './Layout.jsx';
 
 
@@ -12,6 +17,11 @@ export const PAGES = {
     "AITools": AITools,
     "CostEstimator": CostEstimator,
     "Projects": Projects,
+    "TimelineGenerator": TimelineGenerator,
+    "FeasibilityAnalyzer": FeasibilityAnalyzer,
+    "ProjectCreate": ProjectCreate,
+    "ProjectDetail": ProjectDetail,
+    "Knowledge": Knowledge,
 }
 
 export const pagesConfig = {
