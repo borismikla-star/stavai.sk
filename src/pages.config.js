@@ -4,6 +4,7 @@ import VisualIdentity from './pages/VisualIdentity';
 import Messaging from './pages/Messaging';
 import Ecosystem from './pages/Ecosystem';
 import Guidelines from './pages/Guidelines';
+import Home from './pages/Home';
 import __Layout from './Layout.jsx';
 
 
@@ -14,6 +15,7 @@ export const PAGES = {
     "Messaging": Messaging,
     "Ecosystem": Ecosystem,
     "Guidelines": Guidelines,
+    "Home": Home,
 }
 
 export const pagesConfig = {
