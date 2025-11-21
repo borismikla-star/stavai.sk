@@ -88,9 +88,9 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-violet-500/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-blue-600/10"></div>
         <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, transparent 50%)'
+          backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)'
         }}></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -99,9 +99,9 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-8">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span className="text-sm text-cyan-400 font-medium">AI Construction Intelligence Platform</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8">
+              <Sparkles className="w-4 h-4 text-blue-400" />
+              <span className="text-sm text-blue-400 font-medium">AI Construction Intelligence Platform</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8">
@@ -118,13 +118,13 @@ export default function Home() {
 
             <div className="flex flex-wrap items-center justify-center gap-6">
               <Link to={createPageUrl('AITools')}>
-                <button className="px-10 py-6 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-all">
+                <button className="px-10 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all">
                   Vyskúšať AI Nástroje
                   <ArrowRight className="w-6 h-6 ml-2 inline" />
                 </button>
               </Link>
               <Link to={createPageUrl('About')}>
-                <button className="px-10 py-6 border-2 border-slate-700 text-white rounded-xl font-bold text-lg hover:border-cyan-500 hover:bg-slate-800/50 transition-all">
+                <button className="px-10 py-6 border-2 border-slate-700 text-white rounded-xl font-bold text-lg hover:border-blue-500 hover:bg-slate-800/50 transition-all">
                   Zistiť viac
                 </button>
               </Link>
@@ -177,9 +177,9 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="glass-effect border-slate-800 hover:border-cyan-500/50 transition-all h-full">
+              <Card className="glass-effect border-slate-800 hover:border-blue-500/50 transition-all h-full">
                 <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center mx-auto mb-6">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mx-auto mb-6">
                     <benefit.icon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{benefit.title}</h3>
@@ -199,7 +199,7 @@ export default function Home() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <Zap className="w-12 h-12 mx-auto mb-6 text-cyan-400" />
+          <Zap className="w-12 h-12 mx-auto mb-6 text-blue-400" />
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             AI Nástroje
           </h2>
@@ -222,7 +222,7 @@ export default function Home() {
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                   tool.tag === 'FREE' 
                     ? 'bg-green-500/20 text-green-400' 
-                    : 'bg-violet-500/20 text-violet-400'
+                    : 'bg-blue-500/20 text-blue-400'
                 }`}>
                   {tool.tag}
                 </span>
@@ -232,7 +232,7 @@ export default function Home() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-3">{tool.name}</h3>
               <p className="text-slate-400 mb-6">{tool.description}</p>
-              <div className="flex items-center gap-2 text-cyan-400 font-semibold group-hover:gap-3 transition-all">
+              <div className="flex items-center gap-2 text-blue-400 font-semibold group-hover:gap-3 transition-all">
                 Vyskúšať
                 <ArrowRight className="w-5 h-5" />
               </div>
@@ -248,7 +248,7 @@ export default function Home() {
         >
           <Link
             to={createPageUrl('AITools')}
-            className="inline-flex items-center gap-3 px-8 py-4 border-2 border-cyan-500 text-cyan-400 rounded-xl font-semibold hover:bg-cyan-500 hover:text-white transition-all"
+            className="inline-flex items-center gap-3 px-8 py-4 border-2 border-blue-500 text-blue-400 rounded-xl font-semibold hover:bg-blue-500 hover:text-white transition-all"
           >
             Zobraziť všetky nástroje
             <ArrowRight className="w-5 h-5" />
@@ -264,7 +264,7 @@ export default function Home() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <Users className="w-12 h-12 mx-auto mb-6 text-cyan-400" />
+          <Users className="w-12 h-12 mx-auto mb-6 text-blue-400" />
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Dôveruje nám komunita
           </h2>
@@ -360,7 +360,7 @@ export default function Home() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <Globe className="w-12 h-12 mx-auto mb-6 text-cyan-400" />
+          <Globe className="w-12 h-12 mx-auto mb-6 text-blue-400" />
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Pripravení stavať budúcnosť?
           </h2>
@@ -369,7 +369,7 @@ export default function Home() {
             pre lepšie rozhodnutia v stavebníctve a real estate.
           </p>
           <Link to={createPageUrl('AITools')}>
-            <button className="px-10 py-6 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-cyan-500/50 transition-all">
+            <button className="px-10 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all">
               Začať zadarmo
               <ArrowRight className="w-6 h-6 ml-2 inline" />
             </button>

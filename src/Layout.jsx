@@ -37,13 +37,13 @@ export default function Layout({ children, currentPageName }) {
 
         .neural-grid {
           background-image: 
-            linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+            linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
           background-size: 50px 50px;
         }
 
         .gradient-text {
-          background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 50%, #8B5CF6 100%);
+          background: linear-gradient(135deg, #3B82F6 0%, #6366F1 50%, #8B5CF6 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -56,7 +56,7 @@ export default function Layout({ children, currentPageName }) {
         }
 
         .glow-effect {
-          box-shadow: 0 0 40px rgba(14, 165, 233, 0.15);
+          box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
         }
       `}</style>
 
@@ -67,9 +67,9 @@ export default function Layout({ children, currentPageName }) {
             {/* Logo */}
             <Link to={createPageUrl('Home')} className="flex items-center gap-3 group">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition"></div>
                 <div className="relative bg-slate-900 p-2 rounded-lg border border-slate-700">
-                  <Zap className="w-5 h-5 text-cyan-400" />
+                  <Zap className="w-5 h-5 text-blue-400" />
                 </div>
               </div>
               <div>
@@ -85,13 +85,13 @@ export default function Layout({ children, currentPageName }) {
                   to={createPageUrl(item.path)}
                   className={`text-sm font-medium transition-all relative group ${
                     currentPageName === item.path
-                      ? 'text-cyan-400'
+                      ? 'text-blue-400'
                       : 'text-slate-400 hover:text-white'
-                  } ${item.highlight ? 'px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-cyan-600 text-white hover:shadow-lg hover:shadow-violet-500/50' : ''}`}
+                  } ${item.highlight ? 'px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-lg hover:shadow-blue-500/50' : ''}`}
                 >
                   {item.name}
                   {!item.highlight && currentPageName === item.path && (
-                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500"></div>
+                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
                   )}
                 </Link>
               ))}
@@ -101,7 +101,7 @@ export default function Layout({ children, currentPageName }) {
             <div className="hidden md:flex items-center gap-3">
               <Link
                 to={createPageUrl('Dashboard')}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-lg hover:shadow-blue-500/50 transition-all"
               >
                 <Sparkles className="w-4 h-4" />
                 <span className="text-sm font-semibold">Dashboard</span>
@@ -129,7 +129,7 @@ export default function Layout({ children, currentPageName }) {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block px-4 py-3 rounded-lg text-sm font-medium transition ${
                     currentPageName === item.path
-                      ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white'
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
                       : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                   }`}
                 >
@@ -139,7 +139,7 @@ export default function Layout({ children, currentPageName }) {
               <Link
                 to={createPageUrl('Dashboard')}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white"
+                className="flex items-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
               >
                 <Sparkles className="w-4 h-4" />
                 <span className="text-sm font-semibold">Dashboard</span>
@@ -161,9 +161,9 @@ export default function Layout({ children, currentPageName }) {
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg blur opacity-75"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-75"></div>
                   <div className="relative bg-slate-900 p-2 rounded-lg border border-slate-700">
-                    <Zap className="w-5 h-5 text-cyan-400" />
+                    <Zap className="w-5 h-5 text-blue-400" />
                   </div>
                 </div>
                 <div className="text-xl font-bold gradient-text">Stavai.sk</div>
@@ -177,18 +177,18 @@ export default function Layout({ children, currentPageName }) {
             <div>
               <h3 className="text-white font-semibold mb-4">Produkty</h3>
               <ul className="space-y-2">
-                <li><Link to={createPageUrl('Dashboard')} className="text-slate-400 hover:text-cyan-400 text-sm transition">Dashboard</Link></li>
-                <li><Link to={createPageUrl('AITools')} className="text-slate-400 hover:text-cyan-400 text-sm transition">AI Nástroje</Link></li>
-                <li><Link to={createPageUrl('Projects')} className="text-slate-400 hover:text-cyan-400 text-sm transition">Projekty</Link></li>
-                <li><Link to={createPageUrl('Knowledge')} className="text-slate-400 hover:text-cyan-400 text-sm transition">Knowledge Hub</Link></li>
+                <li><Link to={createPageUrl('Dashboard')} className="text-slate-400 hover:text-blue-400 text-sm transition">Dashboard</Link></li>
+                <li><Link to={createPageUrl('AITools')} className="text-slate-400 hover:text-blue-400 text-sm transition">AI Nástroje</Link></li>
+                <li><Link to={createPageUrl('Projects')} className="text-slate-400 hover:text-blue-400 text-sm transition">Projekty</Link></li>
+                <li><Link to={createPageUrl('Knowledge')} className="text-slate-400 hover:text-blue-400 text-sm transition">Knowledge Hub</Link></li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-white font-semibold mb-4">Spoločnosť</h3>
               <ul className="space-y-2">
-                <li><Link to={createPageUrl('About')} className="text-slate-400 hover:text-cyan-400 text-sm transition">O Nás</Link></li>
-                <li><a href="mailto:hello@stavai.sk" className="text-slate-400 hover:text-cyan-400 text-sm transition">Kontakt</a></li>
+                <li><Link to={createPageUrl('About')} className="text-slate-400 hover:text-blue-400 text-sm transition">O Nás</Link></li>
+                <li><a href="mailto:hello@stavai.sk" className="text-slate-400 hover:text-blue-400 text-sm transition">Kontakt</a></li>
               </ul>
             </div>
           </div>
