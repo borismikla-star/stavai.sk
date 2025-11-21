@@ -8,6 +8,8 @@ import FeasibilityAnalyzer from './pages/FeasibilityAnalyzer';
 import ProjectCreate from './pages/ProjectCreate';
 import ProjectDetail from './pages/ProjectDetail';
 import Knowledge from './pages/Knowledge';
+import Estivo from './pages/Estivo';
+import About from './pages/About';
 import __Layout from './Layout.jsx';
 
 
@@ -22,6 +24,8 @@ export const PAGES = {
     "ProjectCreate": ProjectCreate,
     "ProjectDetail": ProjectDetail,
     "Knowledge": Knowledge,
+    "Estivo": Estivo,
+    "About": About,
 }
 
 export const pagesConfig = {
