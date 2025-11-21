@@ -159,9 +159,9 @@ export default function AITools() {
       {/* Premium Tools */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800">
         <div className="mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-4">
-            <Lock className="w-4 h-4 text-violet-400" />
-            <span className="text-sm text-violet-400 font-medium">PREMIUM TOOLS</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
+            <Lock className="w-4 h-4 text-blue-400" />
+            <span className="text-sm text-blue-400 font-medium">PREMIUM TOOLS</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Professional Analytics
@@ -179,13 +179,13 @@ export default function AITools() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="glass-effect border-slate-800 hover:border-violet-500/50 transition-all group h-full">
+              <Card className="glass-effect border-slate-800 hover:border-blue-500/50 transition-all group h-full">
                 <CardHeader>
                   <div className="flex items-start justify-between mb-4">
                     <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
                       <tool.icon className="w-7 h-7 text-white" />
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-violet-500/20 text-violet-400 text-xs font-bold">
+                    <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold">
                       PRO
                     </span>
                   </div>
@@ -198,7 +198,7 @@ export default function AITools() {
                   <div className="space-y-2">
                     {tool.features.map((feature, i) => (
                       <div key={i} className="flex items-center gap-2 text-xs text-slate-500">
-                        <CheckCircle className="w-3 h-3 text-violet-400 flex-shrink-0" />
+                        <CheckCircle className="w-3 h-3 text-blue-400 flex-shrink-0" />
                         {feature}
                       </div>
                     ))}
@@ -215,7 +215,7 @@ export default function AITools() {
           animate={{ opacity: 1, scale: 1 }}
           className="relative overflow-hidden rounded-3xl"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700"></div>
           <div className="absolute inset-0 opacity-20" style={{
             backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(255,255,255,0.3) 0%, transparent 50%)'
           }}></div>
@@ -225,13 +225,13 @@ export default function AITools() {
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Unlock Professional Features
             </h3>
-            <p className="text-xl text-purple-100 max-w-2xl mx-auto mb-8">
+            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-8">
               Získaj prístup k pokročilým investment analytics, 
               API integráciám a priority support s Estivo.io Pro
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
               <Link to={createPageUrl('Estivo')}>
-                <Button className="bg-white text-violet-600 hover:bg-purple-50 px-8 py-6 text-lg font-bold rounded-xl">
+                <Button className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-6 text-lg font-bold rounded-xl">
                   Preskúmať Estivo.io
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>

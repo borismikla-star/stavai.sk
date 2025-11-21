@@ -309,7 +309,7 @@ export default function Home() {
           viewport={{ once: true }}
           className="relative overflow-hidden rounded-3xl"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700"></div>
           <div className="absolute inset-0 opacity-20" style={{
             backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(255,255,255,0.3) 0%, transparent 50%)'
           }}></div>
@@ -327,7 +327,7 @@ export default function Home() {
                 Spoznajte Estivo.io
               </h2>
               
-              <p className="text-xl text-purple-100 mb-8 max-w-2xl">
+              <p className="text-xl text-blue-100 mb-8 max-w-2xl">
                 Profesionálna fintech platforma pre investment modeling, ROI/IRR analytics 
                 a feasibility studies. Pre serious developers a investorov.
               </p>
@@ -342,7 +342,7 @@ export default function Home() {
               </ul>
 
               <Link to={createPageUrl('Estivo')}>
-                <button className="px-8 py-6 bg-white text-violet-600 hover:bg-purple-50 rounded-xl font-bold text-lg transition-all">
+                <button className="px-8 py-6 bg-white text-blue-600 hover:bg-blue-50 rounded-xl font-bold text-lg transition-all">
                   Preskúmať Estivo.io
                   <ArrowRight className="w-5 h-5 ml-2 inline" />
                 </button>

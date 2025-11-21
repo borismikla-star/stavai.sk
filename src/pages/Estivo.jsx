@@ -117,9 +117,9 @@ export default function Estivo() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 via-purple-500/10 to-pink-500/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-blue-600/10"></div>
         <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)'
+        backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)'
         }}></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -128,9 +128,9 @@ export default function Estivo() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-8">
-              <Lock className="w-4 h-4 text-violet-400" />
-              <span className="text-sm text-violet-400 font-medium">Professional Investment Platform</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8">
+              <Lock className="w-4 h-4 text-blue-400" />
+              <span className="text-sm text-blue-400 font-medium">Professional Investment Platform</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8">
@@ -146,11 +146,11 @@ export default function Estivo() {
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-6">
-              <Button className="px-10 py-6 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-violet-500/50 transition-all">
+              <Button className="px-10 py-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all">
                 Začať 14-dňový trial
                 <ArrowRight className="w-6 h-6 ml-2" />
               </Button>
-              <Button variant="outline" className="px-10 py-6 border-2 border-slate-700 text-white rounded-xl font-bold text-lg hover:border-violet-500 hover:bg-slate-800/50 transition-all">
+              <Button variant="outline" className="px-10 py-6 border-2 border-slate-700 text-white rounded-xl font-bold text-lg hover:border-blue-500 hover:bg-slate-800/50 transition-all">
                 Zistiť viac
               </Button>
             </div>
@@ -194,9 +194,9 @@ export default function Estivo() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6">
-            <Zap className="w-4 h-4 text-cyan-400" />
-            <span className="text-sm text-cyan-400 font-medium">Powered by Stavai.sk Ecosystem</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 mb-6">
+            <Zap className="w-4 h-4 text-sky-400" />
+            <span className="text-sm text-sky-400 font-medium">Powered by Stavai.sk Ecosystem</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Bratská platforma ku Stavai.sk
@@ -219,28 +219,28 @@ export default function Estivo() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-sky-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <div className="text-white font-semibold">FREE AI nástroje</div>
                   <div className="text-sm text-slate-400">Cost estimates, timelines, basic analytics</div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-sky-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <div className="text-white font-semibold">Knowledge Hub</div>
                   <div className="text-sm text-slate-400">Vzdelávací obsah o AI v stavebníctve</div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-cyan-400 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-sky-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <div className="text-white font-semibold">Project management</div>
                   <div className="text-sm text-slate-400">Organizácia projektov a analýz</div>
                 </div>
               </div>
               <Link to={createPageUrl('Home')}>
-                <Button variant="outline" className="w-full mt-4 border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10">
+                <Button variant="outline" className="w-full mt-4 border-sky-500/50 text-sky-400 hover:bg-sky-500/10">
                   Prejsť na Stavai.sk
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -248,10 +248,10 @@ export default function Estivo() {
             </CardContent>
           </Card>
 
-          <Card className="glass-effect border-violet-500/50">
+          <Card className="glass-effect border-blue-500/50">
             <CardHeader>
               <CardTitle className="text-white flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
                   <Lock className="w-5 h-5 text-white" />
                 </div>
                 Estivo.io — For Professionals
@@ -259,7 +259,7 @@ export default function Estivo() {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-start gap-3">
-                <CheckCircle className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" />
+                <CheckCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <div className="text-white font-semibold">Advanced ROI/IRR modeling</div>
                   <div className="text-sm text-slate-400">Multi-scenario, sensitivity analysis, NPV</div>
@@ -279,7 +279,7 @@ export default function Estivo() {
                   <div className="text-sm text-slate-400">Custom workflows, white-label</div>
                 </div>
               </div>
-              <Button className="w-full mt-4 bg-gradient-to-r from-violet-600 to-purple-600">
+              <Button className="w-full mt-4 bg-gradient-to-r from-blue-600 to-indigo-600">
                 Začať s Estivo.io
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -313,9 +313,9 @@ export default function Estivo() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="glass-effect border-slate-800 hover:border-violet-500/50 transition-all h-full">
+              <Card className="glass-effect border-slate-800 hover:border-blue-500/50 transition-all h-full">
                 <CardContent className="p-6">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-4">
                     <feature.icon className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
@@ -351,7 +351,7 @@ export default function Estivo() {
             >
               <Card className="glass-effect border-slate-800 text-center h-full">
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center mx-auto mb-6">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mx-auto mb-6">
                     <useCase.icon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3">{useCase.title}</h3>
@@ -388,9 +388,9 @@ export default function Estivo() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className={`glass-effect ${plan.highlight ? 'border-violet-500 border-2 scale-105' : 'border-slate-800'} h-full`}>
+              <Card className={`glass-effect ${plan.highlight ? 'border-blue-500 border-2 scale-105' : 'border-slate-800'} h-full`}>
                 {plan.highlight && (
-                  <div className="bg-gradient-to-r from-violet-500 to-purple-500 text-white text-center py-2 text-sm font-bold rounded-t-xl">
+                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-2 text-sm font-bold rounded-t-xl">
                     MOST POPULAR
                   </div>
                 )}
@@ -404,12 +404,12 @@ export default function Estivo() {
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <CheckCircle className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
                         <span className="text-slate-300 text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                  <Button className={`w-full ${plan.highlight ? 'bg-gradient-to-r from-violet-600 to-purple-600' : 'border-slate-700'}`} variant={plan.highlight ? 'default' : 'outline'}>
+                  <Button className={`w-full ${plan.highlight ? 'bg-gradient-to-r from-blue-600 to-indigo-600' : 'border-slate-700'}`} variant={plan.highlight ? 'default' : 'outline'}>
                     {plan.cta}
                   </Button>
                 </CardContent>
@@ -427,15 +427,15 @@ export default function Estivo() {
           viewport={{ once: true }}
           className="relative overflow-hidden rounded-3xl"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700"></div>
           <div className="relative px-8 md:px-16 py-16 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
               Pripravený na serious analytics?
             </h2>
-            <p className="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Začni 14-dňový free trial Estivo.io Professional — žiadna kreditka potrebná
             </p>
-            <Button className="bg-white text-violet-600 hover:bg-purple-50 px-10 py-6 text-lg font-bold rounded-xl">
+            <Button className="bg-white text-blue-600 hover:bg-blue-50 px-10 py-6 text-lg font-bold rounded-xl">
               Začať free trial
               <ArrowRight className="w-6 h-6 ml-2" />
             </Button>
