@@ -18,7 +18,7 @@ export default function Layout({ children, currentPageName }) {
   const navigation = mainNavigation;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-white">
       <style>{`
         :root {
           --color-primary: #0EA5E9;
@@ -61,15 +61,15 @@ export default function Layout({ children, currentPageName }) {
       `}</style>
 
       {/* Navigation */}
-      <nav className="glass-effect border-b border-slate-800 sticky top-0 z-50">
+      <nav className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link to={createPageUrl('Home')} className="flex items-center gap-3 group">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition"></div>
-                <div className="relative bg-slate-900 p-2 rounded-lg border border-slate-700">
-                  <Zap className="w-5 h-5 text-blue-400" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-30 group-hover:opacity-50 transition"></div>
+                <div className="relative bg-white p-2 rounded-lg border border-slate-200">
+                  <Zap className="w-5 h-5 text-blue-600" />
                 </div>
               </div>
               <div>
@@ -85,13 +85,13 @@ export default function Layout({ children, currentPageName }) {
                   to={createPageUrl(item.path)}
                   className={`text-sm font-medium transition-all relative group ${
                     currentPageName === item.path
-                      ? 'text-blue-400'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'text-blue-600'
+                      : 'text-slate-600 hover:text-slate-900'
                   } ${item.highlight ? 'px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:shadow-lg hover:shadow-blue-500/50' : ''}`}
                 >
                   {item.name}
                   {!item.highlight && currentPageName === item.path && (
-                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-indigo-500"></div>
+                    <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-indigo-600"></div>
                   )}
                 </Link>
               ))}
@@ -111,7 +111,7 @@ export default function Layout({ children, currentPageName }) {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
+              className="md:hidden p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -120,7 +120,7 @@ export default function Layout({ children, currentPageName }) {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-800 bg-slate-900/95 backdrop-blur-xl">
+          <div className="md:hidden border-t border-slate-200 bg-white/95 backdrop-blur-xl">
             <div className="px-4 py-4 space-y-2">
               {navigation.map((item) => (
                 <Link
@@ -130,7 +130,7 @@ export default function Layout({ children, currentPageName }) {
                   className={`block px-4 py-3 rounded-lg text-sm font-medium transition ${
                     currentPageName === item.path
                       ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white'
-                      : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
                   {item.name}
@@ -155,45 +155,45 @@ export default function Layout({ children, currentPageName }) {
       </main>
 
       {/* Footer */}
-      <footer className="glass-effect border-t border-slate-800 mt-20">
+      <footer className="bg-slate-50 border-t border-slate-200 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-75"></div>
-                  <div className="relative bg-slate-900 p-2 rounded-lg border border-slate-700">
-                    <Zap className="w-5 h-5 text-blue-400" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-30"></div>
+                  <div className="relative bg-white p-2 rounded-lg border border-slate-200">
+                    <Zap className="w-5 h-5 text-blue-600" />
                   </div>
                 </div>
                 <div className="text-xl font-bold gradient-text">Stavai.sk</div>
               </div>
-              <p className="text-slate-400 text-sm max-w-md">
+              <p className="text-slate-600 text-sm max-w-md">
                 AI platforma pre stavebníctvo, development a real estate. 
                 Prinášame nový štandard inteligentných riešení pre profesionálov.
               </p>
             </div>
 
             <div>
-              <h3 className="text-white font-semibold mb-4">Produkty</h3>
+              <h3 className="text-slate-900 font-semibold mb-4">Produkty</h3>
               <ul className="space-y-2">
-                <li><Link to={createPageUrl('Dashboard')} className="text-slate-400 hover:text-blue-400 text-sm transition">Dashboard</Link></li>
-                <li><Link to={createPageUrl('AITools')} className="text-slate-400 hover:text-blue-400 text-sm transition">AI Nástroje</Link></li>
-                <li><Link to={createPageUrl('Projects')} className="text-slate-400 hover:text-blue-400 text-sm transition">Projekty</Link></li>
-                <li><Link to={createPageUrl('Knowledge')} className="text-slate-400 hover:text-blue-400 text-sm transition">Knowledge Hub</Link></li>
+                <li><Link to={createPageUrl('Dashboard')} className="text-slate-600 hover:text-blue-600 text-sm transition">Dashboard</Link></li>
+                <li><Link to={createPageUrl('AITools')} className="text-slate-600 hover:text-blue-600 text-sm transition">AI Nástroje</Link></li>
+                <li><Link to={createPageUrl('Projects')} className="text-slate-600 hover:text-blue-600 text-sm transition">Projekty</Link></li>
+                <li><Link to={createPageUrl('Knowledge')} className="text-slate-600 hover:text-blue-600 text-sm transition">Knowledge Hub</Link></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-white font-semibold mb-4">Spoločnosť</h3>
+              <h3 className="text-slate-900 font-semibold mb-4">Spoločnosť</h3>
               <ul className="space-y-2">
-                <li><Link to={createPageUrl('About')} className="text-slate-400 hover:text-blue-400 text-sm transition">O Nás</Link></li>
-                <li><a href="mailto:hello@stavai.sk" className="text-slate-400 hover:text-blue-400 text-sm transition">Kontakt</a></li>
+                <li><Link to={createPageUrl('About')} className="text-slate-600 hover:text-blue-600 text-sm transition">O Nás</Link></li>
+                <li><a href="mailto:hello@stavai.sk" className="text-slate-600 hover:text-blue-600 text-sm transition">Kontakt</a></li>
               </ul>
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-slate-800 text-center text-slate-500 text-sm">
+          <div className="mt-12 pt-8 border-t border-slate-200 text-center text-slate-500 text-sm">
             <p>&copy; 2025 Stavai.sk — Built for the future of construction & real estate</p>
           </div>
         </div>

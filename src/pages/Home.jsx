@@ -85,12 +85,12 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-blue-600/10"></div>
+      <section className="relative overflow-hidden border-b border-slate-200">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-indigo-500/5 to-blue-600/5"></div>
         <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)'
+          backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%)'
         }}></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
@@ -107,10 +107,10 @@ export default function Home() {
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8">
               <span className="gradient-text">Stavai.sk</span>
               <br />
-              <span className="text-white">AI pre stavebníctvo</span>
+              <span className="text-slate-900">AI pre stavebníctvo</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-slate-400 max-w-4xl mx-auto mb-12 leading-relaxed">
+            <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto mb-12 leading-relaxed">
               Inteligentné nástroje pre developerov, investorov a stavebné firmy.
               <br />
               Od analýzy po realizáciu — rýchlejšie, presnejšie, s AI.
@@ -138,12 +138,12 @@ export default function Home() {
             transition={{ delay: 0.3 }}
             className="mt-20"
           >
-            <div className="glass-effect border-slate-800 rounded-2xl p-8 max-w-5xl mx-auto">
+            <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-8 max-w-5xl mx-auto shadow-lg">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                 {stats.map((stat, index) => (
                   <div key={index}>
                     <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">{stat.value}</div>
-                    <div className="text-sm text-slate-400">{stat.label}</div>
+                    <div className="text-sm text-slate-600">{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -160,10 +160,10 @@ export default function Home() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
             Prečo Stavai.sk?
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Spojenie umelej inteligencie s odbornou znalosťou stavebníctva a real estate
           </p>
         </motion.div>
@@ -177,13 +177,13 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="glass-effect border-slate-800 hover:border-blue-500/50 transition-all h-full">
+              <Card className="bg-white border-slate-200 hover:border-blue-300 transition-all h-full shadow-md">
                 <CardContent className="p-8 text-center">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mx-auto mb-6">
                     <benefit.icon className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3">{benefit.title}</h3>
-                  <p className="text-slate-400">{benefit.description}</p>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{benefit.title}</h3>
+                  <p className="text-slate-600">{benefit.description}</p>
                 </CardContent>
               </Card>
             </motion.div>
@@ -192,18 +192,18 @@ export default function Home() {
       </section>
 
       {/* Tools Preview */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200 bg-slate-50">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <Zap className="w-12 h-12 mx-auto mb-6 text-blue-400" />
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <Zap className="w-12 h-12 mx-auto mb-6 text-blue-600" />
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
             AI Nástroje
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Od jednoduchých odhadov po komplexné investment analytics
           </p>
         </motion.div>
@@ -248,7 +248,7 @@ export default function Home() {
         >
           <Link
             to={createPageUrl('AITools')}
-            className="inline-flex items-center gap-3 px-8 py-4 border-2 border-blue-500 text-blue-400 rounded-xl font-semibold hover:bg-blue-500 hover:text-white transition-all"
+            className="inline-flex items-center gap-3 px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-600 hover:text-white transition-all"
           >
             Zobraziť všetky nástroje
             <ArrowRight className="w-5 h-5" />
@@ -257,18 +257,18 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <Users className="w-12 h-12 mx-auto mb-6 text-blue-400" />
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <Users className="w-12 h-12 mx-auto mb-6 text-blue-600" />
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
             Dôveruje nám komunita
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Profesionáli z celej CEE využívajú Stavai.sk dennodenne
           </p>
         </motion.div>
@@ -302,7 +302,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section - Estivo */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200 bg-slate-50">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -353,18 +353,18 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center"
         >
-          <Globe className="w-12 h-12 mx-auto mb-6 text-blue-400" />
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <Globe className="w-12 h-12 mx-auto mb-6 text-blue-600" />
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
             Pripravení stavať budúcnosť?
           </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-8">
             Pripojte sa k stovkám profesionálov, ktorí používajú AI 
             pre lepšie rozhodnutia v stavebníctve a real estate.
           </p>
