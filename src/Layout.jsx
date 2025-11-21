@@ -7,26 +7,15 @@ export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  const isBrandSection = ['BrandHome', 'Strategy', 'VisualIdentity', 'Messaging', 'Ecosystem', 'Guidelines'].includes(currentPageName);
-
   const mainNavigation = [
     { name: 'Domov', path: 'Home' },
+    { name: 'Dashboard', path: 'Dashboard' },
     { name: 'AI Nástroje', path: 'AITools' },
+    { name: 'Projekty', path: 'Projects' },
     { name: 'Poznatky', path: 'Knowledge' },
-    { name: 'O Nás', path: 'About' },
-    { name: 'Estivo.io', path: 'Estivo', highlight: true },
   ];
 
-  const brandNavigation = [
-    { name: 'Prehľad', path: 'BrandHome' },
-    { name: 'Stratégia', path: 'Strategy' },
-    { name: 'Vizuál', path: 'VisualIdentity' },
-    { name: 'Messaging', path: 'Messaging' },
-    { name: 'Ekosystém', path: 'Ecosystem' },
-    { name: 'Guidelines', path: 'Guidelines' },
-  ];
-
-  const navigation = isBrandSection ? brandNavigation : mainNavigation;
+  const navigation = mainNavigation;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -76,7 +65,7 @@ export default function Layout({ children, currentPageName }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link to={createPageUrl(isBrandSection ? 'BrandHome' : 'Home')} className="flex items-center gap-3 group">
+            <Link to={createPageUrl('Home')} className="flex items-center gap-3 group">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg blur opacity-75 group-hover:opacity-100 transition"></div>
                 <div className="relative bg-slate-900 p-2 rounded-lg border border-slate-700">
@@ -85,7 +74,6 @@ export default function Layout({ children, currentPageName }) {
               </div>
               <div>
                 <div className="text-xl font-bold gradient-text">Stavai.sk</div>
-                {isBrandSection && <div className="text-[10px] text-slate-500 -mt-1">BRAND IDENTITY</div>}
               </div>
             </Link>
 
@@ -109,14 +97,14 @@ export default function Layout({ children, currentPageName }) {
               ))}
             </div>
 
-            {/* Toggle between Brand/Main */}
+            {/* User actions */}
             <div className="hidden md:flex items-center gap-3">
               <Link
-                to={createPageUrl(isBrandSection ? 'Home' : 'BrandHome')}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:border-cyan-500 transition-all"
+                to={createPageUrl('Dashboard')}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white hover:shadow-lg hover:shadow-cyan-500/50 transition-all"
               >
                 <Sparkles className="w-4 h-4" />
-                <span className="text-sm">{isBrandSection ? 'Main Site' : 'Brand Identity'}</span>
+                <span className="text-sm font-semibold">Dashboard</span>
               </Link>
             </div>
 
@@ -149,12 +137,12 @@ export default function Layout({ children, currentPageName }) {
                 </Link>
               ))}
               <Link
-                to={createPageUrl(isBrandSection ? 'Home' : 'BrandHome')}
+                to={createPageUrl('Dashboard')}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2 px-4 py-3 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:border-cyan-500 transition"
+                className="flex items-center gap-2 px-4 py-3 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white"
               >
                 <Sparkles className="w-4 h-4" />
-                <span className="text-sm">{isBrandSection ? 'Main Site' : 'Brand Identity'}</span>
+                <span className="text-sm font-semibold">Dashboard</span>
               </Link>
             </div>
           </div>
@@ -189,9 +177,10 @@ export default function Layout({ children, currentPageName }) {
             <div>
               <h3 className="text-white font-semibold mb-4">Produkty</h3>
               <ul className="space-y-2">
+                <li><Link to={createPageUrl('Dashboard')} className="text-slate-400 hover:text-cyan-400 text-sm transition">Dashboard</Link></li>
                 <li><Link to={createPageUrl('AITools')} className="text-slate-400 hover:text-cyan-400 text-sm transition">AI Nástroje</Link></li>
+                <li><Link to={createPageUrl('Projects')} className="text-slate-400 hover:text-cyan-400 text-sm transition">Projekty</Link></li>
                 <li><Link to={createPageUrl('Knowledge')} className="text-slate-400 hover:text-cyan-400 text-sm transition">Knowledge Hub</Link></li>
-                <li><Link to={createPageUrl('Estivo')} className="text-slate-400 hover:text-cyan-400 text-sm transition">Estivo.io</Link></li>
               </ul>
             </div>
 
@@ -199,7 +188,6 @@ export default function Layout({ children, currentPageName }) {
               <h3 className="text-white font-semibold mb-4">Spoločnosť</h3>
               <ul className="space-y-2">
                 <li><Link to={createPageUrl('About')} className="text-slate-400 hover:text-cyan-400 text-sm transition">O Nás</Link></li>
-                <li><Link to={createPageUrl('BrandHome')} className="text-slate-400 hover:text-cyan-400 text-sm transition">Brand Identity</Link></li>
                 <li><a href="mailto:hello@stavai.sk" className="text-slate-400 hover:text-cyan-400 text-sm transition">Kontakt</a></li>
               </ul>
             </div>
