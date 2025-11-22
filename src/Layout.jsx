@@ -67,16 +67,12 @@ export default function Layout({ children, currentPageName }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link to={createPageUrl('Home')} className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-30 group-hover:opacity-50 transition"></div>
-                <div className="relative bg-white p-2 rounded-lg border border-slate-200">
-                  <Zap className="w-5 h-5 text-blue-600" />
-                </div>
-              </div>
-              <div>
-                <div className="text-xl font-bold gradient-text">Stavai.sk</div>
-              </div>
+            <Link to={createPageUrl('Home')} className="flex items-center gap-2 group">
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920d2b958e59092776f7607/f9db3109a_IMG_0001.png" 
+                alt="StavAI" 
+                className="h-8"
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -161,14 +157,12 @@ export default function Layout({ children, currentPageName }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-30"></div>
-                  <div className="relative bg-white p-2 rounded-lg border border-slate-200">
-                    <Zap className="w-5 h-5 text-blue-600" />
-                  </div>
-                </div>
-                <div className="text-xl font-bold gradient-text">Stavai.sk</div>
+              <div className="mb-4">
+                <img 
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920d2b958e59092776f7607/f9db3109a_IMG_0001.png" 
+                  alt="StavAI" 
+                  className="h-8 mb-4"
+                />
               </div>
               <p className="text-slate-600 text-sm max-w-md">
                 AI platforma pre stavebníctvo, development a real estate. 
