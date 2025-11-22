@@ -13,84 +13,52 @@ export default function AITools() {
   const freeTools = [
     {
       name: 'Cost Estimator',
-      description: 'AI-powered odhad nákladov na stavbu na základe základných parametrov projektu',
+      description: 'AI-powered ultra-detailný odhad nákladov s grafmi a rozpisom materiálov',
       icon: DollarSign,
       path: 'CostEstimator',
       color: 'from-cyan-500 to-blue-500',
-      features: ['Odhad materiálov', 'Pracovné náklady', 'Vybavenie', 'Povolenia']
+      features: ['Detailný rozpis materiálov', 'Grafická vizualizácia', 'Regional pricing', 'Možnosti úspor']
     },
     {
       name: 'Timeline Generator',
-      description: 'Automatické generovanie harmonogramu projektu s míľnikmi a fázami',
+      description: 'Gantt chart harmonogram s kritickou cestou a risk analýzou',
       icon: Clock,
       path: 'TimelineGenerator',
       color: 'from-blue-500 to-violet-500',
-      features: ['Fázy projektu', 'Míľniky', 'Časový odhad', 'Kritická cesta']
-    },
-    {
-      name: 'Market Intelligence',
-      description: 'Real estate market insights a trendy pre informované rozhodnutia',
-      icon: Brain,
-      path: 'MarketIntelligence',
-      color: 'from-violet-500 to-purple-500',
-      features: ['Cenové trendy', 'Lokálny trh', 'Benchmarky', 'Predikcie']
-    },
-    {
-      name: 'Building Analyzer',
-      description: 'Analýza existujúcich budov a properties s AI odporúčaniami',
-      icon: Building2,
-      path: 'BuildingAnalyzer',
-      color: 'from-purple-500 to-pink-500',
-      features: ['Stavebný stav', 'Energetika', 'Potenciál', 'Odporúčania']
+      features: ['Gantt chart vizualizácia', 'Kritická cesta', 'Rizikové faktory', 'Optimalizácie']
     }
   ];
 
   const premiumTools = [
     {
       name: 'Feasibility Analyzer',
-      description: 'Kompletná investment feasibility analysis s ROI, IRR a NPV kalkuláciami',
+      description: 'Kompletná investment feasibility analysis s ROI, IRR, NPV a cashflow modelom',
       icon: BarChart3,
       path: 'FeasibilityAnalyzer',
       color: 'from-violet-600 to-purple-600',
-      features: ['ROI & IRR', 'NPV analýza', 'Cashflow model', 'Risk assessment', 'Sensitivity analysis']
-    },
-    {
-      name: 'Advanced ROI Calculator',
-      description: 'Pokročilé investičné modelovanie s multi-scenario planning',
-      icon: TrendingUp,
-      path: 'ROICalculator',
-      color: 'from-purple-600 to-pink-600',
-      features: ['Multi-scenario', 'Tax modeling', 'Exit strategy', 'Portfolio view', 'API access']
-    },
-    {
-      name: 'Document Generator',
-      description: 'Profesionálne PDF reporty, investment memos a prezentácie',
-      icon: FileText,
-      path: 'DocumentGenerator',
-      color: 'from-pink-600 to-rose-600',
-      features: ['Custom templates', 'Branding', 'Export PDF', 'Investor reports', 'White-label']
+      features: ['ROI & IRR kalkulácie', 'NPV & Payback Period', 'Cashflow model', 'Sensitivity analysis', 'Risk assessment']
     }
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-slate-800">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-blue-500/10 to-violet-500/10"></div>
+      <section className="relative overflow-hidden border-b border-slate-200">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-blue-500/5 to-violet-500/5"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center"
           >
-            <Zap className="w-16 h-16 mx-auto mb-6 text-cyan-400" />
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            <Zap className="w-16 h-16 mx-auto mb-6 text-cyan-600" />
+            <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6">
               AI Nástroje
             </h1>
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
               Inteligentné nástroje pre stavebníctvo, development a real estate analytics.
               <br />
-              Od jednoduchých odhadov po pokročilé investičné modelovanie.
+              Od základných odhadov po pokročilé investičné modelovanie.
             </p>
           </motion.div>
         </div>
@@ -100,13 +68,13 @@ export default function AITools() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-4">
-            <CheckCircle className="w-4 h-4 text-green-400" />
-            <span className="text-sm text-green-400 font-medium">FREE TOOLS</span>
+            <CheckCircle className="w-4 h-4 text-green-600" />
+            <span className="text-sm text-green-600 font-medium">FREE TOOLS</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
             Základné AI Nástroje
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl">
+          <p className="text-lg text-slate-600 max-w-2xl">
             Zadarmo pre všetkých používateľov — žiadna registrácia potrebná
           </p>
         </div>
@@ -120,31 +88,31 @@ export default function AITools() {
               transition={{ delay: index * 0.1 }}
             >
               <Link to={createPageUrl(tool.path)}>
-                <Card className="glass-effect border-slate-800 hover:border-cyan-500/50 transition-all group h-full">
+                <Card className="bg-white border-slate-200 hover:border-cyan-500 hover:shadow-xl transition-all group h-full">
                   <CardHeader>
                     <div className="flex items-start justify-between mb-4">
                       <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
                         <tool.icon className="w-7 h-7 text-white" />
                       </div>
-                      <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold">
+                      <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-600 text-xs font-bold">
                         FREE
                       </span>
                     </div>
-                    <CardTitle className="text-2xl text-white group-hover:gradient-text transition-all">
+                    <CardTitle className="text-2xl text-slate-900 group-hover:gradient-text transition-all">
                       {tool.name}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-slate-400 mb-6">{tool.description}</p>
+                    <p className="text-slate-600 mb-6">{tool.description}</p>
                     <div className="space-y-2 mb-6">
                       {tool.features.map((feature, i) => (
-                        <div key={i} className="flex items-center gap-2 text-sm text-slate-500">
-                          <CheckCircle className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+                        <div key={i} className="flex items-center gap-2 text-sm text-slate-700">
+                          <CheckCircle className="w-4 h-4 text-cyan-600 flex-shrink-0" />
                           {feature}
                         </div>
                       ))}
                     </div>
-                    <div className="flex items-center gap-2 text-cyan-400 font-semibold group-hover:gap-3 transition-all">
+                    <div className="flex items-center gap-2 text-cyan-600 font-semibold group-hover:gap-3 transition-all">
                       Vyskúšať nástroj
                       <ArrowRight className="w-5 h-5" />
                     </div>
@@ -157,21 +125,20 @@ export default function AITools() {
       </section>
 
       {/* Premium Tools */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200">
         <div className="mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
-            <Lock className="w-4 h-4 text-blue-400" />
-            <span className="text-sm text-blue-400 font-medium">PREMIUM TOOLS</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-500/10 border border-violet-500/20 mb-4">
+            <span className="text-sm text-violet-600 font-medium">⭐ PRO TOOLS - Stavai.sk</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Professional Analytics
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            Professional Investment Analytics
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl">
-            Pokročilé nástroje pre serious developers a investorov — Estivo.io
+          <p className="text-lg text-slate-600 max-w-2xl">
+            Pokročilé nástroje pre serious developers a investorov
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid lg:grid-cols-1 gap-8 mb-12 max-w-3xl">
           {premiumTools.map((tool, index) => (
             <motion.div
               key={index}
@@ -179,78 +146,61 @@ export default function AITools() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="glass-effect border-slate-800 hover:border-blue-500/50 transition-all group h-full">
-                <CardHeader>
-                  <div className="flex items-start justify-between mb-4">
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                      <tool.icon className="w-7 h-7 text-white" />
-                    </div>
-                    <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold">
-                      PRO
-                    </span>
-                  </div>
-                  <CardTitle className="text-xl text-white">
-                    {tool.name}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-slate-400 text-sm mb-6">{tool.description}</p>
-                  <div className="space-y-2">
-                    {tool.features.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-slate-500">
-                        <CheckCircle className="w-3 h-3 text-blue-400 flex-shrink-0" />
-                        {feature}
+              <Link to={createPageUrl(tool.path)}>
+                <Card className="bg-white border-slate-200 hover:border-violet-500 hover:shadow-xl transition-all group h-full">
+                  <CardHeader>
+                    <div className="flex items-start justify-between mb-4">
+                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                        <tool.icon className="w-7 h-7 text-white" />
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                      <span className="px-3 py-1 rounded-full bg-violet-500/20 text-violet-600 text-xs font-bold">
+                        PRO
+                      </span>
+                    </div>
+                    <CardTitle className="text-2xl text-slate-900 group-hover:gradient-text transition-all">
+                      {tool.name}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-slate-600 mb-6">{tool.description}</p>
+                    <div className="space-y-2 mb-6">
+                      {tool.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-2 text-sm text-slate-700">
+                          <CheckCircle className="w-4 h-4 text-violet-600 flex-shrink-0" />
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-2 text-violet-600 font-semibold group-hover:gap-3 transition-all">
+                      Vyskúšať nástroj
+                      <ArrowRight className="w-5 h-5" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             </motion.div>
           ))}
         </div>
 
-        {/* Premium CTA */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="relative overflow-hidden rounded-3xl"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700"></div>
-          <div className="absolute inset-0 opacity-20" style={{
-            backgroundImage: 'radial-gradient(circle at 30% 50%, rgba(255,255,255,0.3) 0%, transparent 50%)'
-          }}></div>
-          
-          <div className="relative px-8 md:px-16 py-16 text-center">
-            <Lock className="w-12 h-12 mx-auto mb-6 text-white" />
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Unlock Professional Features
-            </h3>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto mb-8">
-              Získaj prístup k pokročilým investment analytics, 
-              API integráciám a priority support s Estivo.io Pro
+        {/* Coming Soon */}
+        <Card className="bg-gradient-to-br from-slate-50 to-slate-100 border-slate-300">
+          <CardContent className="p-8 text-center">
+            <Zap className="w-12 h-12 mx-auto mb-4 text-slate-400" />
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Ďalšie nástroje pripravujeme</h3>
+            <p className="text-slate-600">
+              Market Intelligence, Building Analyzer a ďalšie AI nástroje už čoskoro...
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <Link to={createPageUrl('Estivo')}>
-                <Button className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-6 text-lg font-bold rounded-xl">
-                  Preskúmať Estivo.io
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              <Button variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-6 text-lg font-semibold rounded-xl">
-                Porovnať plány
-              </Button>
-            </div>
-          </div>
-        </motion.div>
+          </CardContent>
+        </Card>
       </section>
 
       {/* How It Works */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-800">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
             Ako to funguje?
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Tri jednoduché kroky k inteligentným rozhodnutiam
           </p>
         </div>
@@ -272,8 +222,8 @@ export default function AITools() {
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-2xl font-bold text-white mx-auto mb-6">
                 {item.step}
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-              <p className="text-slate-400">{item.description}</p>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+              <p className="text-slate-600">{item.description}</p>
             </motion.div>
           ))}
         </div>
