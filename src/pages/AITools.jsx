@@ -26,6 +26,22 @@ export default function AITools() {
       path: 'TimelineGenerator',
       color: 'from-blue-500 to-violet-500',
       features: ['Gantt chart vizualizácia', 'Kritická cesta', 'Rizikové faktory', 'Optimalizácie']
+    },
+    {
+      name: 'Quick ROI Calculator',
+      description: 'Rýchly odhad ROI pre investičné rozhodnutia v reálnom čase',
+      icon: TrendingUp,
+      path: 'QuickROI',
+      color: 'from-green-500 to-emerald-500',
+      features: ['Instant výpočet ROI', 'Payback period', 'Break-even analýza', 'Profit margin']
+    },
+    {
+      name: 'Building Analyzer',
+      description: 'AI analýza existujúcich budov - stav, energetika, potenciál',
+      icon: Building2,
+      path: 'BuildingAnalyzer',
+      color: 'from-orange-500 to-red-500',
+      features: ['Stavebný stav', 'Energetická efektivita', 'Renovation potenciál', 'Value estimation']
     }
   ];
 
@@ -37,6 +53,22 @@ export default function AITools() {
       path: 'FeasibilityAnalyzer',
       color: 'from-violet-600 to-purple-600',
       features: ['ROI & IRR kalkulácie', 'NPV & Payback Period', 'Cashflow model', 'Sensitivity analysis', 'Risk assessment']
+    },
+    {
+      name: 'Market Intelligence',
+      description: 'Real estate market insights, cenové trendy a predikcie pre CEE',
+      icon: Brain,
+      path: 'MarketIntelligence',
+      color: 'from-indigo-600 to-blue-600',
+      features: ['Cenové trendy', 'Demand forecasting', 'Competitor analysis', 'Location scoring', 'Investment hotspots']
+    },
+    {
+      name: 'Document Generator',
+      description: 'AI generovanie profesionálnych reportov, business plánov a presentations',
+      icon: FileText,
+      path: 'DocumentGenerator',
+      color: 'from-pink-600 to-rose-600',
+      features: ['Investment memos', 'Business plans', 'Pitch decks', 'Due diligence reports', 'White-label PDF']
     }
   ];
 
@@ -79,7 +111,7 @@ export default function AITools() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {freeTools.map((tool, index) => (
             <motion.div
               key={index}
@@ -138,7 +170,7 @@ export default function AITools() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-1 gap-8 mb-12 max-w-3xl">
+        <div className="grid md:grid-cols-3 gap-6 mb-12">
           {premiumTools.map((tool, index) => (
             <motion.div
               key={index}

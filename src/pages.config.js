@@ -12,6 +12,8 @@ import Estivo from './pages/Estivo';
 import About from './pages/About';
 import CaseStudies from './pages/CaseStudies';
 import ComparisonCalculator from './pages/ComparisonCalculator';
+import QuickROI from './pages/QuickROI';
+import BuildingAnalyzer from './pages/BuildingAnalyzer';
 import __Layout from './Layout.jsx';
 
 
@@ -30,6 +32,8 @@ export const PAGES = {
     "About": About,
     "CaseStudies": CaseStudies,
     "ComparisonCalculator": ComparisonCalculator,
+    "QuickROI": QuickROI,
+    "BuildingAnalyzer": BuildingAnalyzer,
 }
 
 export const pagesConfig = {
