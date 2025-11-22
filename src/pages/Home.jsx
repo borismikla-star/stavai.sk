@@ -216,13 +216,13 @@ export default function Home() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="relative glass-effect rounded-2xl p-8 hover:border-cyan-500/50 transition-all group"
+              className="relative bg-white border border-slate-200 rounded-2xl p-8 hover:border-blue-300 transition-all group shadow-md"
             >
               <div className="absolute top-6 right-6">
                 <span className={`px-3 py-1 rounded-full text-xs font-bold ${
                   tool.tag === 'FREE' 
-                    ? 'bg-green-500/20 text-green-400' 
-                    : 'bg-blue-500/20 text-blue-400'
+                    ? 'bg-green-500/20 text-green-600' 
+                    : 'bg-blue-500/20 text-blue-600'
                 }`}>
                   {tool.tag}
                 </span>
@@ -230,9 +230,9 @@ export default function Home() {
               <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                 <tool.icon className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3">{tool.name}</h3>
-              <p className="text-slate-400 mb-6">{tool.description}</p>
-              <div className="flex items-center gap-2 text-blue-400 font-semibold group-hover:gap-3 transition-all">
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">{tool.name}</h3>
+              <p className="text-slate-600 mb-6">{tool.description}</p>
+              <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
                 Vyskúšať
                 <ArrowRight className="w-5 h-5" />
               </div>
@@ -256,23 +256,44 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Testimonials */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200">
+      {/* Trusted By */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200 bg-slate-50">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <Users className="w-12 h-12 mx-auto mb-6 text-blue-600" />
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            Dôveruje nám komunita
+            Dôverujú nám lídri v odvetví
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Profesionáli z celej CEE využívajú Stavai.sk dennodenne
+            Od developerov po investment fondy — používajú naše AI nástroje denne
           </p>
         </motion.div>
 
+        {/* Partner Logos */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+          {[
+            { name: 'CBRE' },
+            { name: 'Prologis' },
+            { name: 'HB Reavis' },
+            { name: 'J&T Real Estate' }
+          ].map((partner, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="bg-white rounded-xl p-6 flex items-center justify-center border border-slate-200 hover:border-blue-300 transition-all shadow-sm"
+            >
+              <div className="text-2xl font-bold text-slate-400">{partner.name}</div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Testimonials */}
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
@@ -281,20 +302,20 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="glass-effect rounded-2xl p-8"
+              className="bg-white border border-slate-200 rounded-2xl p-8 shadow-md"
             >
               <div className="mb-6">
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-xl">★</span>
+                    <span key={i} className="text-yellow-500 text-xl">★</span>
                   ))}
                 </div>
-                <p className="text-slate-300 italic">"{testimonial.quote}"</p>
+                <p className="text-slate-700 italic">"{testimonial.quote}"</p>
               </div>
-              <div className="border-t border-slate-700 pt-4">
-                <div className="font-semibold text-white">{testimonial.author}</div>
-                <div className="text-sm text-slate-500">{testimonial.role}</div>
-                <div className="text-sm text-slate-500">{testimonial.company}</div>
+              <div className="border-t border-slate-200 pt-4">
+                <div className="font-semibold text-slate-900">{testimonial.author}</div>
+                <div className="text-sm text-slate-600">{testimonial.role}</div>
+                <div className="text-sm text-slate-600">{testimonial.company}</div>
               </div>
             </motion.div>
           ))}
