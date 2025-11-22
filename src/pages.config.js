@@ -10,6 +10,8 @@ import ProjectDetail from './pages/ProjectDetail';
 import Knowledge from './pages/Knowledge';
 import Estivo from './pages/Estivo';
 import About from './pages/About';
+import CaseStudies from './pages/CaseStudies';
+import ComparisonCalculator from './pages/ComparisonCalculator';
 import __Layout from './Layout.jsx';
 
 
@@ -26,6 +28,8 @@ export const PAGES = {
     "Knowledge": Knowledge,
     "Estivo": Estivo,
     "About": About,
+    "CaseStudies": CaseStudies,
+    "ComparisonCalculator": ComparisonCalculator,
 }
 
 export const pagesConfig = {

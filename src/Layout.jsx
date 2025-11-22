@@ -11,6 +11,8 @@ export default function Layout({ children, currentPageName }) {
     { name: 'Domov', path: 'Home' },
     { name: 'Dashboard', path: 'Dashboard' },
     { name: 'AI Nástroje', path: 'AITools' },
+    { name: 'Case Studies', path: 'CaseStudies' },
+    { name: 'Comparison', path: 'ComparisonCalculator' },
     { name: 'Projekty', path: 'Projects' },
     { name: 'Poznatky', path: 'Knowledge' },
   ];

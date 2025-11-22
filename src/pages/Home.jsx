@@ -57,10 +57,10 @@ export default function Home() {
   ];
 
   const stats = [
-    { value: 'AI-First', label: 'Technology' },
-    { value: 'CEE Focus', label: 'Market' },
-    { value: '10x Faster', label: 'Analytics' },
-    { value: 'EU Ready', label: 'Scalability' }
+    { value: '1,247', label: 'Projektov' },
+    { value: '€8.4M', label: 'Ušetrených' },
+    { value: '84%', label: 'Avg. Úspora' },
+    { value: '92.5%', label: 'AI Presnosť' }
   ];
 
   const testimonials = [
