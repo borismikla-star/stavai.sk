@@ -302,24 +302,24 @@ Použij realistické predpoklady pre CEE real estate trh 2025.`,
                     <div className="grid grid-cols-2 gap-8 mb-6">
                       <div className="text-center">
                         <div className="text-sm text-violet-600 font-semibold mb-2">ROI</div>
-                        <div className="text-5xl font-bold gradient-text">{result.roi.toFixed(1)}%</div>
+                        <div className="text-5xl font-bold gradient-text">{result.roi?.toFixed(1) || '0'}%</div>
                       </div>
                       <div className="text-center">
                         <div className="text-sm text-violet-600 font-semibold mb-2">IRR</div>
-                        <div className="text-5xl font-bold gradient-text">{result.irr.toFixed(1)}%</div>
+                        <div className="text-5xl font-bold gradient-text">{result.irr?.toFixed(1) || '0'}%</div>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-center bg-white rounded-lg p-4">
                         <div className="text-sm text-slate-600 mb-1">NPV</div>
                         <div className="text-2xl font-bold text-slate-900">
-                          €{(result.npv / 1000).toFixed(0)}k
+                          €{result.npv ? (result.npv / 1000).toFixed(0) : '0'}k
                         </div>
                       </div>
                       <div className="text-center bg-white rounded-lg p-4">
                         <div className="text-sm text-slate-600 mb-1">Payback Period</div>
                         <div className="text-2xl font-bold text-slate-900">
-                          {result.payback_period.toFixed(1)} rokov
+                          {result.payback_period?.toFixed(1) || '0'} rokov
                         </div>
                       </div>
                     </div>
@@ -417,15 +417,15 @@ Použij realistické predpoklady pre CEE real estate trh 2025.`,
                       <div className="grid grid-cols-3 gap-4 mt-6">
                         <div className="bg-red-50 rounded-lg p-4 text-center border border-red-200">
                           <div className="text-xs text-red-600 mb-1">Worst Case</div>
-                          <div className="text-xl font-bold text-red-700">{result.sensitivity.worst_case_roi.toFixed(1)}%</div>
+                          <div className="text-xl font-bold text-red-700">{result.sensitivity?.worst_case_roi?.toFixed(1) || '0'}%</div>
                         </div>
                         <div className="bg-slate-50 rounded-lg p-4 text-center border border-slate-200">
                           <div className="text-xs text-slate-600 mb-1">Base Case</div>
-                          <div className="text-xl font-bold text-slate-900">{result.roi.toFixed(1)}%</div>
+                          <div className="text-xl font-bold text-slate-900">{result.roi?.toFixed(1) || '0'}%</div>
                         </div>
                         <div className="bg-green-50 rounded-lg p-4 text-center border border-green-200">
                           <div className="text-xs text-green-600 mb-1">Best Case</div>
-                          <div className="text-xl font-bold text-green-700">{result.sensitivity.best_case_roi.toFixed(1)}%</div>
+                          <div className="text-xl font-bold text-green-700">{result.sensitivity?.best_case_roi?.toFixed(1) || '0'}%</div>
                         </div>
                       </div>
                     </CardContent>
