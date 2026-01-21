@@ -67,7 +67,7 @@ export default function Projects() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div
@@ -76,8 +76,8 @@ export default function Projects() {
           className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12"
         >
           <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Projekty</h1>
-            <p className="text-lg text-slate-400">Spravuj svoje stavebné projekty</p>
+            <h1 className="text-4xl font-bold text-slate-900 mb-2">Projekty</h1>
+            <p className="text-lg text-slate-600">Spravuj svoje stavebné projekty</p>
           </div>
           <Link to={createPageUrl('ProjectCreate')}>
             <Button className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:shadow-lg hover:shadow-cyan-500/50">
@@ -101,7 +101,7 @@ export default function Projects() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Hľadať projekty..."
-                className="pl-10 bg-slate-900 border-slate-700 text-white"
+                className="pl-10 bg-white border-slate-300"
               />
             </div>
             <div className="flex gap-2">
@@ -110,7 +110,7 @@ export default function Projects() {
                   key={type}
                   variant={filterType === type ? 'default' : 'outline'}
                   onClick={() => setFilterType(type)}
-                  className={filterType === type ? 'bg-cyan-600' : 'border-slate-700 text-slate-300'}
+                  className={filterType === type ? 'bg-cyan-600 text-white' : 'border-slate-300 text-slate-700'}
                 >
                   {type === 'all' ? 'Všetky' : typeLabels[type]}
                 </Button>
@@ -121,15 +121,15 @@ export default function Projects() {
 
         {/* Projects Grid */}
         {isLoading ? (
-          <div className="text-center py-20 text-slate-400">Načítavam projekty...</div>
+          <div className="text-center py-20 text-slate-600">Načítavam projekty...</div>
         ) : filteredProjects.length === 0 ? (
-          <Card className="glass-effect border-slate-800">
+          <Card className="bg-white border-slate-200 shadow-md">
             <CardContent className="p-20 text-center">
-              <Building2 className="w-20 h-20 mx-auto mb-6 text-slate-600" />
-              <h3 className="text-2xl font-bold text-white mb-3">
+              <Building2 className="w-20 h-20 mx-auto mb-6 text-slate-300" />
+              <h3 className="text-2xl font-bold text-slate-900 mb-3">
                 {searchQuery || filterType !== 'all' ? 'Žiadne projekty' : 'Zatiaľ žiadne projekty'}
               </h3>
-              <p className="text-slate-400 mb-8 max-w-md mx-auto">
+              <p className="text-slate-600 mb-8 max-w-md mx-auto">
                 {searchQuery || filterType !== 'all' 
                   ? 'Skús upraviť filter alebo vyhľadávanie'
                   : 'Vytvor svoj prvý projekt a začni používať AI nástroje pre analýzu a plánovanie'}
@@ -152,7 +152,7 @@ export default function Projects() {
                 transition={{ delay: index * 0.05 }}
               >
                 <Link to={createPageUrl(`ProjectDetail?id=${project.id}`)}>
-                  <Card className="glass-effect border-slate-800 hover:border-cyan-500/50 transition-all group cursor-pointer h-full">
+                  <Card className="bg-white border-slate-200 hover:border-cyan-500 transition-all group cursor-pointer h-full shadow-md">
                     <CardContent className="p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${typeColors[project.type]} flex items-center justify-center group-hover:scale-110 transition-transform`}>
@@ -164,8 +164,8 @@ export default function Projects() {
                               <MoreVertical className="w-5 h-5" />
                             </Button>
                           </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end" className="bg-slate-900 border-slate-700">
-                            <DropdownMenuItem className="text-slate-300 hover:text-white">
+                          <DropdownMenuContent align="end" className="bg-white border-slate-200">
+                            <DropdownMenuItem className="text-slate-700 hover:text-slate-900">
                               <Edit className="w-4 h-4 mr-2" />
                               Upraviť
                             </DropdownMenuItem>
@@ -176,7 +176,7 @@ export default function Projects() {
                                   deleteMutation.mutate(project.id);
                                 }
                               }}
-                              className="text-red-400 hover:text-red-300"
+                              className="text-red-600 hover:text-red-700"
                             >
                               <Trash2 className="w-4 h-4 mr-2" />
                               Vymazať
@@ -185,37 +185,37 @@ export default function Projects() {
                         </DropdownMenu>
                       </div>
 
-                      <h3 className="text-xl font-bold text-white mb-2 group-hover:gradient-text transition-all">
+                      <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:gradient-text transition-all">
                         {project.name}
                       </h3>
 
                       <div className="space-y-2 mb-4">
                         <div className="flex items-center justify-between text-sm">
                           <span className="text-slate-500">Typ</span>
-                          <span className="text-slate-300">{typeLabels[project.type]}</span>
+                          <span className="text-slate-700">{typeLabels[project.type]}</span>
                         </div>
                         {project.location && (
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-slate-500">Lokalita</span>
-                            <span className="text-slate-300">{project.location}</span>
+                            <span className="text-slate-700">{project.location}</span>
                           </div>
                         )}
                         {project.area && (
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-slate-500">Rozloha</span>
-                            <span className="text-slate-300">{project.area} m²</span>
+                            <span className="text-slate-700">{project.area} m²</span>
                           </div>
                         )}
                       </div>
 
                       {project.estimated_cost && (
-                        <div className="bg-slate-900/50 rounded-lg p-3 mb-4">
+                        <div className="bg-slate-50 rounded-lg p-3 mb-4 border border-slate-200">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-slate-400 text-sm">
+                            <div className="flex items-center gap-2 text-slate-600 text-sm">
                               <TrendingUp className="w-4 h-4" />
                               Odhadované náklady
                             </div>
-                            <div className="text-lg font-bold text-white">
+                            <div className="text-lg font-bold text-slate-900">
                               €{(project.estimated_cost / 1000).toFixed(0)}k
                             </div>
                           </div>
@@ -224,14 +224,14 @@ export default function Projects() {
 
                       <div className="flex items-center justify-between">
                         <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          project.status === 'completed' ? 'bg-green-500/20 text-green-400' :
-                          project.status === 'in_progress' ? 'bg-blue-500/20 text-blue-400' :
-                          project.status === 'analysis' ? 'bg-yellow-500/20 text-yellow-400' :
-                          'bg-slate-500/20 text-slate-400'
+                          project.status === 'completed' ? 'bg-green-500/20 text-green-600' :
+                          project.status === 'in_progress' ? 'bg-blue-500/20 text-blue-600' :
+                          project.status === 'analysis' ? 'bg-yellow-500/20 text-yellow-600' :
+                          'bg-slate-500/20 text-slate-600'
                         }`}>
                           {statusLabels[project.status]}
                         </div>
-                        <ArrowRight className="w-5 h-5 text-slate-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+                        <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-cyan-600 group-hover:translate-x-1 transition-all" />
                       </div>
                     </CardContent>
                   </Card>

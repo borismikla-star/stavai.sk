@@ -124,7 +124,7 @@ export default function Home() {
                 </button>
               </Link>
               <Link to={createPageUrl('About')}>
-                <button className="px-10 py-6 border-2 border-slate-700 text-white rounded-xl font-bold text-lg hover:border-blue-500 hover:bg-slate-800/50 transition-all">
+                <button className="px-10 py-6 border-2 border-slate-300 text-slate-900 rounded-xl font-bold text-lg hover:border-blue-500 hover:bg-slate-50 transition-all">
                   Zistiť viac
                 </button>
               </Link>
@@ -216,26 +216,29 @@ export default function Home() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="relative bg-white border border-slate-200 rounded-2xl p-8 hover:border-blue-300 transition-all group shadow-md"
             >
-              <div className="absolute top-6 right-6">
-                <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                  tool.tag === 'FREE' 
-                    ? 'bg-green-500/20 text-green-600' 
-                    : 'bg-blue-500/20 text-blue-600'
-                }`}>
-                  {tool.tag}
-                </span>
-              </div>
-              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                <tool.icon className="w-7 h-7 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">{tool.name}</h3>
-              <p className="text-slate-600 mb-6">{tool.description}</p>
-              <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
-                Vyskúšať
-                <ArrowRight className="w-5 h-5" />
-              </div>
+              <Link to={createPageUrl(tool.name === 'Cost Estimator' ? 'CostEstimator' : tool.name === 'Timeline Generator' ? 'TimelineGenerator' : 'FeasibilityAnalyzer')}>
+                <div className="relative bg-white border border-slate-200 rounded-2xl p-8 hover:border-blue-300 transition-all group shadow-md cursor-pointer">
+                  <div className="absolute top-6 right-6">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                      tool.tag === 'FREE' 
+                        ? 'bg-green-500/20 text-green-600' 
+                        : 'bg-blue-500/20 text-blue-600'
+                    }`}>
+                      {tool.tag}
+                    </span>
+                  </div>
+                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                    <tool.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3">{tool.name}</h3>
+                  <p className="text-slate-600 mb-6">{tool.description}</p>
+                  <div className="flex items-center gap-2 text-blue-600 font-semibold group-hover:gap-3 transition-all">
+                    Vyskúšať
+                    <ArrowRight className="w-5 h-5" />
+                  </div>
+                </div>
+              </Link>
             </motion.div>
           ))}
         </div>

@@ -214,16 +214,6 @@ export default function AITools() {
           ))}
         </div>
 
-        {/* Coming Soon */}
-        <Card className="bg-gradient-to-br from-slate-50 to-slate-100 border-slate-300">
-          <CardContent className="p-8 text-center">
-            <Zap className="w-12 h-12 mx-auto mb-4 text-slate-400" />
-            <h3 className="text-xl font-bold text-slate-900 mb-2">Ďalšie nástroje pripravujeme</h3>
-            <p className="text-slate-600">
-              Market Intelligence, Building Analyzer a ďalšie AI nástroje už čoskoro...
-            </p>
-          </CardContent>
-        </Card>
       </section>
 
       {/* How It Works */}

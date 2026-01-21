@@ -97,7 +97,7 @@ export default function Dashboard() {
   const recentProjects = projects.slice(0, 5);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <motion.div
@@ -105,10 +105,10 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
         >
-          <h1 className="text-4xl font-bold text-white mb-2">
+          <h1 className="text-4xl font-bold text-slate-900 mb-2">
             Vitaj späť, {user?.full_name?.split(' ')[0] || 'User'}! 👋
           </h1>
-          <p className="text-lg text-slate-400">
+          <p className="text-lg text-slate-600">
             Tu je prehľad tvojich projektov a AI analýz
           </p>
         </motion.div>
@@ -122,15 +122,15 @@ export default function Dashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="glass-effect border-slate-800 hover:border-cyan-500/50 transition-all">
+              <Card className="bg-white border-slate-200 hover:border-cyan-500 transition-all shadow-md">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color} bg-opacity-20`}>
+                    <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color}`}>
                       <stat.icon className="w-6 h-6 text-white" />
                     </div>
                   </div>
-                  <div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-sm text-slate-400 mb-2">{stat.label}</div>
+                  <div className="text-3xl font-bold text-slate-900 mb-1">{stat.value}</div>
+                  <div className="text-sm text-slate-600 mb-2">{stat.label}</div>
                   <div className="text-xs text-slate-500">{stat.change}</div>
                 </CardContent>
               </Card>
@@ -140,8 +140,8 @@ export default function Dashboard() {
 
         {/* Quick Actions */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-cyan-400" />
+          <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <Sparkles className="w-6 h-6 text-cyan-600" />
             Rýchle akcie
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -153,13 +153,13 @@ export default function Dashboard() {
                 transition={{ delay: index * 0.1 }}
               >
                 <Link to={createPageUrl(action.path)}>
-                  <Card className="glass-effect border-slate-800 hover:border-cyan-500/50 transition-all group cursor-pointer h-full">
+                  <Card className="bg-white border-slate-200 hover:border-cyan-500 transition-all group cursor-pointer h-full shadow-md">
                     <CardContent className="p-6">
                       <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                         <action.icon className="w-6 h-6 text-white" />
                       </div>
-                      <h3 className="font-bold text-white mb-2">{action.title}</h3>
-                      <p className="text-sm text-slate-400">{action.description}</p>
+                      <h3 className="font-bold text-slate-900 mb-2">{action.title}</h3>
+                      <p className="text-sm text-slate-600">{action.description}</p>
                     </CardContent>
                   </Card>
                 </Link>
@@ -171,12 +171,12 @@ export default function Dashboard() {
         {/* Recent Projects */}
         <div>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-              <FolderOpen className="w-6 h-6 text-cyan-400" />
+            <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+              <FolderOpen className="w-6 h-6 text-cyan-600" />
               Nedávne projekty
             </h2>
             <Link to={createPageUrl('Projects')}>
-              <Button variant="outline" className="border-slate-700 text-slate-300 hover:border-cyan-500 hover:text-cyan-400">
+              <Button variant="outline" className="border-slate-300 text-slate-700 hover:border-cyan-500 hover:text-cyan-600">
                 Zobraziť všetky
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -184,13 +184,13 @@ export default function Dashboard() {
           </div>
 
           {projectsLoading ? (
-            <div className="text-center py-12 text-slate-400">Načítavam projekty...</div>
+            <div className="text-center py-12 text-slate-600">Načítavam projekty...</div>
           ) : recentProjects.length === 0 ? (
-            <Card className="glass-effect border-slate-800">
+            <Card className="bg-white border-slate-200 shadow-md">
               <CardContent className="p-12 text-center">
-                <Building2 className="w-16 h-16 mx-auto mb-4 text-slate-600" />
-                <h3 className="text-xl font-bold text-white mb-2">Žiadne projekty</h3>
-                <p className="text-slate-400 mb-6">Vytvor svoj prvý projekt a začni používať AI nástroje</p>
+                <Building2 className="w-16 h-16 mx-auto mb-4 text-slate-300" />
+                <h3 className="text-xl font-bold text-slate-900 mb-2">Žiadne projekty</h3>
+                <p className="text-slate-600 mb-6">Vytvor svoj prvý projekt a začni používať AI nástroje</p>
                 <Link to={createPageUrl('ProjectCreate')}>
                   <Button className="bg-gradient-to-r from-cyan-600 to-blue-600">
                     <Plus className="w-5 h-5 mr-2" />
@@ -209,7 +209,7 @@ export default function Dashboard() {
                   transition={{ delay: index * 0.05 }}
                 >
                   <Link to={createPageUrl(`ProjectDetail?id=${project.id}`)}>
-                    <Card className="glass-effect border-slate-800 hover:border-cyan-500/50 transition-all group cursor-pointer">
+                    <Card className="bg-white border-slate-200 hover:border-cyan-500 transition-all group cursor-pointer shadow-md">
                       <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-4 flex-1">
@@ -217,10 +217,10 @@ export default function Dashboard() {
                               <Building2 className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                              <h3 className="font-bold text-white mb-1 group-hover:gradient-text transition-all">
+                              <h3 className="font-bold text-slate-900 mb-1 group-hover:gradient-text transition-all">
                                 {project.name}
                               </h3>
-                              <div className="flex items-center gap-3 text-sm text-slate-400">
+                              <div className="flex items-center gap-3 text-sm text-slate-600">
                                 <span>{project.location || 'Bez lokality'}</span>
                                 <span>•</span>
                                 <span>{project.area ? `${project.area} m²` : 'Bez rozlohy'}</span>
@@ -233,23 +233,23 @@ export default function Dashboard() {
                             {project.estimated_cost && (
                               <div className="text-right">
                                 <div className="text-sm text-slate-500">Odhad nákladov</div>
-                                <div className="text-lg font-bold text-white">
+                                <div className="text-lg font-bold text-slate-900">
                                   €{(project.estimated_cost / 1000).toFixed(0)}k
                                 </div>
                               </div>
                             )}
                             <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                              project.status === 'completed' ? 'bg-green-500/20 text-green-400' :
-                              project.status === 'in_progress' ? 'bg-blue-500/20 text-blue-400' :
-                              project.status === 'analysis' ? 'bg-yellow-500/20 text-yellow-400' :
-                              'bg-slate-500/20 text-slate-400'
+                              project.status === 'completed' ? 'bg-green-500/20 text-green-600' :
+                              project.status === 'in_progress' ? 'bg-blue-500/20 text-blue-600' :
+                              project.status === 'analysis' ? 'bg-yellow-500/20 text-yellow-600' :
+                              'bg-slate-500/20 text-slate-600'
                             }`}>
                               {project.status === 'planning' ? 'Plánovanie' :
                                project.status === 'analysis' ? 'Analýza' :
                                project.status === 'in_progress' ? 'Prebieha' :
                                'Dokončený'}
                             </div>
-                            <ArrowRight className="w-5 h-5 text-slate-600 group-hover:text-cyan-400 group-hover:translate-x-1 transition-all" />
+                            <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-cyan-600 group-hover:translate-x-1 transition-all" />
                           </div>
                         </div>
                       </CardContent>
