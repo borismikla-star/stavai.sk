@@ -299,13 +299,13 @@ Použij aktuálne dáta pre CEE trh 2025, SK/CZ/PL focus.`,
                       <div className="text-center">
                         <div className="text-sm text-indigo-600 font-semibold mb-2">Current Price</div>
                         <div className="text-3xl font-bold text-slate-900">
-                          €{result.price_trends?.current_avg_price.toLocaleString()}/m²
+                          €{result.price_trends?.current_avg_price?.toLocaleString() || '0'}/m²
                         </div>
                       </div>
                       <div className="text-center">
                         <div className="text-sm text-indigo-600 font-semibold mb-2">YoY Growth</div>
-                        <div className={`text-3xl font-bold ${result.price_trends?.yoy_growth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {result.price_trends?.yoy_growth >= 0 ? '+' : ''}{result.price_trends?.yoy_growth.toFixed(1)}%
+                        <div className={`text-3xl font-bold ${(result.price_trends?.yoy_growth || 0) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {(result.price_trends?.yoy_growth || 0) >= 0 ? '+' : ''}{(result.price_trends?.yoy_growth || 0).toFixed(1)}%
                         </div>
                       </div>
                       <div className="text-center">
@@ -339,15 +339,15 @@ Použij aktuálne dáta pre CEE trh 2025, SK/CZ/PL focus.`,
                     <div className="grid grid-cols-3 gap-4 mt-6">
                       <div className="bg-blue-50 rounded-lg p-3 text-center border border-blue-200">
                         <div className="text-xs text-blue-600 mb-1">2026 Predikcia</div>
-                        <div className="text-lg font-bold text-blue-700">€{result.price_trends?.projection_2026.toLocaleString()}/m²</div>
+                        <div className="text-lg font-bold text-blue-700">€{result.price_trends?.projection_2026?.toLocaleString() || '0'}/m²</div>
                       </div>
                       <div className="bg-indigo-50 rounded-lg p-3 text-center border border-indigo-200">
                         <div className="text-xs text-indigo-600 mb-1">2027 Predikcia</div>
-                        <div className="text-lg font-bold text-indigo-700">€{result.price_trends?.projection_2027.toLocaleString()}/m²</div>
+                        <div className="text-lg font-bold text-indigo-700">€{result.price_trends?.projection_2027?.toLocaleString() || '0'}/m²</div>
                       </div>
                       <div className="bg-violet-50 rounded-lg p-3 text-center border border-violet-200">
                         <div className="text-xs text-violet-600 mb-1">2028 Predikcia</div>
-                        <div className="text-lg font-bold text-violet-700">€{result.price_trends?.projection_2028.toLocaleString()}/m²</div>
+                        <div className="text-lg font-bold text-violet-700">€{result.price_trends?.projection_2028?.toLocaleString() || '0'}/m²</div>
                       </div>
                     </div>
                   </CardContent>
@@ -365,11 +365,11 @@ Použij aktuálne dáta pre CEE trh 2025, SK/CZ/PL focus.`,
                       </div>
                       <div className="p-4 bg-slate-50 rounded-lg">
                         <div className="text-sm text-slate-600 mb-1">Vacancy Rate</div>
-                        <div className="text-lg font-semibold text-slate-900">{result.demand_forecast?.vacancy_rate}%</div>
+                        <div className="text-lg font-semibold text-slate-900">{result.demand_forecast?.vacancy_rate || 0}%</div>
                       </div>
                       <div className="p-4 bg-slate-50 rounded-lg">
                         <div className="text-sm text-slate-600 mb-1">Avg Time to Sell</div>
-                        <div className="text-lg font-semibold text-slate-900">{result.demand_forecast?.avg_time_to_sell_days} dní</div>
+                        <div className="text-lg font-semibold text-slate-900">{result.demand_forecast?.avg_time_to_sell_days || 0} dní</div>
                       </div>
                       <div className="p-4 bg-slate-50 rounded-lg">
                         <div className="text-sm text-slate-600 mb-1">Future Outlook</div>
@@ -389,7 +389,7 @@ Použij aktuálne dáta pre CEE trh 2025, SK/CZ/PL focus.`,
                   <CardContent>
                     <div className="text-center mb-6">
                       <div className="text-5xl font-bold gradient-text mb-2">
-                        {result.location_score?.overall_score.toFixed(1)}/10
+                        {(result.location_score?.overall_score || 0).toFixed(1)}/10
                       </div>
                       <p className="text-slate-600">Overall Investment Score</p>
                     </div>

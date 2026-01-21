@@ -324,8 +324,8 @@ Použij realistické odhady pre CEE trh 2025.`,
                 <Card className="bg-gradient-to-br from-orange-50 to-red-50 border-orange-200 border-2 shadow-xl">
                   <CardContent className="p-8 text-center">
                     <div className="text-sm text-orange-600 font-semibold mb-2">OVERALL SCORE</div>
-                    <div className={`text-6xl font-bold mb-2 ${getScoreColor(result.overall_score)}`}>
-                      {result.overall_score.toFixed(1)}/10
+                    <div className={`text-6xl font-bold mb-2 ${getScoreColor(result.overall_score || 0)}`}>
+                      {(result.overall_score || 0).toFixed(1)}/10
                     </div>
                     <p className="text-slate-600">
                       {result.overall_score >= 8 && 'Výborný stav - minimálne investície potrebné'}
@@ -379,15 +379,15 @@ Použij realistické odhady pre CEE trh 2025.`,
                     <div className="grid grid-cols-3 gap-4 mb-6">
                       <div className="text-center p-4 bg-gradient-to-br from-yellow-50 to-amber-50 rounded-lg border border-yellow-200">
                         <div className="text-sm text-slate-600 mb-1">Energetická trieda</div>
-                        <div className="text-3xl font-bold text-yellow-700">{result.energy_efficiency?.energy_class}</div>
+                        <div className="text-3xl font-bold text-yellow-700">{result.energy_efficiency?.energy_class || 'N/A'}</div>
                       </div>
                       <div className="text-center p-4 bg-slate-50 rounded-lg border border-slate-200">
                         <div className="text-sm text-slate-600 mb-1">Ročná spotreba</div>
-                        <div className="text-2xl font-bold text-slate-900">{result.energy_efficiency?.yearly_consumption_kwh.toLocaleString()} kWh</div>
+                        <div className="text-2xl font-bold text-slate-900">{result.energy_efficiency?.yearly_consumption_kwh?.toLocaleString() || '0'} kWh</div>
                       </div>
                       <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
                         <div className="text-sm text-slate-600 mb-1">Potenciál úspor</div>
-                        <div className="text-2xl font-bold text-green-600">{result.energy_efficiency?.savings_potential}%</div>
+                        <div className="text-2xl font-bold text-green-600">{result.energy_efficiency?.savings_potential || 0}%</div>
                       </div>
                     </div>
                     {result.energy_efficiency?.improvement_suggestions?.length > 0 && (
@@ -415,7 +415,7 @@ Použij realistické odhady pre CEE trh 2025.`,
                       <div className="p-4 bg-red-50 rounded-lg border border-red-200">
                         <div className="text-sm font-semibold text-red-600 mb-2">Okamžité opravy</div>
                         <div className="text-2xl font-bold text-red-700 mb-2">
-                          €{result.renovation_potential?.estimated_costs?.immediate.toLocaleString()}
+                          €{result.renovation_potential?.estimated_costs?.immediate?.toLocaleString() || '0'}
                         </div>
                         <ul className="text-xs space-y-1">
                           {result.renovation_potential?.immediate_repairs?.slice(0, 3).map((item, i) => (
@@ -426,7 +426,7 @@ Použij realistické odhady pre CEE trh 2025.`,
                       <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
                         <div className="text-sm font-semibold text-yellow-600 mb-2">Krátkodobé (1-2r)</div>
                         <div className="text-2xl font-bold text-yellow-700 mb-2">
-                          €{result.renovation_potential?.estimated_costs?.short_term.toLocaleString()}
+                          €{result.renovation_potential?.estimated_costs?.short_term?.toLocaleString() || '0'}
                         </div>
                         <ul className="text-xs space-y-1">
                           {result.renovation_potential?.short_term?.slice(0, 3).map((item, i) => (
@@ -437,7 +437,7 @@ Použij realistické odhady pre CEE trh 2025.`,
                       <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                         <div className="text-sm font-semibold text-blue-600 mb-2">Dlhodobé (3-5r)</div>
                         <div className="text-2xl font-bold text-blue-700 mb-2">
-                          €{result.renovation_potential?.estimated_costs?.long_term.toLocaleString()}
+                          €{result.renovation_potential?.estimated_costs?.long_term?.toLocaleString() || '0'}
                         </div>
                         <ul className="text-xs space-y-1">
                           {result.renovation_potential?.long_term?.slice(0, 3).map((item, i) => (
@@ -457,20 +457,20 @@ Použij realistické odhady pre CEE trh 2025.`,
                     <div className="space-y-4">
                       <div className="flex justify-between items-center py-3 border-b border-green-200">
                         <span className="text-slate-700">Current Market Value</span>
-                        <span className="text-2xl font-bold text-slate-900">€{result.value_estimation?.current_value.toLocaleString()}</span>
+                        <span className="text-2xl font-bold text-slate-900">€{result.value_estimation?.current_value?.toLocaleString() || '0'}</span>
                       </div>
                       <div className="flex justify-between items-center py-3 border-b border-green-200">
                         <span className="text-slate-700">After Basic Renovation</span>
-                        <span className="text-2xl font-bold text-green-600">€{result.value_estimation?.after_basic_renovation.toLocaleString()}</span>
+                        <span className="text-2xl font-bold text-green-600">€{result.value_estimation?.after_basic_renovation?.toLocaleString() || '0'}</span>
                       </div>
                       <div className="flex justify-between items-center py-3 border-b border-green-200">
                         <span className="text-slate-700">After Full Modernization</span>
-                        <span className="text-2xl font-bold text-emerald-600">€{result.value_estimation?.after_full_modernization.toLocaleString()}</span>
+                        <span className="text-2xl font-bold text-emerald-600">€{result.value_estimation?.after_full_modernization?.toLocaleString() || '0'}</span>
                       </div>
                       <div className="bg-white rounded-lg p-4 mt-4">
                         <div className="flex justify-between items-center">
                           <span className="text-slate-700 font-semibold">Renovation ROI</span>
-                          <span className="text-3xl font-bold gradient-text">{result.value_estimation?.renovation_roi.toFixed(1)}%</span>
+                          <span className="text-3xl font-bold gradient-text">{(result.value_estimation?.renovation_roi || 0).toFixed(1)}%</span>
                         </div>
                       </div>
                     </div>

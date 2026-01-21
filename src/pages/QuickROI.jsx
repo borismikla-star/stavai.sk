@@ -157,16 +157,16 @@ export default function QuickROI() {
                   <CardContent className="p-8 text-center">
                     <div className="text-sm text-green-600 font-semibold mb-2">RETURN ON INVESTMENT</div>
                     <div className="text-6xl font-bold gradient-text mb-4">
-                      {result.roi.toFixed(1)}%
+                      {(result.roi || 0).toFixed(1)}%
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="bg-white rounded-lg p-3">
                         <div className="text-xs text-slate-600 mb-1">Yearly ROI</div>
-                        <div className="text-xl font-bold text-green-600">{result.yearlyROI.toFixed(1)}%</div>
+                        <div className="text-xl font-bold text-green-600">{(result.yearlyROI || 0).toFixed(1)}%</div>
                       </div>
                       <div className="bg-white rounded-lg p-3">
                         <div className="text-xs text-slate-600 mb-1">Total Return</div>
-                        <div className="text-xl font-bold text-slate-900">€{result.totalReturn.toLocaleString()}</div>
+                        <div className="text-xl font-bold text-slate-900">€{(result.totalReturn || 0).toLocaleString()}</div>
                       </div>
                     </div>
                   </CardContent>
@@ -182,14 +182,14 @@ export default function QuickROI() {
                   <CardContent>
                     <div className="text-center mb-4">
                       <div className="text-5xl font-bold text-blue-600 mb-2">
-                        {result.paybackPeriod.toFixed(1)} rokov
+                        {(result.paybackPeriod || 0).toFixed(1)} rokov
                       </div>
                       <p className="text-slate-600">Čas potrebný na návrat investície</p>
                     </div>
                     <div className="h-3 bg-slate-200 rounded-full overflow-hidden">
                       <div 
                         className="h-full bg-gradient-to-r from-blue-500 to-cyan-500"
-                        style={{ width: `${Math.min((1 / result.paybackPeriod) * 100, 100)}%` }}
+                        style={{ width: `${Math.min((1 / (result.paybackPeriod || 1)) * 100, 100)}%` }}
                       ></div>
                     </div>
                   </CardContent>
@@ -207,11 +207,11 @@ export default function QuickROI() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-center py-2 border-b border-slate-100">
                           <span className="text-slate-700">Ročný zisk</span>
-                          <span className="font-bold text-green-600">€{result.netYearlyProfit.toLocaleString()}</span>
+                          <span className="font-bold text-green-600">€{(result.netYearlyProfit || 0).toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-slate-100">
                           <span className="text-slate-700">Profit Margin</span>
-                          <span className="font-bold text-slate-900">{result.profitMargin.toFixed(1)}%</span>
+                          <span className="font-bold text-slate-900">{(result.profitMargin || 0).toFixed(1)}%</span>
                         </div>
                       </div>
                     </CardContent>
@@ -228,7 +228,7 @@ export default function QuickROI() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-center py-2 border-b border-slate-100">
                           <span className="text-slate-700">Break-Even Revenue</span>
-                          <span className="font-bold text-orange-600">€{result.breakEvenRevenue.toLocaleString()}</span>
+                          <span className="font-bold text-orange-600">€{(result.breakEvenRevenue || 0).toLocaleString()}</span>
                         </div>
                         <div className="text-xs text-slate-600">
                           Minimálny ročný príjem potrebný na pokrytie nákladov a návrat investície za 5 rokov
