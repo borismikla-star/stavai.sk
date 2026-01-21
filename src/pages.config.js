@@ -1,39 +1,43 @@
-import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
 import AITools from './pages/AITools';
-import CostEstimator from './pages/CostEstimator';
-import Projects from './pages/Projects';
-import TimelineGenerator from './pages/TimelineGenerator';
-import FeasibilityAnalyzer from './pages/FeasibilityAnalyzer';
-import ProjectCreate from './pages/ProjectCreate';
-import ProjectDetail from './pages/ProjectDetail';
-import Knowledge from './pages/Knowledge';
-import Estivo from './pages/Estivo';
 import About from './pages/About';
+import BuildingAnalyzer from './pages/BuildingAnalyzer';
 import CaseStudies from './pages/CaseStudies';
 import ComparisonCalculator from './pages/ComparisonCalculator';
+import CostEstimator from './pages/CostEstimator';
+import Dashboard from './pages/Dashboard';
+import Estivo from './pages/Estivo';
+import FeasibilityAnalyzer from './pages/FeasibilityAnalyzer';
+import Home from './pages/Home';
+import Knowledge from './pages/Knowledge';
+import ProjectCreate from './pages/ProjectCreate';
+import ProjectDetail from './pages/ProjectDetail';
+import Projects from './pages/Projects';
 import QuickROI from './pages/QuickROI';
-import BuildingAnalyzer from './pages/BuildingAnalyzer';
+import TimelineGenerator from './pages/TimelineGenerator';
+import MarketIntelligence from './pages/MarketIntelligence';
+import DocumentGenerator from './pages/DocumentGenerator';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Home": Home,
-    "Dashboard": Dashboard,
     "AITools": AITools,
-    "CostEstimator": CostEstimator,
-    "Projects": Projects,
-    "TimelineGenerator": TimelineGenerator,
-    "FeasibilityAnalyzer": FeasibilityAnalyzer,
-    "ProjectCreate": ProjectCreate,
-    "ProjectDetail": ProjectDetail,
-    "Knowledge": Knowledge,
-    "Estivo": Estivo,
     "About": About,
+    "BuildingAnalyzer": BuildingAnalyzer,
     "CaseStudies": CaseStudies,
     "ComparisonCalculator": ComparisonCalculator,
+    "CostEstimator": CostEstimator,
+    "Dashboard": Dashboard,
+    "Estivo": Estivo,
+    "FeasibilityAnalyzer": FeasibilityAnalyzer,
+    "Home": Home,
+    "Knowledge": Knowledge,
+    "ProjectCreate": ProjectCreate,
+    "ProjectDetail": ProjectDetail,
+    "Projects": Projects,
     "QuickROI": QuickROI,
-    "BuildingAnalyzer": BuildingAnalyzer,
+    "TimelineGenerator": TimelineGenerator,
+    "MarketIntelligence": MarketIntelligence,
+    "DocumentGenerator": DocumentGenerator,
 }
 
 export const pagesConfig = {
