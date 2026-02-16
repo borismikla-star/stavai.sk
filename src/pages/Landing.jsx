@@ -12,12 +12,11 @@ export default function Landing() {
       <section className="bg-[#111827] text-white py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
-            <div className="text-[#C6A756] text-sm font-semibold tracking-wider uppercase mb-6">
-              Access Private Real Assets
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-8">
-              BRICKBRIDGE
-            </h1>
+            <img 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920d2b958e59092776f7607/f71114b3e_9EED9F40-ABA1-450D-A31C-6E3BBD306A18.png" 
+              alt="Brickbridge" 
+              className="h-32 mx-auto mb-8"
+            />
             <p className="text-xl md:text-2xl text-slate-300 mb-12 leading-relaxed">
               Exclusive marketplace for verified investors to access off-market real estate opportunities in CEE.
             </p>

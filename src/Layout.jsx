@@ -69,9 +69,12 @@ export default function Layout({ children, currentPageName }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
-            <Link to={createPageUrl('InvestorDashboard')} className="flex items-center gap-2">
-              <div className="text-2xl font-bold text-white">BRICKBRIDGE</div>
-              <div className="text-xs text-[#C6A756] uppercase tracking-wider">Access Private Real Assets</div>
+            <Link to={createPageUrl('InvestorDashboard')} className="flex items-center">
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920d2b958e59092776f7607/f71114b3e_9EED9F40-ABA1-450D-A31C-6E3BBD306A18.png" 
+                alt="Brickbridge" 
+                className="h-10"
+              />
             </Link>
 
             {/* Desktop Navigation */}
