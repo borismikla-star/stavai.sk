@@ -49,12 +49,22 @@
  */
 import Landing from './pages/Landing';
 import Register from './pages/Register';
+import PendingVerification from './pages/PendingVerification';
+import BrokerRegister from './pages/BrokerRegister';
+import InvestorDashboard from './pages/InvestorDashboard';
+import BrokerDashboard from './pages/BrokerDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Landing": Landing,
     "Register": Register,
+    "PendingVerification": PendingVerification,
+    "BrokerRegister": BrokerRegister,
+    "InvestorDashboard": InvestorDashboard,
+    "BrokerDashboard": BrokerDashboard,
+    "AdminDashboard": AdminDashboard,
 }
 
 export const pagesConfig = {
