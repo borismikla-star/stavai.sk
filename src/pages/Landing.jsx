@@ -13,7 +13,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
             <img 
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920d2b958e59092776f7607/f71114b3e_9EED9F40-ABA1-450D-A31C-6E3BBD306A18.png" 
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6920d2b958e59092776f7607/016f05dc7_IMG_1285.png" 
               alt="Brickbridge" 
               className="h-32 mx-auto mb-8"
             />
