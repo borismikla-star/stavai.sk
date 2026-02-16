@@ -47,24 +47,30 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Landing from './pages/Landing';
-import Register from './pages/Register';
-import PendingVerification from './pages/PendingVerification';
+import AdminDashboard from './pages/AdminDashboard';
+import BrokerDashboard from './pages/BrokerDashboard';
 import BrokerRegister from './pages/BrokerRegister';
 import InvestorDashboard from './pages/InvestorDashboard';
-import BrokerDashboard from './pages/BrokerDashboard';
-import AdminDashboard from './pages/AdminDashboard';
+import Landing from './pages/Landing';
+import PendingVerification from './pages/PendingVerification';
+import Register from './pages/Register';
+import DealFlow from './pages/DealFlow';
+import DealTeaser from './pages/DealTeaser';
+import DealRoom from './pages/DealRoom';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Landing": Landing,
-    "Register": Register,
-    "PendingVerification": PendingVerification,
+    "AdminDashboard": AdminDashboard,
+    "BrokerDashboard": BrokerDashboard,
     "BrokerRegister": BrokerRegister,
     "InvestorDashboard": InvestorDashboard,
-    "BrokerDashboard": BrokerDashboard,
-    "AdminDashboard": AdminDashboard,
+    "Landing": Landing,
+    "PendingVerification": PendingVerification,
+    "Register": Register,
+    "DealFlow": DealFlow,
+    "DealTeaser": DealTeaser,
+    "DealRoom": DealRoom,
 }
 
 export const pagesConfig = {
