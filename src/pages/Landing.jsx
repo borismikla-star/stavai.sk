@@ -410,19 +410,58 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 py-10 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-black text-xs">S</span>
+      <footer id="kontakt" className="border-t border-gray-100 bg-gray-50 pt-16 pb-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-4 gap-10 mb-12">
+            {/* Brand */}
+            <div className="md:col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-black text-sm">S</span>
+                </div>
+                <span className="font-bold text-gray-900 text-lg">stavai<span className="text-blue-600">.sk</span></span>
+              </div>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                Analytická platforma pre real estate development na Slovensku. Rozhodujte na dátach, nie na odhadoch.
+              </p>
+              <div className="mt-5 flex items-center gap-2">
+                <span className="text-xs text-gray-400">Dostupné pre:</span>
+                <span className="text-xs font-semibold bg-gray-200 text-gray-600 px-2 py-0.5 rounded">🇸🇰 Slovensko</span>
+              </div>
             </div>
-            <span className="font-bold text-gray-900">stavai<span className="text-blue-600">.sk</span></span>
+
+            {/* Links */}
+            <div>
+              <div className="text-xs font-semibold text-gray-900 uppercase tracking-wider mb-4">Platforma</div>
+              <ul className="space-y-2.5 text-sm text-gray-500">
+                <li><a href="#nastroje" className="hover:text-gray-900 transition">Nástroje</a></li>
+                <li><a href="#cennik" className="hover:text-gray-900 transition">Cenník</a></li>
+                <li><a href="#faq" className="hover:text-gray-900 transition">FAQ</a></li>
+                <li><button onClick={handleLogin} className="hover:text-gray-900 transition">Prihlásiť sa</button></li>
+              </ul>
+            </div>
+
+            {/* Contact */}
+            <div>
+              <div className="text-xs font-semibold text-gray-900 uppercase tracking-wider mb-4">Kontakt</div>
+              <ul className="space-y-2.5 text-sm text-gray-500">
+                <li><a href="mailto:info@stavai.sk" className="hover:text-gray-900 transition">info@stavai.sk</a></li>
+                <li><span>Slovenská republika</span></li>
+                <li className="pt-2">
+                  <Button onClick={handleLogin} size="sm" className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-4">
+                    Začať zadarmo
+                  </Button>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className="text-gray-400 text-sm">© 2026 stavai.sk — Všetky práva vyhradené</div>
-          <div className="flex items-center gap-4 text-sm text-gray-400">
-            <a href="#nastroje" className="hover:text-gray-600 transition">Nástroje</a>
-            <a href="#cennik" className="hover:text-gray-600 transition">Cenník</a>
-            <a href="#faq" className="hover:text-gray-600 transition">FAQ</a>
+
+          <div className="border-t border-gray-200 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-gray-400">
+            <span>© 2026 stavai.sk — Všetky práva vyhradené</span>
+            <div className="flex gap-4">
+              <a href="#" className="hover:text-gray-600 transition">Ochrana súkromia</a>
+              <a href="#" className="hover:text-gray-600 transition">Podmienky použitia</a>
+            </div>
           </div>
         </div>
       </footer>
