@@ -196,7 +196,7 @@ export default function Landing() {
               { value: '5+', label: 'analytických nástrojov' },
               { value: '100+', label: 'premenných v modeli' },
               { value: 'PDF', label: 'export reportov' },
-              { value: 'SK/CZ', label: 'lokalizované dáta' },
+              { value: 'SK', label: 'lokalizované dáta' },
             ].map((s, i) => (
               <div key={i}>
                 <div className="text-2xl font-black text-blue-600 mb-1">{s.value}</div>
