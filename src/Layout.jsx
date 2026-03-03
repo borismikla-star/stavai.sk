@@ -183,7 +183,13 @@ export default function Layout({ children, currentPageName }) {
                 </Link>
               ))}
             </div>
-            <button onClick={() => base44.auth.logout()} className="w-full text-left px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 rounded">Odhlásiť</button>
+            <Link to={createPageUrl('Profile')} onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 rounded text-sm text-slate-300 hover:bg-slate-800">
+              <User className="w-4 h-4" /> Profil
+            </Link>
+            <Link to={createPageUrl('BetaAccess')} onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-2.5 rounded text-sm text-slate-300 hover:bg-slate-800">
+              <Rocket className="w-4 h-4" /> Beta program
+            </Link>
+            <button onClick={() => base44.auth.logout()} className="w-full text-left px-4 py-2.5 text-sm text-red-400 hover:bg-slate-800 rounded">Odhlásiť sa</button>
           </div>
         )}
       </nav>
