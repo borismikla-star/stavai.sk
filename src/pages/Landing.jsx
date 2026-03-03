@@ -1,275 +1,368 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
-import { BarChart2, Calculator, Clock, Shield, ChevronRight, TrendingUp, FileText, Building2 } from 'lucide-react';
+import {
+  BarChart2, Calculator, Clock, TrendingUp, FileText, ChevronRight,
+  Shield, Zap, Target, ArrowRight, Check, Star, Building2, Users, BookOpen
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function Landing() {
+  const [calcInputs, setCalcInputs] = useState({ investment: '', revenue: '', duration: '' });
+  const [calcResult, setCalcResult] = useState(null);
+
   const handleLogin = () => {
     base44.auth.redirectToLogin(createPageUrl('Dashboard'));
   };
 
-
+  const calcROI = () => {
+    const inv = parseFloat(calcInputs.investment) || 0;
+    const rev = parseFloat(calcInputs.revenue) || 0;
+    const dur = parseFloat(calcInputs.duration) || 1;
+    if (!inv || !rev) return;
+    const profit = rev - inv;
+    const roi = ((profit / inv) * 100).toFixed(1);
+    const irr = (((Math.pow(rev / inv, 1 / dur)) - 1) * 100).toFixed(1);
+    setCalcResult({ profit, roi, irr });
+  };
 
   const tools = [
-    {
-      icon: BarChart2,
-      title: 'Land Feasibility Analyzer',
-      desc: 'Reziduálna hodnota pozemku, IRR, NPV. Rozhodujte na dátach, nie na odhadoch.',
-      tag: 'Pro'
-    },
-    {
-      icon: Calculator,
-      title: 'Developer Kalkulačka',
-      desc: 'Kompletný finančný model projektu – cashflow, DSCR, marže, bankový export.',
-      tag: 'Pro'
-    },
-    {
-      icon: Clock,
-      title: 'Harmonogram Povolení',
-      desc: 'Gantt diagram procesov ÚR, SP, EIA. Scenárová analýza a dopad na cashflow.',
-      tag: 'Pro'
-    },
-    {
-      icon: BarChart2,
-      title: 'Cost Benchmark',
-      desc: 'Databáza stavebných nákladov podľa štandardu a regiónu. Historické trendy.',
-      tag: 'Free'
-    },
-    {
-      icon: TrendingUp,
-      title: 'Sensitivity Engine',
-      desc: 'Automatický prepočet IRR a zisku pri zmenách cien, nákladov, oneskorení.',
-      tag: 'Pro'
-    },
-    {
-      icon: FileText,
-      title: 'Odborné Články',
-      desc: 'Analýzy trhu, legislatíva, case studies. Obsah od praktikov pre praktikov.',
-      tag: 'Free'
-    }
+    { icon: BarChart2, title: 'Land Feasibility Analyzer', desc: 'Reziduálna hodnota pozemku, IRR, NPV. Rozhodujte na dátach.', tag: 'Pro', color: 'bg-blue-100 text-blue-600' },
+    { icon: Calculator, title: 'Developer Kalkulačka', desc: 'Kompletný finančný model — cashflow, DSCR, bankový export.', tag: 'Pro', color: 'bg-violet-100 text-violet-600' },
+    { icon: Clock, title: 'Harmonogram Povolení', desc: 'Gantt diagram ÚR, SP, EIA s dopadom na cashflow.', tag: 'Pro', color: 'bg-amber-100 text-amber-700' },
+    { icon: BarChart2, title: 'Cost Benchmark', desc: 'Databáza stavebných nákladov podľa regiónu a štandardu.', tag: 'Free', color: 'bg-emerald-100 text-emerald-600' },
+    { icon: TrendingUp, title: 'Sensitivity Engine', desc: 'Scenáriové simulácie dopadu zmien na IRR a zisk.', tag: 'Pro', color: 'bg-rose-100 text-rose-600' },
+    { icon: BookOpen, title: 'Odborné Články', desc: 'Analýzy trhu, legislatíva, case studies pre SK/CZ.', tag: 'Free', color: 'bg-sky-100 text-sky-600' },
   ];
 
-  const stats = [
-    { value: '5+', label: 'analytických nástrojov' },
-    { value: '100+', label: 'premenných v modeli' },
-    { value: 'PDF', label: 'export reportov' },
-    { value: 'SK/CZ', label: 'trh' },
+  const testimonials = [
+    { name: 'Martin S.', role: 'Developerská firma', text: 'Konečne nástroj, ktorý hovorí jazykom čísel. Land Feasibility Analyzer ušetril naše tímu desiatky hodín v Exceli.' },
+    { name: 'Jana K.', role: 'Investičný poradca', text: 'Výstupy sú na takej úrovni, že ich predkladáme priamo bankám. Developer Kalkulačka je geniálna.' },
+    { name: 'Peter V.', role: 'Realitný developer', text: 'Sensitivity Engine nám pomohol identifikovať tri scenáre, kde projekt nebol rentabilný. Ušetrili sme státisíce.' },
   ];
+
+  const faqs = [
+    { q: 'Pre koho je stavai.sk určený?', a: 'Pre developerov, investorov, stavebné firmy a finančných poradcov pôsobiacich na slovenskom a českom trhu.' },
+    { q: 'Môžem exportovať výsledky?', a: 'Áno, Pro plán umožňuje export do PDF formátu vhodného pre banky a investorov.' },
+    { q: 'Odkiaľ pochádzajú dáta v Cost Benchmark?', a: 'Z reálnych projektov realizovaných na slovenskom trhu, pravidelne aktualizované.' },
+    { q: 'Je možné uložiť viac projektov?', a: 'Áno, všetky analýzy a projekty sú uložené vo vašom účte a prístupné kedykoľvek.' },
+  ];
+
+  const [openFaq, setOpenFaq] = useState(null);
 
   return (
-    <div className="min-h-screen bg-[#0F172A]" style={{ fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', -apple-system, sans-serif" }}>
 
-      {/* Top bar */}
-      <header className="border-b border-slate-800">
+      {/* Navbar */}
+      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-black text-sm">S</span>
             </div>
-            <span className="text-white font-bold text-lg tracking-tight">stavai<span className="text-blue-400">.sk</span></span>
+            <span className="font-bold text-gray-900 text-lg tracking-tight">stavai<span className="text-blue-600">.sk</span></span>
           </div>
-          <Button
-            onClick={handleLogin}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2"
-          >
-            Prihlásiť sa
-          </Button>
+
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+            <a href="#nastroje" className="hover:text-gray-900 transition">Nástroje</a>
+            <a href="#cennik" className="hover:text-gray-900 transition">Cenník</a>
+            <a href="#faq" className="hover:text-gray-900 transition">FAQ</a>
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <button onClick={handleLogin} className="text-sm font-medium text-gray-600 hover:text-gray-900 transition px-3 py-2">
+              Prihlásiť sa
+            </button>
+            <Button onClick={handleLogin} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg">
+              Začať zadarmo
+            </Button>
+          </div>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="py-20 md:py-32 border-b border-slate-800">
+      <section className="pt-16 pb-20 lg:pt-24 lg:pb-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-600/30 text-blue-400 text-xs font-medium px-3 py-1.5 rounded-full mb-8">
-              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></span>
-              Beta – Slovensko & Česká republika
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+            {/* Left */}
+            <div>
+              <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6 border border-blue-100">
+                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
+                Beta — Slovensko & Česká republika
+              </div>
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-black text-gray-900 leading-[1.1] mb-6">
+                Analytická platforma pre <span className="text-blue-600">development</span>
+              </h1>
+              <p className="text-lg text-gray-500 mb-8 leading-relaxed max-w-lg">
+                Decision-support nástroje pre investorov, developerov a stavebné firmy. Profesionálne výstupy — nie tabuľky v Exceli.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 mb-10">
+                <Button onClick={handleLogin} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 text-base font-semibold rounded-xl flex items-center gap-2">
+                  Začať zadarmo <ArrowRight className="w-4 h-4" />
+                </Button>
+                <Button variant="outline" onClick={handleLogin} className="px-6 py-3 text-base rounded-xl border-gray-200 text-gray-700 hover:bg-gray-50">
+                  Zobraziť nástroje
+                </Button>
+              </div>
+              <div className="flex items-center gap-6 text-sm text-gray-400">
+                <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-green-500" />Bez kreditky</div>
+                <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-green-500" />Free plán navždy</div>
+                <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-green-500" />SK/CZ dáta</div>
+              </div>
             </div>
-            <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-6">
-              Analytická platforma<br />
-              <span className="text-blue-400">pre development</span>
-            </h1>
-            <p className="text-xl text-slate-400 mb-10 max-w-2xl leading-relaxed">
-              Decision-support nástroje pre investorov, developerov a stavebné firmy.
-              Nie kalkulačka — ekosystém.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                onClick={handleLogin}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-base font-semibold"
-              >
-                Začať zadarmo
-                <ChevronRight className="w-5 h-5 ml-2" />
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleLogin}
-                className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white px-8 py-6 text-base"
-              >
-                Zobraziť nástroje
-              </Button>
+
+            {/* Right — Quick Calculator */}
+            <div className="bg-gray-50 rounded-2xl border border-gray-200 p-8 shadow-sm">
+              <div className="flex items-center gap-2 mb-1">
+                <Target className="w-5 h-5 text-blue-600" />
+                <span className="font-bold text-gray-900">Rýchly ROI Check</span>
+              </div>
+              <p className="text-sm text-gray-500 mb-6">Rýchly odhad rentability projektu</p>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Investícia (€)</label>
+                  <input
+                    type="number"
+                    placeholder="napr. 1 000 000"
+                    value={calcInputs.investment}
+                    onChange={e => setCalcInputs(p => ({ ...p, investment: e.target.value }))}
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Očakávaný výnos (€)</label>
+                  <input
+                    type="number"
+                    placeholder="napr. 1 400 000"
+                    value={calcInputs.revenue}
+                    onChange={e => setCalcInputs(p => ({ ...p, revenue: e.target.value }))}
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-gray-600 mb-1.5 block">Trvanie projektu (roky)</label>
+                  <input
+                    type="number"
+                    placeholder="napr. 3"
+                    value={calcInputs.duration}
+                    onChange={e => setCalcInputs(p => ({ ...p, duration: e.target.value }))}
+                    className="w-full px-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  />
+                </div>
+                <Button onClick={calcROI} className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold">
+                  Vypočítať
+                </Button>
+              </div>
+
+              {calcResult && (
+                <div className="mt-6 pt-6 border-t border-gray-200 grid grid-cols-3 gap-4">
+                  <div className="text-center">
+                    <div className="text-xl font-black text-gray-900">
+                      {calcResult.profit >= 0 ? '+' : ''}{new Intl.NumberFormat('sk', { maximumFractionDigits: 0 }).format(calcResult.profit)} €
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">Zisk</div>
+                  </div>
+                  <div className="text-center">
+                    <div className={`text-xl font-black ${parseFloat(calcResult.roi) >= 15 ? 'text-green-600' : parseFloat(calcResult.roi) >= 5 ? 'text-amber-600' : 'text-red-600'}`}>
+                      {calcResult.roi}%
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">ROI</div>
+                  </div>
+                  <div className="text-center">
+                    <div className={`text-xl font-black ${parseFloat(calcResult.irr) >= 12 ? 'text-green-600' : parseFloat(calcResult.irr) >= 5 ? 'text-amber-600' : 'text-red-600'}`}>
+                      {calcResult.irr}%
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">IRR / rok</div>
+                  </div>
+                </div>
+              )}
+
+              {!calcResult && (
+                <p className="mt-4 text-xs text-gray-400 text-center">Pre detailnú analýzu použite naše Pro nástroje →</p>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="border-b border-slate-800 bg-[#0F172A]">
+      {/* Logos/stats strip */}
+      <section className="border-y border-gray-100 bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-800">
-            {stats.map((stat, i) => (
-              <div key={i} className="py-8 px-6 text-center">
-                <div className="text-3xl font-black text-blue-400 mb-1">{stat.value}</div>
-                <div className="text-sm text-slate-500">{stat.label}</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { value: '5+', label: 'analytických nástrojov' },
+              { value: '100+', label: 'premenných v modeli' },
+              { value: 'PDF', label: 'export reportov' },
+              { value: 'SK/CZ', label: 'lokalizované dáta' },
+            ].map((s, i) => (
+              <div key={i}>
+                <div className="text-2xl font-black text-blue-600 mb-1">{s.value}</div>
+                <div className="text-sm text-gray-500">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Tools Grid */}
-      <section className="py-20 border-b border-slate-800">
+      {/* Tools */}
+      <section id="nastroje" className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
-            <div className="text-xs text-blue-400 uppercase tracking-widest font-semibold mb-3">Nástroje</div>
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-              Všetko čo developer potrebuje
-            </h2>
-            <p className="text-slate-400 text-lg max-w-2xl">
-              Od prvej analýzy pozemku až po bankový report. Jeden ekosystém, nie rôzne tabuľky.
-            </p>
+          <div className="text-center mb-14">
+            <div className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Nástroje</div>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">Všetko čo developer potrebuje</h2>
+            <p className="text-gray-500 text-lg max-w-2xl mx-auto">Od prvej analýzy pozemku až po bankový report. Jeden ekosystém.</p>
           </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tools.map((tool, i) => (
-              <div key={i} className="bg-[#1E293B] border border-slate-700 rounded-xl p-6 hover:border-blue-600/50 transition group">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-10 h-10 bg-blue-600/10 rounded-lg flex items-center justify-center border border-blue-600/20">
-                    <tool.icon className="w-5 h-5 text-blue-400" />
-                  </div>
-                  <span className={`text-xs font-semibold px-2 py-1 rounded ${
-                    tool.tag === 'Pro'
-                      ? 'bg-blue-600/20 text-blue-400 border border-blue-600/30'
-                      : 'bg-slate-700 text-slate-400 border border-slate-600'
-                  }`}>
-                    {tool.tag}
-                  </span>
+              <div key={i} className="group bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-300 hover:shadow-md transition-all cursor-pointer" onClick={handleLogin}>
+                <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-5 ${tool.color}`}>
+                  <tool.icon className="w-5 h-5" />
                 </div>
-                <h3 className="text-white font-bold text-lg mb-2 group-hover:text-blue-400 transition">
-                  {tool.title}
-                </h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{tool.desc}</p>
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className="font-bold text-gray-900 text-base group-hover:text-blue-600 transition leading-tight pr-2">{tool.title}</h3>
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${
+                    tool.tag === 'Pro' ? 'bg-blue-50 text-blue-600 border border-blue-200' : 'bg-gray-100 text-gray-500 border border-gray-200'
+                  }`}>{tool.tag}</span>
+                </div>
+                <p className="text-sm text-gray-500 leading-relaxed">{tool.desc}</p>
+                <div className="flex items-center gap-1 mt-4 text-xs font-semibold text-blue-600 group-hover:gap-2 transition-all">
+                  Otvoriť <ChevronRight className="w-3.5 h-3.5" />
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Bloomberg quote */}
-      <section className="py-20 border-b border-slate-800">
+      {/* Why stavai */}
+      <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#1E293B] border border-slate-700 rounded-2xl p-10 md:p-16">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                <Building2 className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <blockquote className="text-2xl md:text-3xl font-bold text-white leading-tight mb-2">
-                  "Bloomberg pre development"
-                </blockquote>
-                <p className="text-slate-400">
-                  Profesionálne analytické nástroje, ktoré doteraz existovali len v Exceli konzultantov za tisíce eur.
-                </p>
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Prečo stavai.sk</div>
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">
+                Pretože generické tabuľky nestačia
+              </h2>
+              <p className="text-gray-500 text-lg mb-10 leading-relaxed">
+                Profesionálne analytické nástroje, ktoré doteraz existovali len v Exceli konzultantov za tisíce eur. Teraz dostupné pre každého.
+              </p>
+              <div className="space-y-6">
+                {[
+                  { icon: Target, title: 'Developer-First dizajn', desc: 'Metriky, ktoré skutočne rozhodujú: IRR, NPV, DSCR, reziduálna hodnota.' },
+                  { icon: Shield, title: 'SK/CZ lokalizácia', desc: 'Dáta, benchmarky a legislatívne rámce pre slovenský a český trh.' },
+                  { icon: Zap, title: 'Profesionálne výstupy', desc: 'PDF reporty vhodné pre banky, investorov a developerské tímy.' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <item.icon className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-gray-900 mb-1">{item.title}</div>
+                      <div className="text-gray-500 text-sm leading-relaxed">{item.desc}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="grid md:grid-cols-3 gap-6 mt-10 pt-10 border-t border-slate-700">
-              {[
-                { icon: Shield, title: 'Dôveryhodné dáta', desc: 'Benchmarky z reálnych projektov, nie odhady' },
-                { icon: TrendingUp, title: 'Profesionálne výstupy', desc: 'PDF reporty vhodné pre banky a investorov' },
-                { icon: BarChart2, title: 'Scenárová analýza', desc: 'Sensitivity analýza s automatickým prepočtom' }
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-blue-600/10 rounded flex items-center justify-center flex-shrink-0 mt-1">
-                    <item.icon className="w-4 h-4 text-blue-400" />
+            <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
+              <div className="flex items-center gap-3 mb-6">
+                <Building2 className="w-6 h-6 text-blue-600" />
+                <span className="font-bold text-gray-900">"Bloomberg pre development"</span>
+              </div>
+              <p className="text-gray-600 leading-relaxed mb-8">
+                Cieľom stavai.sk je byť referenčnou analytickou platformou pre real estate development na Slovensku a v Čechách — tak ako Bloomberg pre finančné trhy.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { label: 'Land Feasibility', sub: 'Reziduálna metóda' },
+                  { label: 'Dev. Kalkulačka', sub: 'Cashflow + DSCR' },
+                  { label: 'Sensitivity', sub: 'Scenárová analýza' },
+                  { label: 'Cost Benchmark', sub: 'Trhové dáta SK' },
+                ].map((item, i) => (
+                  <div key={i} className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                    <div className="font-semibold text-gray-900 text-sm">{item.label}</div>
+                    <div className="text-xs text-gray-400 mt-0.5">{item.sub}</div>
                   </div>
-                  <div>
-                    <div className="text-white font-semibold text-sm mb-1">{item.title}</div>
-                    <div className="text-slate-400 text-sm">{item.desc}</div>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing tiers */}
-      <section className="py-20 border-b border-slate-800">
+      {/* Testimonials */}
+      <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="text-xs text-blue-400 uppercase tracking-widest font-semibold mb-3">Cenník</div>
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Vyberte si plán</h2>
+          <div className="text-center mb-14">
+            <div className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Referencie</div>
+            <h2 className="text-3xl font-black text-gray-900">Čo hovoria používatelia</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-white border border-gray-200 rounded-2xl p-7 shadow-sm">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />)}
+                </div>
+                <p className="text-gray-600 leading-relaxed mb-6 text-sm">"{t.text}"</p>
+                <div>
+                  <div className="font-bold text-gray-900 text-sm">{t.name}</div>
+                  <div className="text-xs text-gray-400">{t.role}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="cennik" className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <div className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Cenník</div>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">Vyberte si plán</h2>
+            <p className="text-gray-500">Začnite zadarmo, upgradujte keď ste pripravení</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
               {
-                name: 'Free',
-                price: '0 €',
-                period: '/mesiac',
-                desc: 'Pre začatie',
-                features: ['Základné kalkulačky', 'Cost Benchmark', 'Odborné články', 'Orientačné benchmarky'],
-                cta: 'Začať zadarmo',
-                highlight: false
+                name: 'Free', price: '0 €', period: '/mesiac',
+                desc: 'Pre začiatok',
+                features: ['Cost Benchmark', 'Odborné články', 'Orientačné kalkulačky'],
+                cta: 'Začať zadarmo', highlight: false
               },
               {
-                name: 'Pro',
-                price: '79 €',
-                period: '/mesiac',
+                name: 'Pro', price: '79 €', period: '/mesiac',
                 desc: 'Pre profesionálov',
-                features: ['Land Feasibility Analyzer', 'Developer Kalkulačka', 'Harmonogram Povolení', 'Sensitivity Engine', 'PDF export reportov', 'Detailné benchmarky'],
-                cta: 'Vyskúšať Pro',
-                highlight: true
+                features: ['Land Feasibility Analyzer', 'Developer Kalkulačka', 'Harmonogram Povolení', 'Sensitivity Engine', 'PDF export reportov', 'Detailné benchmarky SK/CZ'],
+                cta: 'Vyskúšať Pro', highlight: true
               },
               {
-                name: 'Enterprise',
-                price: 'Na mieru',
-                period: '',
-                desc: 'Pre tímy a firmy',
-                features: ['Všetko z Pro', 'Bankové modely', 'Custom exporty', 'API prístup k dátam', 'Dedikovaná podpora'],
-                cta: 'Kontaktovať',
-                highlight: false
+                name: 'Enterprise', price: 'Na mieru', period: '',
+                desc: 'Pre tímy',
+                features: ['Všetko z Pro', 'Bankové modely', 'API prístup', 'Dedikovaná podpora'],
+                cta: 'Kontaktovať', highlight: false
               }
             ].map((plan, i) => (
-              <div key={i} className={`rounded-xl p-8 border ${
-                plan.highlight
-                  ? 'bg-blue-600 border-blue-500'
-                  : 'bg-[#1E293B] border-slate-700'
-              }`}>
-                <div className={`text-sm font-semibold mb-2 ${plan.highlight ? 'text-blue-100' : 'text-slate-400'}`}>{plan.name}</div>
-                <div className={`text-4xl font-black mb-1 ${plan.highlight ? 'text-white' : 'text-white'}`}>
-                  {plan.price}<span className={`text-sm font-normal ${plan.highlight ? 'text-blue-200' : 'text-slate-400'}`}>{plan.period}</span>
+              <div key={i} className={`rounded-2xl p-8 border ${plan.highlight ? 'bg-blue-600 border-blue-500 shadow-xl shadow-blue-200' : 'bg-white border-gray-200'}`}>
+                {plan.highlight && <div className="text-xs font-semibold text-blue-200 uppercase tracking-wider mb-3">Najpopulárnejší</div>}
+                <div className={`text-sm font-semibold mb-2 ${plan.highlight ? 'text-blue-100' : 'text-gray-500'}`}>{plan.name}</div>
+                <div className={`text-4xl font-black mb-1 ${plan.highlight ? 'text-white' : 'text-gray-900'}`}>
+                  {plan.price}<span className={`text-sm font-normal ml-1 ${plan.highlight ? 'text-blue-200' : 'text-gray-400'}`}>{plan.period}</span>
                 </div>
-                <div className={`text-sm mb-6 ${plan.highlight ? 'text-blue-100' : 'text-slate-400'}`}>{plan.desc}</div>
+                <div className={`text-sm mb-7 ${plan.highlight ? 'text-blue-100' : 'text-gray-400'}`}>{plan.desc}</div>
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((f, j) => (
-                    <li key={j} className={`flex items-center gap-2 text-sm ${plan.highlight ? 'text-blue-100' : 'text-slate-300'}`}>
-                      <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${plan.highlight ? 'bg-blue-500' : 'bg-slate-700'}`}>
-                        <span className={`text-xs ${plan.highlight ? 'text-white' : 'text-blue-400'}`}>✓</span>
-                      </div>
+                    <li key={j} className={`flex items-center gap-2.5 text-sm ${plan.highlight ? 'text-blue-50' : 'text-gray-600'}`}>
+                      <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? 'text-blue-200' : 'text-blue-500'}`} />
                       {f}
                     </li>
                   ))}
                 </ul>
-                <Button
-                  onClick={handleLogin}
-                  className={`w-full py-5 font-semibold ${
-                    plan.highlight
-                      ? 'bg-white text-blue-600 hover:bg-blue-50'
-                      : 'bg-slate-700 text-white hover:bg-slate-600'
-                  }`}
-                >
+                <Button onClick={handleLogin} className={`w-full py-2.5 font-semibold rounded-xl ${
+                  plan.highlight ? 'bg-white text-blue-600 hover:bg-blue-50' : 'bg-gray-900 text-white hover:bg-gray-800'
+                }`}>
                   {plan.cta}
                 </Button>
               </div>
@@ -278,17 +371,57 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
-                <span className="text-white font-black text-xs">S</span>
+      {/* FAQ */}
+      <section id="faq" className="py-24">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <div className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">FAQ</div>
+            <h2 className="text-3xl font-black text-gray-900">Časté otázky</h2>
+          </div>
+          <div className="space-y-3">
+            {faqs.map((faq, i) => (
+              <div key={i} className="border border-gray-200 rounded-xl overflow-hidden bg-white">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full text-left px-6 py-4 flex items-center justify-between font-semibold text-gray-900 hover:bg-gray-50 transition text-sm"
+                >
+                  {faq.q}
+                  <ChevronRight className={`w-4 h-4 text-gray-400 transition-transform ${openFaq === i ? 'rotate-90' : ''}`} />
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-4 text-sm text-gray-500 leading-relaxed">{faq.a}</div>
+                )}
               </div>
-              <span className="text-white font-bold">stavai<span className="text-blue-400">.sk</span></span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24 bg-blue-600">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Pripravený na lepšie rozhodnutia?</h2>
+          <p className="text-blue-100 text-lg mb-8">Pripojte sa k developerom, ktorí rozhodujú na dátach, nie na odhadoch.</p>
+          <Button onClick={handleLogin} className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 text-base font-bold rounded-xl">
+            Začať zadarmo <ArrowRight className="w-4 h-4 ml-2 inline" />
+          </Button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 py-10 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-black text-xs">S</span>
             </div>
-            <div className="text-slate-500 text-sm">© 2026 stavai.sk — Všetky práva vyhradené</div>
+            <span className="font-bold text-gray-900">stavai<span className="text-blue-600">.sk</span></span>
+          </div>
+          <div className="text-gray-400 text-sm">© 2026 stavai.sk — Všetky práva vyhradené</div>
+          <div className="flex items-center gap-4 text-sm text-gray-400">
+            <a href="#nastroje" className="hover:text-gray-600 transition">Nástroje</a>
+            <a href="#cennik" className="hover:text-gray-600 transition">Cenník</a>
+            <a href="#faq" className="hover:text-gray-600 transition">FAQ</a>
           </div>
         </div>
       </footer>

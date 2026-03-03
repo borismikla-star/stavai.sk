@@ -47,28 +47,28 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
-import Landing from './pages/Landing';
-import Dashboard from './pages/Dashboard';
-import LandFeasibility from './pages/LandFeasibility';
-import DeveloperCalc from './pages/DeveloperCalc';
+import Admin from './pages/Admin';
+import Articles from './pages/Articles';
 import CostBenchmark from './pages/CostBenchmark';
+import Dashboard from './pages/Dashboard';
+import DeveloperCalc from './pages/DeveloperCalc';
+import LandFeasibility from './pages/LandFeasibility';
+import Landing from './pages/Landing';
 import PermitTimeline from './pages/PermitTimeline';
 import SensitivityEngine from './pages/SensitivityEngine';
-import Articles from './pages/Articles';
-import Admin from './pages/Admin';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
-    "Landing": Landing,
-    "Dashboard": Dashboard,
-    "LandFeasibility": LandFeasibility,
-    "DeveloperCalc": DeveloperCalc,
+    "Admin": Admin,
+    "Articles": Articles,
     "CostBenchmark": CostBenchmark,
+    "Dashboard": Dashboard,
+    "DeveloperCalc": DeveloperCalc,
+    "LandFeasibility": LandFeasibility,
+    "Landing": Landing,
     "PermitTimeline": PermitTimeline,
     "SensitivityEngine": SensitivityEngine,
-    "Articles": Articles,
-    "Admin": Admin,
 }
 
 export const pagesConfig = {
