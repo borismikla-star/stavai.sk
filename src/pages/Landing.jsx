@@ -270,10 +270,10 @@ export default function Landing() {
             <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
                 <Building2 className="w-6 h-6 text-blue-600" />
-                <span className="font-bold text-gray-900">"Bloomberg pre development"</span>
+                <span className="font-bold text-gray-900">Postavené pre slovenský trh</span>
               </div>
               <p className="text-gray-600 leading-relaxed mb-8">
-                Cieľom stavai.sk je byť referenčnou analytickou platformou pre real estate development na Slovensku a v Čechách — tak ako Bloomberg pre finančné trhy.
+                stavai.sk vzniklo z frustrácie developerov, ktorí museli kombinovať desiatky tabuliek, odhadov a konzultantov. Náš cieľ: jeden nástroj, všetky odpovede — prispôsobený slovenským podmienkam.
               </p>
               <div className="grid grid-cols-2 gap-4">
                 {[
