@@ -336,7 +336,7 @@ export default function Landing() {
               {
                 name: 'Pro', price: '79 €', period: '/mesiac',
                 desc: 'Pre profesionálov',
-                features: ['Land Feasibility Analyzer', 'Developer Kalkulačka', 'Harmonogram Povolení', 'Sensitivity Engine', 'PDF export reportov', 'Detailné benchmarky SK/CZ'],
+                features: ['Land Feasibility Analyzer', 'Developer Kalkulačka', 'Harmonogram Povolení', 'Sensitivity Engine', 'PDF export reportov', 'Detailné benchmarky SK'],
                 cta: 'Vyskúšať Pro', highlight: true
               },
               {
