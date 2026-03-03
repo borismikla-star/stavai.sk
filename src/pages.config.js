@@ -58,6 +58,8 @@ import PermitTimeline from './pages/PermitTimeline';
 import SensitivityEngine from './pages/SensitivityEngine';
 import Profile from './pages/Profile';
 import BetaAccess from './pages/BetaAccess';
+import AdminUsers from './pages/AdminUsers';
+import AdminSettings from './pages/AdminSettings';
 import __Layout from './Layout.jsx';
 
 
@@ -73,6 +75,8 @@ export const PAGES = {
     "SensitivityEngine": SensitivityEngine,
     "Profile": Profile,
     "BetaAccess": BetaAccess,
+    "AdminUsers": AdminUsers,
+    "AdminSettings": AdminSettings,
 }
 
 export const pagesConfig = {
