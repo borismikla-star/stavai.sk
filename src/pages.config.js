@@ -56,6 +56,8 @@ import LandFeasibility from './pages/LandFeasibility';
 import Landing from './pages/Landing';
 import PermitTimeline from './pages/PermitTimeline';
 import SensitivityEngine from './pages/SensitivityEngine';
+import Profile from './pages/Profile';
+import BetaAccess from './pages/BetaAccess';
 import __Layout from './Layout.jsx';
 
 
@@ -69,6 +71,8 @@ export const PAGES = {
     "Landing": Landing,
     "PermitTimeline": PermitTimeline,
     "SensitivityEngine": SensitivityEngine,
+    "Profile": Profile,
+    "BetaAccess": BetaAccess,
 }
 
 export const pagesConfig = {
