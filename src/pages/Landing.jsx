@@ -63,18 +63,19 @@ export default function Landing() {
             <span className="font-bold text-gray-900 text-lg tracking-tight">stavai<span className="text-blue-600">.sk</span></span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-500">
             <a href="#nastroje" className="hover:text-gray-900 transition">Nástroje</a>
             <a href="#cennik" className="hover:text-gray-900 transition">Cenník</a>
             <a href="#faq" className="hover:text-gray-900 transition">FAQ</a>
+            <a href="#kontakt" className="hover:text-gray-900 transition">Kontakt</a>
           </nav>
 
           <div className="flex items-center gap-3">
-            <button onClick={handleLogin} className="text-sm font-medium text-gray-600 hover:text-gray-900 transition px-3 py-2">
+            <button onClick={handleLogin} className="text-sm font-medium text-gray-500 hover:text-gray-900 transition px-3 py-2">
               Prihlásiť sa
             </button>
-            <Button onClick={handleLogin} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg">
-              Začať zadarmo
+            <Button onClick={handleLogin} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-2 rounded-lg font-semibold">
+              Začať zadarmo →
             </Button>
           </div>
         </div>
