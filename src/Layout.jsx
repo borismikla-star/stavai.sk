@@ -11,13 +11,20 @@ export default function Layout({ children, currentPageName }) {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: async () => {
+      try { return await base44.auth.me(); } catch { return null; }
+    },
     retry: false
   });
 
   const publicPages = ['Landing'];
-  if (!user || publicPages.includes(currentPageName)) {
-    return <div className="min-h-screen bg-[#F1F5F9]">{children}</div>;
+  if (publicPages.includes(currentPageName)) {
+    return <>{children}</>;
+  }
+
+  if (!user) {
+    base44.auth.redirectToLogin(window.location.href);
+    return null;
   }
 
   const tools = [
