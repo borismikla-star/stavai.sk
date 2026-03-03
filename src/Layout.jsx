@@ -109,20 +109,49 @@ export default function Layout({ children, currentPageName }) {
             </div>
 
             {/* Right */}
-            <div className="hidden md:flex items-center gap-4">
-              <div className="text-right">
-                <div className="text-sm font-medium text-white">{user?.full_name}</div>
-                <div className="text-xs text-slate-400 capitalize">{user?.role === 'admin' ? 'Admin' : 'Pro'}</div>
-              </div>
-              {user?.role === 'admin' && (
-                <Link to={createPageUrl('Admin')} className="text-xs text-slate-400 hover:text-blue-400 transition">Admin</Link>
+            <div className="hidden md:flex items-center gap-3">
+              {user?.beta_access && (
+                <span className="text-xs font-semibold bg-violet-600/20 text-violet-300 px-2 py-1 rounded-full border border-violet-600/30">Beta</span>
               )}
-              <button
-                onClick={() => base44.auth.logout()}
-                className="p-2 text-slate-400 hover:text-white transition"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
+              <div className="relative group">
+                <button className="flex items-center gap-2 px-3 py-2 rounded text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">
+                  <div className="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">{user?.full_name?.charAt(0) || '?'}</span>
+                  </div>
+                  <span>{user?.full_name?.split(' ')[0]}</span>
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+                <div className="absolute right-0 top-full mt-1 w-52 bg-[#1E293B] border border-slate-700 rounded-lg shadow-xl z-50 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                  <div className="px-4 py-2.5 border-b border-slate-700">
+                    <div className="text-xs font-semibold text-white">{user?.full_name}</div>
+                    <div className="text-xs text-slate-400">{user?.role === 'admin' ? 'Admin' : 'Pro'}</div>
+                  </div>
+                  <Link to={createPageUrl('Profile')} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition">
+                    <User className="w-4 h-4" /> Profil
+                  </Link>
+                  <Link to={createPageUrl('BetaAccess')} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition">
+                    <Rocket className="w-4 h-4" /> Beta program
+                  </Link>
+                  {user?.role === 'admin' && (
+                    <>
+                      <div className="border-t border-slate-700 my-1" />
+                      <Link to={createPageUrl('Admin')} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition">
+                        <Settings className="w-4 h-4" /> Admin panel
+                      </Link>
+                      <Link to={createPageUrl('AdminUsers')} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition">
+                        <User className="w-4 h-4" /> Správa používateľov
+                      </Link>
+                      <Link to={createPageUrl('AdminSettings')} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-slate-700 transition">
+                        <Settings className="w-4 h-4" /> Nastavenia platformy
+                      </Link>
+                    </>
+                  )}
+                  <div className="border-t border-slate-700 my-1" />
+                  <button onClick={() => base44.auth.logout()} className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-slate-700 transition">
+                    <LogOut className="w-4 h-4" /> Odhlásiť sa
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* Mobile toggle */}
