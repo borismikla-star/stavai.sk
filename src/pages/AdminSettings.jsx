@@ -9,8 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { read_entities, create_entity_records } from '@/api/base44Client';
-import { base44 } from '@/api/base44Client';
+
 
 export default function AdminSettings() {
   const [saved, setSaved] = useState(false);
