@@ -55,6 +55,7 @@ import CostBenchmark from './pages/CostBenchmark';
 import PermitTimeline from './pages/PermitTimeline';
 import SensitivityEngine from './pages/SensitivityEngine';
 import Articles from './pages/Articles';
+import Admin from './pages/Admin';
 import __Layout from './Layout.jsx';
 
 
@@ -67,6 +68,7 @@ export const PAGES = {
     "PermitTimeline": PermitTimeline,
     "SensitivityEngine": SensitivityEngine,
     "Articles": Articles,
+    "Admin": Admin,
 }
 
 export const pagesConfig = {
