@@ -49,12 +49,24 @@
  */
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
+import LandFeasibility from './pages/LandFeasibility';
+import DeveloperCalc from './pages/DeveloperCalc';
+import CostBenchmark from './pages/CostBenchmark';
+import PermitTimeline from './pages/PermitTimeline';
+import SensitivityEngine from './pages/SensitivityEngine';
+import Articles from './pages/Articles';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Landing": Landing,
     "Dashboard": Dashboard,
+    "LandFeasibility": LandFeasibility,
+    "DeveloperCalc": DeveloperCalc,
+    "CostBenchmark": CostBenchmark,
+    "PermitTimeline": PermitTimeline,
+    "SensitivityEngine": SensitivityEngine,
+    "Articles": Articles,
 }
 
 export const pagesConfig = {
