@@ -252,7 +252,7 @@ export default function Landing() {
               <div className="space-y-6">
                 {[
                   { icon: Target, title: 'Developer-First dizajn', desc: 'Metriky, ktoré skutočne rozhodujú: IRR, NPV, DSCR, reziduálna hodnota.' },
-                  { icon: Shield, title: 'SK/CZ lokalizácia', desc: 'Dáta, benchmarky a legislatívne rámce pre slovenský a český trh.' },
+                  { icon: Shield, title: 'Slovenský trh', desc: 'Dáta, benchmarky a legislatívne rámce prispôsobené slovenským podmienkam.' },
                   { icon: Zap, title: 'Profesionálne výstupy', desc: 'PDF reporty vhodné pre banky, investorov a developerské tímy.' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-start gap-4">
