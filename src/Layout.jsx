@@ -23,7 +23,7 @@ export default function Layout({ children, currentPageName }) {
   }
 
   if (!user) {
-    base44.auth.redirectToLogin(window.location.href);
+    base44.auth.redirectToLogin(createPageUrl('Dashboard'));
     return null;
   }
 

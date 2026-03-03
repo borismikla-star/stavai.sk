@@ -10,6 +10,13 @@ export default function Landing() {
     base44.auth.redirectToLogin(createPageUrl('Dashboard'));
   };
 
+  // Auto-redirect if already logged in
+  React.useEffect(() => {
+    base44.auth.isAuthenticated().then(auth => {
+      if (auth) window.location.href = createPageUrl('Dashboard');
+    });
+  }, []);
+
   const tools = [
     {
       icon: BarChart2,
