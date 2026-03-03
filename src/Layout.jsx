@@ -9,7 +9,7 @@ export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [toolsOpen, setToolsOpen] = React.useState(false);
 
-  const { data: user } = useQuery({
+  const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
     queryFn: async () => {
       try { return await base44.auth.me(); } catch { return null; }
@@ -22,8 +22,13 @@ export default function Layout({ children, currentPageName }) {
     return <>{children}</>;
   }
 
+  // Wait for auth check to finish
+  if (isLoading) {
+    return <div className="min-h-screen bg-[#F1F5F9]" />;
+  }
+
   if (!user) {
-    base44.auth.redirectToLogin(createPageUrl('Dashboard'));
+    base44.auth.redirectToLogin(window.location.href);
     return null;
   }
 
