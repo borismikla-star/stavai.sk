@@ -48,35 +48,35 @@
  * The mainPage value must match a key in the PAGES object exactly.
  */
 import Admin from './pages/Admin';
+import AdminSettings from './pages/AdminSettings';
+import AdminUsers from './pages/AdminUsers';
 import Articles from './pages/Articles';
+import BetaAccess from './pages/BetaAccess';
 import CostBenchmark from './pages/CostBenchmark';
 import Dashboard from './pages/Dashboard';
 import DeveloperCalc from './pages/DeveloperCalc';
 import LandFeasibility from './pages/LandFeasibility';
 import Landing from './pages/Landing';
 import PermitTimeline from './pages/PermitTimeline';
-import SensitivityEngine from './pages/SensitivityEngine';
 import Profile from './pages/Profile';
-import BetaAccess from './pages/BetaAccess';
-import AdminUsers from './pages/AdminUsers';
-import AdminSettings from './pages/AdminSettings';
+import SensitivityEngine from './pages/SensitivityEngine';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "Admin": Admin,
+    "AdminSettings": AdminSettings,
+    "AdminUsers": AdminUsers,
     "Articles": Articles,
+    "BetaAccess": BetaAccess,
     "CostBenchmark": CostBenchmark,
     "Dashboard": Dashboard,
     "DeveloperCalc": DeveloperCalc,
     "LandFeasibility": LandFeasibility,
     "Landing": Landing,
     "PermitTimeline": PermitTimeline,
-    "SensitivityEngine": SensitivityEngine,
     "Profile": Profile,
-    "BetaAccess": BetaAccess,
-    "AdminUsers": AdminUsers,
-    "AdminSettings": AdminSettings,
+    "SensitivityEngine": SensitivityEngine,
 }
 
 export const pagesConfig = {

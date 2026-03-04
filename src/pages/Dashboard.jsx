@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { BarChart2, Calculator, Clock, TrendingUp, ChevronRight, FileText, BookOpen } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import {
+  BarChart2, Calculator, Clock, TrendingUp, ChevronRight,
+  FileText, BookOpen, ArrowUpRight, Zap
+} from 'lucide-react';
 
 export default function Dashboard() {
   const { data: user } = useQuery({
@@ -25,195 +27,217 @@ export default function Dashboard() {
   const tools = [
     {
       icon: BarChart2,
-      title: 'Land Feasibility Analyzer',
-      desc: 'Reziduálna hodnota pozemku, IRR, ROI projektu',
+      title: 'Land Feasibility',
+      desc: 'Reziduálna hodnota pozemku, IRR, ROI',
       path: 'LandFeasibility',
       tag: 'Pro',
-      color: 'text-blue-400',
-      bg: 'bg-blue-600/10 border-blue-600/20'
+      accent: 'blue',
     },
     {
       icon: Calculator,
       title: 'Developer Kalkulačka',
-      desc: 'Kompletný finančný model – cashflow, DSCR, bankový export',
+      desc: 'Finančný model – cashflow, DSCR, export',
       path: 'DeveloperCalc',
       tag: 'Pro',
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-600/10 border-emerald-600/20'
+      accent: 'emerald',
     },
     {
       icon: Clock,
       title: 'Harmonogram Povolení',
-      desc: 'Gantt diagram ÚR, SP, EIA s cashflow dopadom',
+      desc: 'Gantt diagram ÚR, SP, EIA',
       path: 'PermitTimeline',
       tag: 'Pro',
-      color: 'text-amber-400',
-      bg: 'bg-amber-600/10 border-amber-600/20'
+      accent: 'amber',
     },
     {
       icon: BarChart2,
       title: 'Cost Benchmark',
-      desc: 'Databáza stavebných nákladov podľa regiónu',
+      desc: 'Stavebné náklady podľa regiónu',
       path: 'CostBenchmark',
       tag: 'Free',
-      color: 'text-purple-400',
-      bg: 'bg-purple-600/10 border-purple-600/20'
+      accent: 'violet',
     },
     {
       icon: TrendingUp,
       title: 'Sensitivity Engine',
-      desc: 'Scenáriové simulácie dopadu zmien na IRR a zisk',
+      desc: 'Scenáriové simulácie dopadu na IRR',
       path: 'SensitivityEngine',
       tag: 'Pro',
-      color: 'text-rose-400',
-      bg: 'bg-rose-600/10 border-rose-600/20'
+      accent: 'rose',
     },
     {
       icon: BookOpen,
       title: 'Odborné Články',
-      desc: 'Analýzy, legislatíva, trendy slovenského trhu',
+      desc: 'Analýzy, legislatíva, trendy SK trhu',
       path: 'Articles',
       tag: 'Free',
-      color: 'text-sky-400',
-      bg: 'bg-sky-600/10 border-sky-600/20'
+      accent: 'sky',
     }
   ];
 
+  const accentMap = {
+    blue:   { bg: 'bg-blue-50',   icon: 'text-blue-600',   border: 'border-blue-100',   badge: 'bg-blue-100 text-blue-700' },
+    emerald:{ bg: 'bg-emerald-50',icon: 'text-emerald-600',border: 'border-emerald-100',badge: 'bg-emerald-100 text-emerald-700' },
+    amber:  { bg: 'bg-amber-50',  icon: 'text-amber-600',  border: 'border-amber-100',  badge: 'bg-amber-100 text-amber-700' },
+    violet: { bg: 'bg-violet-50', icon: 'text-violet-600', border: 'border-violet-100', badge: 'bg-violet-100 text-violet-700' },
+    rose:   { bg: 'bg-rose-50',   icon: 'text-rose-600',   border: 'border-rose-100',   badge: 'bg-rose-100 text-rose-700' },
+    sky:    { bg: 'bg-sky-50',    icon: 'text-sky-600',    border: 'border-sky-100',    badge: 'bg-sky-100 text-sky-700' },
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+
       {/* Header */}
       <div className="mb-10">
-        <div className="text-xs text-blue-400 uppercase tracking-widest font-semibold mb-2">Dashboard</div>
-        <h1 className="text-3xl font-black text-[#0F172A] mb-2">
-          Dobrý deň, {user?.full_name?.split(' ')[0]}
+        <p className="text-sm font-medium text-blue-600 mb-1">Dashboard</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-1">
+          Dobrý deň, {user?.full_name?.split(' ')[0]} 👋
         </h1>
-        <p className="text-slate-500">Vyberte nástroj alebo pokračujte v rozpracovanom projekte</p>
+        <p className="text-gray-500 text-sm">Vyberte nástroj alebo pokračujte v rozpracovanom projekte.</p>
       </div>
 
-      {/* Tools Grid */}
+      {/* Tools */}
       <div className="mb-12">
-        <h2 className="text-lg font-bold text-[#0F172A] mb-5">Analytické nástroje</h2>
-        <div className="grid md:grid-cols-3 gap-5">
-          {tools.map((tool, i) => (
-            <Link key={i} to={createPageUrl(tool.path)}>
-              <Card className="bg-white border border-slate-200 hover:border-blue-400 hover:shadow-md transition group cursor-pointer h-full">
-                <CardContent className="p-6">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-base font-semibold text-gray-900">Analytické nástroje</h2>
+          <span className="text-xs text-gray-400">{tools.length} nástrojov</span>
+        </div>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {tools.map((tool, i) => {
+            const a = accentMap[tool.accent];
+            return (
+              <Link key={i} to={createPageUrl(tool.path)}>
+                <div className="group bg-white border border-gray-200 rounded-2xl p-5 hover:border-gray-300 hover:shadow-md transition-all cursor-pointer h-full flex flex-col">
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center border ${tool.bg}`}>
-                      <tool.icon className={`w-5 h-5 ${tool.color}`} />
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${a.bg} border ${a.border}`}>
+                      <tool.icon className={`w-5 h-5 ${a.icon}`} />
                     </div>
-                    <span className={`text-xs font-semibold px-2 py-1 rounded border ${
+                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                       tool.tag === 'Pro'
-                        ? 'bg-blue-50 text-blue-600 border-blue-200'
-                        : 'bg-slate-50 text-slate-500 border-slate-200'
+                        ? 'bg-blue-50 text-blue-600 border border-blue-100'
+                        : 'bg-gray-100 text-gray-500 border border-gray-200'
                     }`}>
                       {tool.tag}
                     </span>
                   </div>
-                  <h3 className="font-bold text-[#0F172A] mb-1 group-hover:text-blue-600 transition text-sm">
+                  <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-blue-600 transition-colors">
                     {tool.title}
                   </h3>
-                  <p className="text-xs text-slate-500 leading-relaxed">{tool.desc}</p>
-                  <div className="flex items-center gap-1 mt-4 text-xs text-blue-600 font-semibold group-hover:gap-2 transition-all">
-                    Otvoriť <ChevronRight className="w-3 h-3" />
+                  <p className="text-xs text-gray-500 leading-relaxed flex-1">{tool.desc}</p>
+                  <div className="flex items-center gap-1 mt-4 text-xs text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Otvoriť <ChevronRight className="w-3.5 h-3.5" />
                   </div>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       </div>
 
       {/* Recent Activity */}
-      <div className="grid md:grid-cols-2 gap-8">
-        {/* Recent Analyses */}
+      <div className="grid md:grid-cols-2 gap-6">
+
+        {/* Analyses */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-[#0F172A]">Posledné analýzy</h2>
-            <Link to={createPageUrl('LandFeasibility')} className="text-xs text-blue-600 hover:text-blue-700 font-medium">
-              Nová analýza
+            <h2 className="text-base font-semibold text-gray-900">Posledné analýzy</h2>
+            <Link to={createPageUrl('LandFeasibility')} className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
+              Nová <ArrowUpRight className="w-3 h-3" />
             </Link>
           </div>
-          <Card className="bg-white border border-slate-200">
-            <CardContent className="p-0">
-              {recentAnalyses.length === 0 ? (
-                <div className="py-10 text-center">
-                  <FileText className="w-8 h-8 text-slate-300 mx-auto mb-3" />
-                  <p className="text-slate-400 text-sm">Zatiaľ žiadne analýzy</p>
-                  <Link to={createPageUrl('LandFeasibility')} className="text-blue-600 text-sm font-medium hover:underline mt-2 inline-block">
-                    Vytvoriť prvú analýzu →
-                  </Link>
+          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+            {recentAnalyses.length === 0 ? (
+              <div className="py-12 text-center">
+                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <FileText className="w-5 h-5 text-gray-400" />
                 </div>
-              ) : (
-                <div className="divide-y divide-slate-100">
-                  {recentAnalyses.map((a) => (
-                    <div key={a.id} className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition">
-                      <div>
-                        <div className="font-medium text-[#0F172A] text-sm">{a.project_name}</div>
-                        <div className="text-xs text-slate-500">
-                          IRR: {a.irr ? `${a.irr}%` : 'N/A'} · {new Date(a.created_date).toLocaleDateString('sk')}
-                        </div>
+                <p className="text-gray-500 text-sm font-medium mb-1">Zatiaľ žiadne analýzy</p>
+                <Link to={createPageUrl('LandFeasibility')} className="text-blue-600 text-xs font-medium hover:underline">
+                  Vytvoriť prvú analýzu →
+                </Link>
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-100">
+                {recentAnalyses.map((a) => (
+                  <div key={a.id} className="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+                    <div>
+                      <div className="font-medium text-gray-900 text-sm">{a.project_name}</div>
+                      <div className="text-xs text-gray-400 mt-0.5">
+                        IRR: {a.irr ? `${a.irr}%` : 'N/A'} · {new Date(a.created_date).toLocaleDateString('sk')}
                       </div>
-                      <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                        a.recommendation === 'proceed' ? 'bg-green-100 text-green-700' :
-                        a.recommendation === 'reject' ? 'bg-red-100 text-red-700' :
-                        'bg-amber-100 text-amber-700'
-                      }`}>
-                        {a.recommendation === 'proceed' ? 'Odporúčané' : a.recommendation === 'reject' ? 'Zamietnuté' : 'Na zváženie'}
-                      </span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                      a.recommendation === 'proceed' ? 'bg-emerald-100 text-emerald-700' :
+                      a.recommendation === 'reject' ? 'bg-red-100 text-red-600' :
+                      'bg-amber-100 text-amber-700'
+                    }`}>
+                      {a.recommendation === 'proceed' ? 'Odporúčané' : a.recommendation === 'reject' ? 'Zamietnuté' : 'Na zváženie'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Recent Projects */}
+        {/* Projects */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-[#0F172A]">Moje projekty</h2>
-            <Link to={createPageUrl('DeveloperCalc')} className="text-xs text-blue-600 hover:text-blue-700 font-medium">
-              Nový projekt
+            <h2 className="text-base font-semibold text-gray-900">Moje projekty</h2>
+            <Link to={createPageUrl('DeveloperCalc')} className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
+              Nový <ArrowUpRight className="w-3 h-3" />
             </Link>
           </div>
-          <Card className="bg-white border border-slate-200">
-            <CardContent className="p-0">
-              {recentProjects.length === 0 ? (
-                <div className="py-10 text-center">
-                  <Calculator className="w-8 h-8 text-slate-300 mx-auto mb-3" />
-                  <p className="text-slate-400 text-sm">Zatiaľ žiadne projekty</p>
-                  <Link to={createPageUrl('DeveloperCalc')} className="text-blue-600 text-sm font-medium hover:underline mt-2 inline-block">
-                    Vytvoriť prvý projekt →
-                  </Link>
+          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+            {recentProjects.length === 0 ? (
+              <div className="py-12 text-center">
+                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <Calculator className="w-5 h-5 text-gray-400" />
                 </div>
-              ) : (
-                <div className="divide-y divide-slate-100">
-                  {recentProjects.map((p) => (
-                    <div key={p.id} className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition">
-                      <div>
-                        <div className="font-medium text-[#0F172A] text-sm">{p.name}</div>
-                        <div className="text-xs text-slate-500 capitalize">
-                          {p.type} · {p.location || 'Bez lokality'}
-                        </div>
+                <p className="text-gray-500 text-sm font-medium mb-1">Zatiaľ žiadne projekty</p>
+                <Link to={createPageUrl('DeveloperCalc')} className="text-blue-600 text-xs font-medium hover:underline">
+                  Vytvoriť prvý projekt →
+                </Link>
+              </div>
+            ) : (
+              <div className="divide-y divide-gray-100">
+                {recentProjects.map((p) => (
+                  <div key={p.id} className="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+                    <div>
+                      <div className="font-medium text-gray-900 text-sm">{p.name}</div>
+                      <div className="text-xs text-gray-400 mt-0.5 capitalize">
+                        {p.type} · {p.location || 'Bez lokality'}
                       </div>
-                      <span className={`text-xs font-semibold px-2 py-1 rounded-full ${
-                        p.status === 'completed' ? 'bg-green-100 text-green-700' :
-                        p.status === 'in_progress' ? 'bg-blue-100 text-blue-700' :
-                        'bg-slate-100 text-slate-600'
-                      }`}>
-                        {p.status === 'planning' ? 'Plánovaný' :
-                         p.status === 'in_progress' ? 'Prebieha' :
-                         p.status === 'completed' ? 'Dokončený' : 'Analýza'}
-                      </span>
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                      p.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                      p.status === 'in_progress' ? 'bg-blue-100 text-blue-700' :
+                      'bg-gray-100 text-gray-600'
+                    }`}>
+                      {p.status === 'planning' ? 'Plánovaný' :
+                       p.status === 'in_progress' ? 'Prebieha' :
+                       p.status === 'completed' ? 'Dokončený' : 'Analýza'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Beta banner */}
+      {user?.beta_access && (
+        <div className="mt-8 bg-gradient-to-r from-violet-50 to-blue-50 border border-violet-200 rounded-2xl p-5 flex items-center gap-4">
+          <div className="w-10 h-10 bg-violet-100 rounded-xl flex items-center justify-center flex-shrink-0">
+            <Zap className="w-5 h-5 text-violet-600" />
+          </div>
+          <div>
+            <div className="font-semibold text-gray-900 text-sm">Beta prístup aktívny</div>
+            <div className="text-xs text-gray-500 mt-0.5">Máte prístup ku všetkým Pro funkciám počas beta fázy. Ďakujeme za spätnú väzbu!</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
