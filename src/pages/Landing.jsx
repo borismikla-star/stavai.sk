@@ -101,7 +101,7 @@ export default function Landing() {
             <div>
               <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-8 border border-blue-100">
                 <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
-                Beta · Slovensko & Česká republika
+                Beta · Slovensko
               </div>
               <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-[1.15] mb-6 tracking-tight">
                 Analytická platforma pre{' '}
