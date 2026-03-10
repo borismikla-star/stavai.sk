@@ -266,7 +266,7 @@ export default function DeveloperCalc() {
 
             {/* Right — Results */}
             <div>
-              <DevCalcResults results={results} />
+              <DevCalcResults results={results} baseData={data} />
             </div>
           </div>
         </div>
