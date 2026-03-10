@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import InfoTooltip from '../shared/InfoTooltip';
 import { TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
+import SensitivityTab from './SensitivityTab';
 
 const fmt = (n) => Math.round(n || 0).toLocaleString('sk-SK');
 const fmtEur = (n) => `€ ${fmt(n)}`;
@@ -31,7 +32,7 @@ function KPI({ label, value, sub, color = 'blue', tooltip }) {
 
 const COLORS = ['#2563EB', '#10B981', '#F59E0B', '#6366F1', '#EC4899', '#14B8A6', '#F97316'];
 
-export default function DevCalcResults({ results }) {
+export default function DevCalcResults({ results, baseData }) {
   if (!results) return null;
   const r = results;
 
@@ -71,10 +72,11 @@ export default function DevCalcResults({ results }) {
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="w-full grid grid-cols-3 mb-0">
+        <TabsList className="w-full grid grid-cols-4 mb-0">
           <TabsTrigger value="overview" className="text-xs">Prehľad</TabsTrigger>
           <TabsTrigger value="charts" className="text-xs">Grafy</TabsTrigger>
           <TabsTrigger value="cashflow" className="text-xs">Cash Flow</TabsTrigger>
+          <TabsTrigger value="sensitivity" className="text-xs">Citlivosť</TabsTrigger>
         </TabsList>
 
         {/* OVERVIEW */}
@@ -178,6 +180,16 @@ export default function DevCalcResults({ results }) {
                   <Line type="monotone" dataKey="cumulative" stroke="#2563EB" strokeWidth={2} dot={false} name="Kumul. CF" />
                 </LineChart>
               </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* SENSITIVITY */}
+        <TabsContent value="sensitivity" className="mt-3">
+          <Card>
+            <CardHeader className="pb-2"><CardTitle className="text-sm">Analýza citlivosti</CardTitle></CardHeader>
+            <CardContent>
+              {baseData ? <SensitivityTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
             </CardContent>
           </Card>
         </TabsContent>
