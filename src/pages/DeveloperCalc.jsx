@@ -1,294 +1,276 @@
 import React, { useState, useMemo } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid } from 'recharts';
-import { Save, ChevronRight } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Save, Loader2, List, Plus, ArrowLeft, Calculator } from 'lucide-react';
+import ProjectInfoSection from '../components/developerCalc/ProjectInfoSection';
+import CostSection from '../components/developerCalc/CostSection';
+import RevenueSection from '../components/developerCalc/RevenueSection';
+import FinancingSection from '../components/developerCalc/FinancingSection';
+import DevCalcResults from '../components/developerCalc/DevCalcResults';
+import { calculateDevelopment } from '../components/developerCalc/devCalcEngine';
+import { Card, CardContent } from '@/components/ui/card';
+import { FileText, ArrowRight, Trash2 } from 'lucide-react';
+import { format } from 'date-fns';
 
-const fmt = (n) => new Intl.NumberFormat('sk-SK', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n || 0);
-const fmtEur = (n) => `€ ${fmt(n)}`;
-
-function calcIRR(cashflows) {
-  let low = -0.99, high = 5;
-  for (let i = 0; i < 200; i++) {
-    const mid = (low + high) / 2;
-    const npv = cashflows.reduce((s, cf, t) => s + cf / Math.pow(1 + mid, t / 12), 0);
-    if (Math.abs(npv) < 100) return mid * 100;
-    npv > 0 ? (low = mid) : (high = mid);
-  }
-  return ((low + high) / 2) * 100;
-}
-
-const defaults = {
-  name: 'Developer Projekt',
-  // Pozemok
-  land_price: 2000000,
-  land_purchase_month: 1,
-  // Projekt
-  project_duration: 36,
-  nfa: 4500,
-  units: 60,
-  avg_unit_price_sqm: 3800,
-  // Náklady
-  const_cost_per_sqm_hpp: 1450,
-  hpp: 5400,
-  project_mgmt_pct: 3,
-  engineering_pct: 4,
-  marketing_pct: 3,
-  admin_pct: 2,
-  contingency_pct: 5,
-  // Financovanie
-  equity_pct: 30,
-  loan_interest_rate: 5.5,
-  loan_duration: 30,
-  // Predaj
-  presales_start_month: 6,
-  sales_pace_units_month: 3,
+// ─── Default project data ───────────────────────────────────────────
+const DEFAULTS = {
+  // Project info / areas
+  gfa_above: 5400,
+  gfa_below: 1200,
+  nfa_above: 4050,
+  nfa_below: 900,
+  sales_area_apartments: 3500,
+  sales_area_non_residential: 200,
+  sales_area_balconies: 350,
+  sales_area_gardens: 0,
+  basement_area: 120,
+  paved_areas: 600,
+  green_areas_terrain: 400,
+  green_areas_structure: 0,
+  parking_indoor_count: 70,
+  parking_outdoor_count: 10,
+  project_duration_months: 36,
+  sales_start_month: 9,
+  // Costs
+  land_and_project: 2000000,
+  above_ground_unit_price: 1450,
+  below_ground_unit_price: 900,
+  outdoor_areas_unit_price: 120,
+  greenery_terrain_unit_price: 80,
+  greenery_structure_unit_price: 0,
+  development_fee_per_m2: 50,
+  // Revenue
+  apartments_unit_price: 3800,
+  non_residential_unit_price: 3200,
+  parking_indoor_unit_price: 25000,
+  parking_outdoor_unit_price: 10000,
+  balconies_unit_price: 800,
+  gardens_unit_price: 600,
+  basements_unit_price: 500,
+  other_revenue: 0,
+  // Financing
+  own_resources_percent: 30,
+  bank_interest_percent: 6,
 };
 
+// ─── Project list item ──────────────────────────────────────────────
+function ProjectListItem({ project, onOpen, onDelete }) {
+  const r = project.results || {};
+  return (
+    <Card className="hover:shadow-md transition-shadow">
+      <CardContent className="flex items-center justify-between gap-4 py-4 flex-wrap">
+        <div className="flex items-center gap-3 min-w-0">
+          <FileText className="h-5 w-5 text-emerald-600 shrink-0" />
+          <div className="min-w-0">
+            <p className="font-semibold text-sm truncate">{project.name}</p>
+            <p className="text-xs text-gray-400">
+              {project.created_date ? format(new Date(project.created_date), 'dd.MM.yyyy') : '—'}
+              {r.totalGrossRevenue ? ` · Tržby: € ${Math.round(r.totalGrossRevenue).toLocaleString('sk-SK')}` : ''}
+              {r.profitMargin != null ? ` · Marža: ${r.profitMargin.toFixed(1)}%` : ''}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => onOpen(project)}>
+            Otvoriť <ArrowRight className="h-3 w-3 ml-1" />
+          </Button>
+          <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => onDelete(project.id)}>
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+// ─── Main page ──────────────────────────────────────────────────────
 export default function DeveloperCalc() {
-  const [d, setD] = useState(defaults);
   const queryClient = useQueryClient();
+  const [view, setView] = useState('list'); // 'list' | 'editor'
+  const [projectName, setProjectName] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const [data, setData] = useState(DEFAULTS);
 
-  const set = (k, v) => setD(p => ({ ...p, [k]: parseFloat(v) || v }));
+  const results = useMemo(() => calculateDevelopment(data), [data]);
 
-  const r = useMemo(() => {
-    const construction = d.hpp * d.const_cost_per_sqm_hpp;
-    const projectMgmt = construction * (d.project_mgmt_pct / 100);
-    const engineering = construction * (d.engineering_pct / 100);
-    const marketing = construction * (d.marketing_pct / 100);
-    const admin = construction * (d.admin_pct / 100);
-    const contingency = construction * (d.contingency_pct / 100);
-    const totalDevCosts = construction + projectMgmt + engineering + marketing + admin + contingency;
-    const totalCost = d.land_price + totalDevCosts;
+  const handleChange = (updates) => {
+    setData(prev => ({ ...prev, ...updates }));
+    setIsDirty(true);
+  };
 
-    const totalRevenue = d.nfa * d.avg_unit_price_sqm;
-    const grossProfit = totalRevenue - totalCost;
-    const margin = totalRevenue > 0 ? (grossProfit / totalRevenue) * 100 : 0;
-    const roi = totalCost > 0 ? (grossProfit / totalCost) * 100 : 0;
-
-    const loanAmount = totalCost * (1 - d.equity_pct / 100);
-    const equityAmount = totalCost * (d.equity_pct / 100);
-    const monthlyRate = d.loan_interest_rate / 100 / 12;
-    const interestTotal = loanAmount * monthlyRate * d.project_duration;
-
-    // Monthly cashflow
-    const salesStart = d.presales_start_month;
-    const monthlyRevenue = totalRevenue / Math.max(d.units / d.sales_pace_units_month, 1);
-    
-    const cashflowMonths = Array.from({ length: d.project_duration }, (_, m) => {
-      const month = m + 1;
-      const constPhaseEnd = Math.floor(d.project_duration * 0.8);
-      const costOutflow = month <= constPhaseEnd
-        ? -(totalDevCosts / constPhaseEnd) - (month === 1 ? d.land_price : 0)
-        : 0;
-      const revenue = month >= salesStart ? Math.min(monthlyRevenue, totalRevenue - (monthlyRevenue * (month - salesStart))) : 0;
-      return { month: `M${month}`, cashflow: costOutflow + Math.max(revenue, 0), cumulative: 0 };
-    });
-
-    let cum = 0;
-    cashflowMonths.forEach(m => { cum += m.cashflow; m.cumulative = cum; });
-
-    const flatCF = [-equityAmount, ...cashflowMonths.map(m => m.cashflow)];
-    const irr = calcIRR(flatCF);
-    const npv = flatCF.reduce((s, cf, t) => s + cf / Math.pow(1 + 0.08 / 12, t), 0);
-    const dscr = grossProfit > 0 ? grossProfit / Math.max(interestTotal, 1) : 0;
-
-    return {
-      construction, projectMgmt, engineering, marketing, admin, contingency,
-      totalDevCosts, totalCost, totalRevenue, grossProfit, margin, roi,
-      loanAmount, equityAmount, interestTotal, cashflowMonths, irr, npv, dscr
-    };
-  }, [d]);
-
-  const saveMutation = useMutation({
-    mutationFn: () => base44.entities.Project.create({
-      name: d.name,
-      type: 'residential',
-      area: d.hpp,
-      status: 'analysis',
-      estimated_cost: r.totalCost,
-      estimated_duration: d.project_duration,
-      description: `NFA: ${fmt(d.nfa)} m², Jednotky: ${d.units}, Marža: ${r.margin.toFixed(1)}%`
-    }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['recentProjects'] })
+  // Projects list
+  const { data: projects = [], isLoading } = useQuery({
+    queryKey: ['devProjects'],
+    queryFn: () => base44.entities.Project.list('-created_date'),
   });
 
-  const F = ({ label, field, suffix = '' }) => (
-    <div>
-      <Label className="text-xs text-slate-500 mb-1 block">{label}</Label>
-      <div className="relative">
-        <Input type="number" value={d[field]} onChange={(e) => set(field, e.target.value)} className="text-sm bg-white border-slate-200 pr-10" />
-        {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400">{suffix}</span>}
-      </div>
-    </div>
-  );
+  const saveMutation = useMutation({
+    mutationFn: (payload) => editingId
+      ? base44.entities.Project.update(editingId, payload)
+      : base44.entities.Project.create(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['devProjects'] });
+      queryClient.invalidateQueries({ queryKey: ['recentProjects'] });
+      setIsDirty(false);
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: (id) => base44.entities.Project.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['devProjects'] }),
+  });
+
+  const handleSave = () => {
+    saveMutation.mutate({
+      name: projectName || `Developer Projekt ${new Date().toLocaleDateString('sk-SK')}`,
+      type: 'residential',
+      area: data.gfa_above,
+      status: 'analysis',
+      estimated_cost: results.totalProjectCosts,
+      estimated_duration: data.project_duration_months,
+      description: JSON.stringify({ inputs: data, results }),
+    });
+  };
+
+  const handleOpen = (project) => {
+    setEditingId(project.id);
+    setProjectName(project.name);
+    try {
+      const saved = JSON.parse(project.description || '{}');
+      if (saved.inputs) setData({ ...DEFAULTS, ...saved.inputs });
+    } catch {
+      setData(DEFAULTS);
+    }
+    setIsDirty(false);
+    setView('editor');
+  };
+
+  const handleNew = () => {
+    setEditingId(null);
+    setProjectName('');
+    setData(DEFAULTS);
+    setIsDirty(false);
+    setView('editor');
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex items-center justify-between mb-8">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <div>
-          <div className="text-xs text-blue-600 uppercase tracking-widest font-semibold mb-1">Nástroj</div>
-          <h1 className="text-3xl font-black text-[#0F172A]">Developer Kalkulačka</h1>
-          <p className="text-slate-500 text-sm mt-1">Kompletný finančný model – cashflow, IRR, NPV, DSCR</p>
+          <p className="text-xs font-semibold text-emerald-600 uppercase tracking-widest mb-1">Nástroj</p>
+          <h1 className="text-2xl font-bold text-gray-900">Developer Kalkulačka</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Kompletný finančný model — náklady, tržby, IRR, marža, cashflow</p>
         </div>
-        <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="bg-blue-600 hover:bg-blue-700 text-white">
-          <Save className="w-4 h-4 mr-2" />{saveMutation.isPending ? 'Ukladá...' : 'Uložiť projekt'}
-        </Button>
-      </div>
-
-      <div className="grid lg:grid-cols-5 gap-8">
-        {/* Inputs */}
-        <div className="lg:col-span-2">
-          <div className="mb-4">
-            <Label className="text-xs text-slate-500 mb-1 block">Názov projektu</Label>
-            <Input value={d.name} onChange={(e) => setD(p => ({ ...p, name: e.target.value }))} className="bg-white border-slate-200" />
-          </div>
-
-          <Tabs defaultValue="land">
-            <TabsList className="grid grid-cols-4 w-full mb-4">
-              <TabsTrigger value="land" className="text-xs">Pozemok</TabsTrigger>
-              <TabsTrigger value="costs" className="text-xs">Náklady</TabsTrigger>
-              <TabsTrigger value="finance" className="text-xs">Financovanie</TabsTrigger>
-              <TabsTrigger value="sales" className="text-xs">Predaj</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="land">
-              <Card className="bg-white border-slate-200">
-                <CardContent className="p-5 space-y-4">
-                  <F label="Cena pozemku" field="land_price" suffix="€" />
-                  <F label="Mesiac nákupu pozemku" field="land_purchase_month" suffix="mes." />
-                  <F label="Dĺžka projektu" field="project_duration" suffix="mes." />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="costs">
-              <Card className="bg-white border-slate-200">
-                <CardContent className="p-5 space-y-4">
-                  <F label="HPP (hrubá podlažná plocha)" field="hpp" suffix="m²" />
-                  <F label="Stavebné náklady" field="const_cost_per_sqm_hpp" suffix="€/m²" />
-                  <F label="Project management" field="project_mgmt_pct" suffix="%" />
-                  <F label="Inžinierska činnosť" field="engineering_pct" suffix="%" />
-                  <F label="Marketing" field="marketing_pct" suffix="%" />
-                  <F label="Admin / Legal" field="admin_pct" suffix="%" />
-                  <F label="Rezerva (contingency)" field="contingency_pct" suffix="%" />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="finance">
-              <Card className="bg-white border-slate-200">
-                <CardContent className="p-5 space-y-4">
-                  <F label="Vlastné zdroje (equity)" field="equity_pct" suffix="%" />
-                  <F label="Úroková sadzba" field="loan_interest_rate" suffix="%" />
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="sales">
-              <Card className="bg-white border-slate-200">
-                <CardContent className="p-5 space-y-4">
-                  <F label="Predajná plocha NFA" field="nfa" suffix="m²" />
-                  <F label="Počet jednotiek" field="units" />
-                  <F label="Priemerná predajná cena" field="avg_unit_price_sqm" suffix="€/m²" />
-                  <F label="Začiatok predaja" field="presales_start_month" suffix="mes." />
-                  <F label="Tempo predaja" field="sales_pace_units_month" suffix="j/mes." />
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </div>
-
-        {/* Results */}
-        <div className="lg:col-span-3 space-y-6">
-          {/* KPI Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[
-              { label: 'IRR', value: `${r.irr.toFixed(1)}%`, dark: true },
-              { label: 'Marža', value: `${r.margin.toFixed(1)}%`, dark: true },
-              { label: 'ROI', value: `${r.roi.toFixed(1)}%`, dark: true },
-              { label: 'DSCR', value: r.dscr.toFixed(2), dark: true },
-            ].map((m, i) => (
-              <Card key={i} className="bg-[#0F172A] border-slate-700">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-black text-blue-400">{m.value}</div>
-                  <div className="text-slate-400 text-xs mt-1">{m.label}</div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          {/* P&L Summary */}
-          <Card className="bg-white border-slate-200">
-            <CardHeader><CardTitle className="text-base text-[#0F172A]">Výkaz ziskov a strát</CardTitle></CardHeader>
-            <CardContent>
-              <div className="space-y-2.5">
-                {[
-                  { l: 'Celkové tržby z predaja', v: fmtEur(r.totalRevenue), bold: true, green: true },
-                  null,
-                  { l: 'Pozemok', v: fmtEur(d.land_price) },
-                  { l: `Výstavba (${fmt(d.hpp)} m² × ${fmt(d.const_cost_per_sqm_hpp)} €)`, v: fmtEur(r.construction) },
-                  { l: `Project management (${d.project_mgmt_pct}%)`, v: fmtEur(r.projectMgmt) },
-                  { l: `Inžinierska činnosť (${d.engineering_pct}%)`, v: fmtEur(r.engineering) },
-                  { l: `Marketing (${d.marketing_pct}%)`, v: fmtEur(r.marketing) },
-                  { l: `Admin / Legal (${d.admin_pct}%)`, v: fmtEur(r.admin) },
-                  { l: `Rezerva (${d.contingency_pct}%)`, v: fmtEur(r.contingency) },
-                  { l: 'Odhadované úroky z úveru', v: fmtEur(r.interestTotal) },
-                  { l: 'CELKOVÉ NÁKLADY', v: fmtEur(r.totalCost), bold: true },
-                  null,
-                  { l: 'HRUBÝ ZISK', v: fmtEur(r.grossProfit), bold: true, green: r.grossProfit > 0 },
-                  { l: 'NPV (diskontný faktor 8%)', v: fmtEur(r.npv) },
-                ].map((row, i) => row === null ? (
-                  <div key={i} className="border-t border-slate-100 my-1" />
-                ) : (
-                  <div key={i} className="flex justify-between text-sm">
-                    <span className={row.bold ? 'font-bold text-[#0F172A]' : 'text-slate-600'}>{row.l}</span>
-                    <span className={`font-semibold ${row.green ? 'text-green-600' : row.bold ? 'text-[#0F172A]' : 'text-slate-700'}`}>{row.v}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Financing */}
-          <Card className="bg-white border-slate-200">
-            <CardHeader><CardTitle className="text-base text-[#0F172A]">Štruktúra financovania</CardTitle></CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <div className="text-xs text-blue-600 font-semibold mb-1">Vlastné zdroje ({d.equity_pct}%)</div>
-                  <div className="text-xl font-black text-[#0F172A]">{fmtEur(r.equityAmount)}</div>
-                </div>
-                <div className="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                  <div className="text-xs text-slate-600 font-semibold mb-1">Bankový úver ({100 - d.equity_pct}%)</div>
-                  <div className="text-xl font-black text-[#0F172A]">{fmtEur(r.loanAmount)}</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Cashflow Chart */}
-          <Card className="bg-white border-slate-200">
-            <CardHeader><CardTitle className="text-base text-[#0F172A]">Kumulatívny cashflow</CardTitle></CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={r.cashflowMonths.filter((_, i) => i % 3 === 0)}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                  <XAxis dataKey="month" tick={{ fontSize: 10 }} />
-                  <YAxis tickFormatter={(v) => `€${(v / 1000000).toFixed(1)}M`} tick={{ fontSize: 10 }} />
-                  <Tooltip formatter={(v) => fmtEur(v)} />
-                  <Line type="monotone" dataKey="cumulative" stroke="#3B82F6" strokeWidth={2} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
+        <div className="flex items-center gap-2">
+          {view === 'list' ? (
+            <Button onClick={handleNew} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Plus className="w-4 h-4 mr-2" /> Nový projekt
+            </Button>
+          ) : (
+            <Button variant="outline" onClick={() => setView('list')}>
+              <ArrowLeft className="w-4 h-4 mr-2" /> Moje projekty
+            </Button>
+          )}
         </div>
       </div>
+
+      {/* LIST VIEW */}
+      {view === 'list' && (
+        <div>
+          <div className="flex items-center gap-2 mb-4">
+            <List className="w-4 h-4 text-emerald-600" />
+            <h2 className="text-base font-semibold text-gray-900">Moje projekty</h2>
+            <Badge variant="outline" className="text-xs">{projects.length}</Badge>
+          </div>
+          {isLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="w-6 h-6 animate-spin text-emerald-600" />
+            </div>
+          ) : projects.length === 0 ? (
+            <div className="text-center py-16">
+              <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Calculator className="w-6 h-6 text-emerald-600" />
+              </div>
+              <p className="text-gray-500 text-sm font-medium mb-2">Zatiaľ žiadne projekty</p>
+              <Button onClick={handleNew} size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white mt-2">
+                <Plus className="w-3.5 h-3.5 mr-1.5" /> Nový projekt
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {projects.map(p => (
+                <ProjectListItem key={p.id} project={p} onOpen={handleOpen} onDelete={id => deleteMutation.mutate(id)} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* EDITOR VIEW */}
+      {view === 'editor' && (
+        <div>
+          {/* Save bar */}
+          <div className="flex items-center gap-3 mb-6 bg-white border border-gray-200 rounded-xl px-4 py-3 flex-wrap">
+            <div className="flex-1 min-w-0">
+              <Label className="text-xs font-medium text-gray-600 block mb-1">Názov projektu</Label>
+              <Input
+                value={projectName}
+                onChange={e => { setProjectName(e.target.value); setIsDirty(true); }}
+                placeholder="napr. Rezidencia Bratislava – Ružinov"
+                className="h-8 text-sm"
+              />
+            </div>
+            {isDirty && <Badge variant="outline" className="text-xs text-amber-600 border-amber-300">Neuložené</Badge>}
+            <Button
+              onClick={handleSave}
+              disabled={saveMutation.isPending}
+              className="bg-emerald-600 hover:bg-emerald-700 text-white"
+              size="sm"
+            >
+              {saveMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-1.5" /> : <Save className="w-4 h-4 mr-1.5" />}
+              {saveMutation.isPending ? 'Ukladám…' : 'Uložiť'}
+            </Button>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Left — Inputs */}
+            <div>
+              <Tabs defaultValue="info">
+                <TabsList className="grid grid-cols-4 w-full mb-4">
+                  <TabsTrigger value="info" className="text-xs">Projekt</TabsTrigger>
+                  <TabsTrigger value="costs" className="text-xs">Náklady</TabsTrigger>
+                  <TabsTrigger value="revenue" className="text-xs">Tržby</TabsTrigger>
+                  <TabsTrigger value="financing" className="text-xs">Financovanie</TabsTrigger>
+                </TabsList>
+                <TabsContent value="info">
+                  <ProjectInfoSection data={data} onChange={handleChange} />
+                </TabsContent>
+                <TabsContent value="costs">
+                  <CostSection data={data} projectData={data} results={results} onChange={handleChange} />
+                </TabsContent>
+                <TabsContent value="revenue">
+                  <RevenueSection data={data} projectData={data} results={results} onChange={handleChange} />
+                </TabsContent>
+                <TabsContent value="financing">
+                  <FinancingSection data={data} results={results} onChange={handleChange} />
+                </TabsContent>
+              </Tabs>
+            </div>
+
+            {/* Right — Results */}
+            <div>
+              <DevCalcResults results={results} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
