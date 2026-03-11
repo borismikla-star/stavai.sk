@@ -7,6 +7,7 @@ import { TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
 import SensitivityTab from './SensitivityTab';
 import AISummary from './AISummary';
 import ExportPDFButton from './ExportPDF';
+import ScenariosTab from './ScenariosTab';
 
 const fmt = (n) => Math.round(n || 0).toLocaleString('sk-SK');
 const fmtEur = (n) => `€ ${fmt(n)}`;
@@ -79,11 +80,12 @@ export default function DevCalcResults({ results, baseData, projectName }) {
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="w-full grid grid-cols-5 mb-0">
+        <TabsList className="w-full grid grid-cols-6 mb-0">
           <TabsTrigger value="overview" className="text-xs">Prehľad</TabsTrigger>
           <TabsTrigger value="charts" className="text-xs">Grafy</TabsTrigger>
           <TabsTrigger value="cashflow" className="text-xs">Cash Flow</TabsTrigger>
           <TabsTrigger value="sensitivity" className="text-xs">Citlivosť</TabsTrigger>
+          <TabsTrigger value="scenarios" className="text-xs">Scenáre</TabsTrigger>
           <TabsTrigger value="ai" className="text-xs">✦ AI</TabsTrigger>
         </TabsList>
 
@@ -224,6 +226,16 @@ export default function DevCalcResults({ results, baseData, projectName }) {
             <CardHeader className="pb-2"><CardTitle className="text-sm">Analýza citlivosti</CardTitle></CardHeader>
             <CardContent>
               {baseData ? <SensitivityTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* SCENARIOS */}
+        <TabsContent value="scenarios" className="mt-3">
+          <Card>
+            <CardHeader className="pb-2"><CardTitle className="text-sm">Porovnanie scenárov</CardTitle></CardHeader>
+            <CardContent>
+              {baseData ? <ScenariosTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
             </CardContent>
           </Card>
         </TabsContent>
