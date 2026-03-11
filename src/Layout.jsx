@@ -215,7 +215,7 @@ export default function Layout({ children, currentPageName }) {
         )}
       </nav>
 
-      <main className="min-h-[calc(100vh-4rem)]">{children}</main>
+      <main className="min-h-[calc(100vh-4rem)] bg-[#f5f6fa]">{children}</main>
     </div>
   );
 }
