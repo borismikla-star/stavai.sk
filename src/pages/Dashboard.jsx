@@ -103,34 +103,34 @@ export default function Dashboard() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
 
       {/* Tools */}
-      <div className="mb-12">
+      <div className="mb-10">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-base font-semibold text-gray-900">Analytické nástroje</h2>
-          <span className="text-xs text-gray-400">{tools.length} nástrojov</span>
+          <h2 className="text-base font-bold text-gray-900">Analytické nástroje</h2>
+          <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full">{tools.length} nástrojov</span>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {tools.map((tool, i) => {
             const a = accentMap[tool.accent];
             return (
               <Link key={i} to={createPageUrl(tool.path)}>
-                <div className="group bg-white border border-gray-200 rounded-2xl p-5 hover:border-gray-300 hover:shadow-md transition-all cursor-pointer h-full flex flex-col">
+                <div className="group bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-lg hover:shadow-gray-200/60 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer h-full flex flex-col">
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${a.bg} border ${a.border}`}>
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center ${a.bg} border ${a.border} shadow-sm`}>
                       <tool.icon className={`w-5 h-5 ${a.icon}`} />
                     </div>
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
                       tool.tag === 'Pro'
-                        ? 'bg-blue-50 text-blue-600 border border-blue-100'
-                        : 'bg-gray-100 text-gray-500 border border-gray-200'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-100 text-gray-500'
                     }`}>
                       {tool.tag}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm mb-1 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-bold text-gray-900 text-sm mb-1.5 group-hover:text-blue-600 transition-colors">
                     {tool.title}
                   </h3>
                   <p className="text-xs text-gray-500 leading-relaxed flex-1">{tool.desc}</p>
-                  <div className="flex items-center gap-1 mt-4 text-xs text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1 mt-4 text-xs text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
                     Otvoriť <ChevronRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
