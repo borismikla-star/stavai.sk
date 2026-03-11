@@ -13,14 +13,7 @@ export default function Landing() {
   const [calcInputs, setCalcInputs] = useState({ investment: '', revenue: '', duration: '' });
   const [calcResult, setCalcResult] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
-  const [bannerDismissed, setBannerDismissed] = useState(false);
 
-  const { data: settingsRecords } = useQuery({
-    queryKey: ['platformSettings'],
-    queryFn: () => base44.entities.PlatformSettings.filter({ key: 'main' }),
-    staleTime: 5 * 60 * 1000,
-  });
-  const platformSettings = settingsRecords?.[0] || null;
 
   const handleLogin = () => {
     base44.auth.redirectToLogin(createPageUrl('Dashboard'));
