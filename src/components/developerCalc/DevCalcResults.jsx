@@ -10,6 +10,8 @@ import ExportPDFButton from './ExportPDF';
 import ScenariosTab from './ScenariosTab';
 import SalesPlanTab from './SalesPlanTab';
 import MonteCarloTab from './MonteCarloTab';
+import BenchmarkContext from './BenchmarkContext';
+import VatInputBanner from '../shared/VatInputBanner';
 
 const fmt = (n) => Math.round(n || 0).toLocaleString('sk-SK');
 const fmtEur = (n) => `€ ${fmt(n)}`;
@@ -82,7 +84,7 @@ export default function DevCalcResults({ results, baseData, projectName }) {
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="w-full grid grid-cols-8 mb-0">
+        <TabsList className="w-full grid grid-cols-9 mb-0">
           <TabsTrigger value="overview" className="text-xs">Prehľad</TabsTrigger>
           <TabsTrigger value="charts" className="text-xs">Grafy</TabsTrigger>
           <TabsTrigger value="cashflow" className="text-xs">Cash Flow</TabsTrigger>
@@ -90,6 +92,7 @@ export default function DevCalcResults({ results, baseData, projectName }) {
           <TabsTrigger value="scenarios" className="text-xs">Scenáre</TabsTrigger>
           <TabsTrigger value="salesplan" className="text-xs">Predaj</TabsTrigger>
           <TabsTrigger value="montecarlo" className="text-xs">Monte Carlo</TabsTrigger>
+          <TabsTrigger value="benchmark" className="text-xs">Benchmark</TabsTrigger>
           <TabsTrigger value="ai" className="text-xs">✦ AI</TabsTrigger>
         </TabsList>
 
@@ -260,6 +263,17 @@ export default function DevCalcResults({ results, baseData, projectName }) {
             <CardHeader className="pb-2"><CardTitle className="text-sm">Monte Carlo simulácia</CardTitle></CardHeader>
             <CardContent>
               {baseData ? <MonteCarloTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* BENCHMARK */}
+        <TabsContent value="benchmark" className="mt-3">
+          <Card>
+            <CardHeader className="pb-2"><CardTitle className="text-sm">Benchmark SK trhu</CardTitle></CardHeader>
+            <CardContent className="space-y-4">
+              {baseData?.vat_rate > 0 && <VatInputBanner vatRate={baseData.vat_rate} totalRevenue={r.totalGrossRevenue} />}
+              <BenchmarkContext data={baseData} results={r} />
             </CardContent>
           </Card>
         </TabsContent>
