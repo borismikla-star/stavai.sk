@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   BarChart2, Calculator, Clock, TrendingUp, ChevronRight,
   Shield, Target, ArrowRight, Check, Star, Building2,
-  FileSpreadsheet, X
+  BookOpen, Users, LineChart, Zap, FileSpreadsheet, X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
