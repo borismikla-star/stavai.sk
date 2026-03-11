@@ -128,7 +128,7 @@ export default function Landing() {
                   BETA · Pridajte sa ako prví
                 </div>
               )}
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-[1.1] mb-6 tracking-tight">
+              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-white leading-[1.1] mb-6 tracking-tight">
                 Investujte do{' '}
                 <span className="text-blue-400">nehnuteľností</span>{' '}
                 inteligentne
