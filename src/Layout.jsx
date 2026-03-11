@@ -56,7 +56,7 @@ export default function Layout({ children, currentPageName }) {
           <div className="flex justify-between items-center h-16">
 
             {/* Logo */}
-            <Link to={createPageUrl('Dashboard')} className="flex items-center gap-2.5">
+            <Link to={createPageUrl('Landing')} className="flex items-center gap-2.5">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm">
                 <Building2 className="w-4 h-4 text-white" />
               </div>
@@ -83,33 +83,40 @@ export default function Layout({ children, currentPageName }) {
               ))}
 
               {/* Tools Dropdown */}
-              <div className="relative" onMouseEnter={() => setToolsOpen(true)} onMouseLeave={() => setToolsOpen(false)}>
-                <button className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  tools.some(t => t.path === currentPageName)
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}>
+              <div className="relative">
+                <button
+                  onClick={() => setToolsOpen(o => !o)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    tools.some(t => t.path === currentPageName)
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+                >
                   <Calculator className="w-4 h-4" />
                   Nástroje
-                  <ChevronDown className="w-3.5 h-3.5" />
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${toolsOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {toolsOpen && (
-                  <div className="absolute top-full left-0 mt-1.5 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1.5">
-                    {tools.map((tool) => (
-                      <Link
-                        key={tool.path}
-                        to={createPageUrl(tool.path)}
-                        className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-all ${
-                          currentPageName === tool.path
-                            ? 'text-blue-700 bg-blue-50 font-medium'
-                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                        }`}
-                      >
-                        <tool.icon className="w-4 h-4" />
-                        {tool.name}
-                      </Link>
-                    ))}
-                  </div>
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setToolsOpen(false)} />
+                    <div className="absolute top-full left-0 mt-1.5 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1.5">
+                      {tools.map((tool) => (
+                        <Link
+                          key={tool.path}
+                          to={createPageUrl(tool.path)}
+                          onClick={() => setToolsOpen(false)}
+                          className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-all ${
+                            currentPageName === tool.path
+                              ? 'text-blue-700 bg-blue-50 font-medium'
+                              : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                          }`}
+                        >
+                          <tool.icon className="w-4 h-4" />
+                          {tool.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </>
                 )}
               </div>
             </div>
