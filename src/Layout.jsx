@@ -44,6 +44,7 @@ export default function Layout({ children, currentPageName }) {
 
   const nav = [
     { name: 'Dashboard', path: 'Dashboard', icon: Home },
+    { name: 'Portfólio', path: 'Portfolio', icon: Building2 },
     { name: 'Články', path: 'Articles', icon: BookOpen },
   ];
 

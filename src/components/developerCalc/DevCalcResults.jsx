@@ -12,6 +12,8 @@ import SalesPlanTab from './SalesPlanTab';
 import MonteCarloTab from './MonteCarloTab';
 import BenchmarkContext from './BenchmarkContext';
 import VatInputBanner from '../shared/VatInputBanner';
+import LegislativeNotes from '../shared/LegislativeNotes';
+import UpgradePrompt from '../shared/UpgradePrompt';
 
 const fmt = (n) => Math.round(n || 0).toLocaleString('sk-SK');
 const fmtEur = (n) => `€ ${fmt(n)}`;
@@ -74,6 +76,7 @@ export default function DevCalcResults({ results, baseData, projectName }) {
       <div className="flex justify-end">
         <ExportPDFButton results={r} projectName={projectName} data={baseData} />
       </div>
+      <UpgradePrompt />
       {/* KPI Row */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <KPI label="IRR" value={r.irr != null ? fmtPct(r.irr) : 'N/A'} sub="ročná návratnosť" color="dark" tooltip="Internal Rate of Return – ročná percentuálna návratnosť zohľadňujúca časovú hodnotu peňazí." />
@@ -274,6 +277,9 @@ export default function DevCalcResults({ results, baseData, projectName }) {
             <CardContent className="space-y-4">
               {baseData?.vat_rate > 0 && <VatInputBanner vatRate={baseData.vat_rate} totalRevenue={r.totalGrossRevenue} />}
               <BenchmarkContext data={baseData} results={r} />
+              <div className="pt-2">
+                <LegislativeNotes />
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
