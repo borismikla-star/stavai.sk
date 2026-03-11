@@ -163,8 +163,8 @@ export default function AdminSettings() {
       </div>
 
       <div className="mt-6 flex items-center gap-3">
-        <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 text-white">
-          <Save className="w-4 h-4 mr-2" /> Uložiť nastavenia
+        <Button onClick={handleSave} disabled={saveMutation.isPending} className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Save className="w-4 h-4 mr-2" /> {saveMutation.isPending ? 'Ukladá...' : 'Uložiť nastavenia'}
         </Button>
         {saved && (
           <div className="flex items-center gap-1.5 text-green-600 text-sm font-medium">
