@@ -61,6 +61,7 @@ import Portfolio from './pages/Portfolio';
 import Pricing from './pages/Pricing';
 import Profile from './pages/Profile';
 import SensitivityEngine from './pages/SensitivityEngine';
+import Landing from './pages/Landing';
 import __Layout from './Layout.jsx';
 
 
@@ -79,6 +80,7 @@ export const PAGES = {
     "Pricing": Pricing,
     "Profile": Profile,
     "SensitivityEngine": SensitivityEngine,
+    "Landing": Landing,
 }
 
 export const pagesConfig = {
