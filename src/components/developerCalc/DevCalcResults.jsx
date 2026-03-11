@@ -8,6 +8,7 @@ import SensitivityTab from './SensitivityTab';
 import AISummary from './AISummary';
 import ExportPDFButton from './ExportPDF';
 import ScenariosTab from './ScenariosTab';
+import SalesPlanTab from './SalesPlanTab';
 
 const fmt = (n) => Math.round(n || 0).toLocaleString('sk-SK');
 const fmtEur = (n) => `€ ${fmt(n)}`;
