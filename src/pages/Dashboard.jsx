@@ -189,7 +189,7 @@ export default function Dashboard() {
         {/* Projects */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-semibold text-gray-900">Moje projekty</h2>
+            <h2 className="text-base font-bold text-gray-900">Moje projekty</h2>
             <div className="flex items-center gap-3">
               <Link to={createPageUrl('Portfolio')} className="text-xs text-gray-500 hover:text-gray-700 font-medium">Portfólio →</Link>
               <Link to={createPageUrl('DeveloperCalc')} className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
