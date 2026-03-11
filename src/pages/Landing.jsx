@@ -379,7 +379,7 @@ export default function Landing() {
             ))}
           </div>
         </div>
-      </section>)}
+      </section>
 
       {/* FAQ */}
       <section id="faq" className="py-24 bg-gray-50">
