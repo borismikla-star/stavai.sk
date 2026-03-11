@@ -235,7 +235,7 @@ export default function Landing() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {tools.map((tool, i) => (
               <div key={i}
-                className="group bg-white border border-gray-200 rounded-2xl p-6 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-50 transition-all cursor-pointer"
+                className="group bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-xl hover:shadow-blue-100/40 hover:-translate-y-1 transition-all duration-200 cursor-pointer"
                 onClick={handleLogin}
               >
                 <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mb-5">
