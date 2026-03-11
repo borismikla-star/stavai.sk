@@ -112,9 +112,10 @@ export default function Landing() {
       </header>
 
       {/* Hero */}
-      <section className="bg-[#0a1628] pt-20 pb-28 lg:pt-28 lg:pb-36 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="bg-[#060f1e] pt-20 pb-28 lg:pt-28 lg:pb-36 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-[#0a1628] to-[#060f1e] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
