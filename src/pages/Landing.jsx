@@ -375,8 +375,8 @@ export default function Landing() {
                   ))}
                 </ul>
                 <Button onClick={handleLogin} className={`w-full py-2.5 font-semibold rounded-xl text-sm ${
-                  plan.highlight ? 'bg-blue-500 hover:bg-blue-400 text-white shadow-lg shadow-blue-500/25' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}>
+                  plan.highlight ? 'bg-blue-500 hover:bg-blue-400 text-white shadow-lg shadow-blue-500/25' : plan.price === null ? 'bg-transparent text-gray-400 hover:text-gray-600 border-0 shadow-none' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`} variant={plan.price === null ? 'ghost' : 'default'}>
                   {plan.cta}
                 </Button>
               </div>
