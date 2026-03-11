@@ -14,8 +14,9 @@ import FinancingSection from '../components/developerCalc/FinancingSection';
 import DevCalcResults from '../components/developerCalc/DevCalcResults';
 import { calculateDevelopment } from '../components/developerCalc/devCalcEngine';
 import { Card, CardContent } from '@/components/ui/card';
-import { FileText, ArrowRight, Trash2 } from 'lucide-react';
+import { FileText, ArrowRight, Trash2, BarChart2 } from 'lucide-react';
 import { format } from 'date-fns';
+import ProjectComparison from '../components/developerCalc/ProjectComparison';
 
 // ─── Default project data ───────────────────────────────────────────
 const DEFAULTS = {
@@ -184,32 +185,56 @@ export default function DeveloperCalc() {
       {/* LIST VIEW */}
       {view === 'list' && (
         <div>
-          <div className="flex items-center gap-2 mb-4">
-            <List className="w-4 h-4 text-emerald-600" />
-            <h2 className="text-base font-semibold text-gray-900">Moje projekty</h2>
-            <Badge variant="outline" className="text-xs">{projects.length}</Badge>
-          </div>
-          {isLoading ? (
-            <div className="flex items-center justify-center py-16">
-              <Loader2 className="w-6 h-6 animate-spin text-emerald-600" />
-            </div>
-          ) : projects.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Calculator className="w-6 h-6 text-emerald-600" />
+          <Tabs defaultValue="projects">
+            <TabsList className="mb-4">
+              <TabsTrigger value="projects" className="text-xs flex items-center gap-1.5">
+                <List className="w-3.5 h-3.5" /> Moje projekty
+              </TabsTrigger>
+              <TabsTrigger value="compare" className="text-xs flex items-center gap-1.5">
+                <BarChart2 className="w-3.5 h-3.5" /> Porovnanie projektov
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="projects">
+              <div className="flex items-center gap-2 mb-4">
+                <Badge variant="outline" className="text-xs">{projects.length} projektov</Badge>
               </div>
-              <p className="text-gray-500 text-sm font-medium mb-2">Zatiaľ žiadne projekty</p>
-              <Button onClick={handleNew} size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white mt-2">
-                <Plus className="w-3.5 h-3.5 mr-1.5" /> Nový projekt
-              </Button>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {projects.map(p => (
-                <ProjectListItem key={p.id} project={p} onOpen={handleOpen} onDelete={id => deleteMutation.mutate(id)} />
-              ))}
-            </div>
-          )}
+              {isLoading ? (
+                <div className="flex items-center justify-center py-16">
+                  <Loader2 className="w-6 h-6 animate-spin text-emerald-600" />
+                </div>
+              ) : projects.length === 0 ? (
+                <div className="text-center py-16">
+                  <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <Calculator className="w-6 h-6 text-emerald-600" />
+                  </div>
+                  <p className="text-gray-500 text-sm font-medium mb-2">Zatiaľ žiadne projekty</p>
+                  <Button onClick={handleNew} size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white mt-2">
+                    <Plus className="w-3.5 h-3.5 mr-1.5" /> Nový projekt
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {projects.map(p => (
+                    <ProjectListItem key={p.id} project={p} onOpen={handleOpen} onDelete={id => deleteMutation.mutate(id)} />
+                  ))}
+                </div>
+              )}
+            </TabsContent>
+
+            <TabsContent value="compare">
+              <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
+                  <BarChart2 className="w-4 h-4 text-emerald-600" />
+                  <span className="text-sm font-semibold text-gray-900">Porovnanie projektov</span>
+                  <Badge variant="outline" className="text-xs">{projects.length} projektov</Badge>
+                </div>
+                <div className="p-4">
+                  <ProjectComparison projects={projects} />
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       )}
 
