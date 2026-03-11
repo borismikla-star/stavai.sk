@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Save, Clock, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Save, Clock, AlertTriangle, CheckCircle, Info } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,49 +9,70 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 
-const PHASES = [
+// ─── Starý zákon 50/1976 ──────────────────────────────────────────────────
+const PHASES_OLD = [
   { id: 'predprojekt', label: 'Predprojektová príprava', color: '#6366F1' },
   { id: 'projekt', label: 'Projektová dokumentácia', color: '#3B82F6' },
   { id: 'eia', label: 'EIA (posudzovanie vplyvov)', color: '#F59E0B' },
   { id: 'ur', label: 'Územné rozhodnutie (ÚR)', color: '#8B5CF6' },
   { id: 'sp', label: 'Stavebné povolenie (SP)', color: '#10B981' },
   { id: 'vystavba', label: 'Výstavba', color: '#059669' },
-  { id: 'kolaud', label: 'Kolaudácia', color: '#06B6D4' },
+  { id: 'kolaud', label: 'Kolaudačné rozhodnutie', color: '#06B6D4' },
 ];
 
-function calcTimeline(inputs) {
+function calcOld(inputs) {
   const base = {
-    predprojekt: { start: 0, opt: 2, real: 3, pess: 4 },
-    projekt: { opt: 3, real: 5, pess: 7 },
+    predprojekt: { opt: 2, real: 3, pess: 4 },
+    projekt:     { opt: 3, real: 5, pess: 7 },
     eia: inputs.needs_eia ? { opt: 12, real: 18, pess: 30 } : null,
-    ur: { opt: inputs.type === 'small' ? 3 : 6, real: inputs.type === 'small' ? 6 : 12, pess: inputs.type === 'small' ? 9 : 18 },
-    sp: { opt: inputs.type === 'small' ? 2 : 4, real: inputs.type === 'small' ? 4 : 8, pess: inputs.type === 'small' ? 6 : 14 },
+    ur:  { opt: inputs.type === 'small' ? 3 : 6,  real: inputs.type === 'small' ? 6 : 12,  pess: inputs.type === 'small' ? 9 : 18 },
+    sp:  { opt: inputs.type === 'small' ? 2 : 4,  real: inputs.type === 'small' ? 4 : 8,   pess: inputs.type === 'small' ? 6 : 14 },
     vystavba: { opt: inputs.construction_months * 0.9, real: inputs.construction_months, pess: inputs.construction_months * 1.25 },
     kolaud: { opt: 1, real: 2, pess: 4 },
   };
+  if (inputs.has_demolition) { base.predprojekt.opt += 1; base.predprojekt.real += 2; base.predprojekt.pess += 4; }
+  return { phases: PHASES_OLD, base };
+}
 
-  if (inputs.has_demolition) {
-    base.predprojekt.opt += 1;
-    base.predprojekt.real += 2;
-    base.predprojekt.pess += 4;
-  }
+// ─── Nový zákon 200/2022 (účinnosť od 2027) ───────────────────────────────
+const PHASES_NEW = [
+  { id: 'predprojekt', label: 'Predprojektová príprava', color: '#6366F1' },
+  { id: 'stavzamer',   label: 'Stavebný zámer (SZ)', color: '#8B5CF6' },
+  { id: 'eia',         label: 'EIA (posudzovanie vplyvov)', color: '#F59E0B' },
+  { id: 'projektstavby', label: 'Projekt stavby', color: '#3B82F6' },
+  { id: 'integrovane', label: 'Integrované povolenie (IP)', color: '#10B981' },
+  { id: 'vystavba',    label: 'Výstavba', color: '#059669' },
+  { id: 'kolaud',      label: 'Kolaudačné osvedčenie', color: '#06B6D4' },
+];
 
-  // Build sequential phases
+function calcNew(inputs) {
+  // Nový zákon = kratšie lehoty, integrované konanie ÚR+SP v jednom
+  const base = {
+    predprojekt:   { opt: 2, real: 3, pess: 4 },
+    stavzamer:     { opt: 1, real: 2, pess: 3 },       // notifikácia / schválenie SZ
+    eia: inputs.needs_eia ? { opt: 10, real: 15, pess: 24 } : null,
+    projektstavby: { opt: 3, real: 5, pess: 7 },
+    integrovane:   { opt: inputs.type === 'small' ? 3 : 5, real: inputs.type === 'small' ? 5 : 9, pess: inputs.type === 'small' ? 7 : 14 },
+    vystavba:      { opt: inputs.construction_months * 0.9, real: inputs.construction_months, pess: inputs.construction_months * 1.25 },
+    kolaud:        { opt: 1, real: 1, pess: 2 },        // osvedčenie = rýchlejšie
+  };
+  if (inputs.has_demolition) { base.predprojekt.opt += 1; base.predprojekt.real += 2; base.predprojekt.pess += 4; }
+  return { phases: PHASES_NEW, base };
+}
+
+function buildScenarios(phases, base) {
   const scenarios = { opt: [], real: [], pess: [] };
-  Object.entries(['opt', 'real', 'pess']).forEach(() => {});
-
   ['opt', 'real', 'pess'].forEach(sc => {
     let cursor = 0;
-    PHASES.forEach(ph => {
+    phases.forEach(ph => {
       const d = base[ph.id];
       if (!d) { scenarios[sc].push({ id: ph.id, start: null, dur: 0, end: null }); return; }
-      const dur = d[sc] || 0;
+      const dur = Math.round(d[sc] || 0);
       scenarios[sc].push({ id: ph.id, start: cursor, dur, end: cursor + dur });
       cursor += dur;
     });
   });
-
-  return { scenarios, base };
+  return scenarios;
 }
 
 const defaultInputs = {
@@ -61,6 +82,7 @@ const defaultInputs = {
   needs_eia: false,
   has_demolition: false,
   construction_months: 24,
+  law: 'old', // 'old' | 'new'
 };
 
 export default function PermitTimeline() {
@@ -68,16 +90,24 @@ export default function PermitTimeline() {
   const [scenario, setScenario] = useState('real');
   const queryClient = useQueryClient();
 
-  const { scenarios, base } = useMemo(() => calcTimeline(inputs), [inputs]);
+  const { phases, scenarios, totals } = useMemo(() => {
+    const { phases, base } = inputs.law === 'new' ? calcNew(inputs) : calcOld(inputs);
+    const scenarios = buildScenarios(phases, base);
+    const totals = {
+      opt:  Math.max(...scenarios.opt.map(p => p.end || 0)),
+      real: Math.max(...scenarios.real.map(p => p.end || 0)),
+      pess: Math.max(...scenarios.pess.map(p => p.end || 0)),
+    };
+    return { phases, scenarios, totals };
+  }, [inputs]);
 
-  const maxMonths = Math.max(...(scenarios[scenario] || []).map(p => p.end || 0));
-  const totalMonths = maxMonths;
+  const maxMonths = totals[scenario];
 
   const saveMutation = useMutation({
     mutationFn: () => base44.entities.Timeline.create({
       project_name: inputs.project_name,
-      total_duration: totalMonths,
-      phases: PHASES.map(ph => {
+      total_duration: totals.real,
+      phases: phases.map(ph => {
         const s = scenarios.real.find(p => p.id === ph.id);
         return { name: ph.label, duration: s?.dur || 0, description: ph.label };
       }),
@@ -87,19 +117,13 @@ export default function PermitTimeline() {
 
   const scLabels = { opt: 'Optimistický', real: 'Realistický', pess: 'Pesimistický' };
 
-  const totals = {
-    opt: Math.max(...scenarios.opt.map(p => p.end || 0)),
-    real: Math.max(...scenarios.real.map(p => p.end || 0)),
-    pess: Math.max(...scenarios.pess.map(p => p.end || 0)),
-  };
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
           <div className="text-xs text-blue-600 uppercase tracking-widest font-semibold mb-1">Nástroj</div>
           <h1 className="text-3xl font-black text-[#0F172A]">Harmonogram Povolení</h1>
-          <p className="text-slate-500 text-sm mt-1">Gantt diagram – ÚR, SP, EIA. Scenárová analýza.</p>
+          <p className="text-slate-500 text-sm mt-1">Gantt diagram – fázy povolení. Scenárová analýza.</p>
         </div>
         <Button onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending} className="bg-blue-600 hover:bg-blue-700 text-white">
           <Save className="w-4 h-4 mr-2" />{saveMutation.isPending ? 'Ukladá...' : 'Uložiť'}
@@ -114,16 +138,16 @@ export default function PermitTimeline() {
             <CardContent className="space-y-4">
               <div>
                 <Label className="text-xs text-slate-500 mb-1 block">Názov projektu</Label>
-                <Input value={inputs.project_name} onChange={(e) => setInputs(p => ({ ...p, project_name: e.target.value }))} className="text-sm bg-white border-slate-200" />
+                <Input value={inputs.project_name} onChange={e => setInputs(p => ({ ...p, project_name: e.target.value }))} className="text-sm" />
               </div>
               <div>
                 <Label className="text-xs text-slate-500 mb-1 block">Lokalita</Label>
-                <Input value={inputs.location} onChange={(e) => setInputs(p => ({ ...p, location: e.target.value }))} className="text-sm bg-white border-slate-200" />
+                <Input value={inputs.location} onChange={e => setInputs(p => ({ ...p, location: e.target.value }))} className="text-sm" />
               </div>
               <div>
                 <Label className="text-xs text-slate-500 mb-1 block">Typ projektu</Label>
-                <Select value={inputs.type} onValueChange={(v) => setInputs(p => ({ ...p, type: v }))}>
-                  <SelectTrigger className="bg-white"><SelectValue /></SelectTrigger>
+                <Select value={inputs.type} onValueChange={v => setInputs(p => ({ ...p, type: v }))}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="small">Malý (do 10 bytov)</SelectItem>
                     <SelectItem value="medium">Stredný (10–50 bytov)</SelectItem>
@@ -133,16 +157,48 @@ export default function PermitTimeline() {
               </div>
               <div>
                 <Label className="text-xs text-slate-500 mb-1 block">Výstavba (mesiace)</Label>
-                <Input type="number" value={inputs.construction_months} onChange={(e) => setInputs(p => ({ ...p, construction_months: parseInt(e.target.value) || 24 }))} className="text-sm bg-white border-slate-200" />
+                <Input type="number" value={inputs.construction_months} onChange={e => setInputs(p => ({ ...p, construction_months: parseInt(e.target.value) || 24 }))} className="text-sm" />
               </div>
               <div className="flex items-center justify-between">
                 <Label className="text-sm text-[#0F172A]">Vyžaduje EIA</Label>
-                <Switch checked={inputs.needs_eia} onCheckedChange={(v) => setInputs(p => ({ ...p, needs_eia: v }))} />
+                <Switch checked={inputs.needs_eia} onCheckedChange={v => setInputs(p => ({ ...p, needs_eia: v }))} />
               </div>
               <div className="flex items-center justify-between">
                 <Label className="text-sm text-[#0F172A]">Demolácia</Label>
-                <Switch checked={inputs.has_demolition} onCheckedChange={(v) => setInputs(p => ({ ...p, has_demolition: v }))} />
+                <Switch checked={inputs.has_demolition} onCheckedChange={v => setInputs(p => ({ ...p, has_demolition: v }))} />
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Zákon selector */}
+          <Card className="bg-white border-slate-200">
+            <CardHeader className="pb-3"><CardTitle className="text-sm font-bold uppercase tracking-wider text-[#0F172A]">Legislatívny rámec</CardTitle></CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex flex-col gap-2">
+                {[
+                  { val: 'old', label: 'Starý zákon', sub: 'Zákon č. 50/1976 Zb.', note: 'ÚR + SP', color: 'border-purple-300 bg-purple-50 text-purple-800' },
+                  { val: 'new', label: 'Nový zákon', sub: 'Zákon č. 200/2022 Zb.', note: 'od 2027', color: 'border-emerald-300 bg-emerald-50 text-emerald-800' },
+                ].map(opt => (
+                  <button
+                    key={opt.val}
+                    onClick={() => setInputs(p => ({ ...p, law: opt.val }))}
+                    className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-all ${
+                      inputs.law === opt.val ? opt.color : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                    }`}
+                  >
+                    <div className="font-semibold text-sm">{opt.label}</div>
+                    <div className="text-xs opacity-75 mt-0.5">{opt.sub} · {opt.note}</div>
+                  </button>
+                ))}
+              </div>
+              {inputs.law === 'new' && (
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2">
+                  <Info className="w-3.5 h-3.5 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-[11px] text-amber-700 leading-relaxed">
+                    Nový zákon nadobúda plnú účinnosť od <strong>1. 4. 2027</strong>. Integrované konanie nahrádza ÚR + SP.
+                  </p>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -168,6 +224,18 @@ export default function PermitTimeline() {
 
         {/* Gantt */}
         <div className="lg:col-span-3 space-y-6">
+          {/* Law badge */}
+          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold border ${
+            inputs.law === 'new'
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
+              : 'bg-purple-50 border-purple-200 text-purple-800'
+          }`}>
+            {inputs.law === 'new'
+              ? '⚡ Nový zákon č. 200/2022 — Integrované konanie'
+              : '📋 Starý zákon č. 50/1976 — ÚR + SP'
+            }
+          </div>
+
           {/* Scenario Summary Cards */}
           <div className="grid grid-cols-3 gap-4">
             {[
@@ -195,7 +263,7 @@ export default function PermitTimeline() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {PHASES.map(ph => {
+                {phases.map(ph => {
                   const s = scenarios[scenario].find(p => p.id === ph.id);
                   if (!s || s.dur === 0) return null;
                   const leftPct = (s.start / maxMonths) * 100;
@@ -203,7 +271,7 @@ export default function PermitTimeline() {
                   return (
                     <div key={ph.id}>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-medium text-slate-700 w-52 truncate">{ph.label}</span>
+                        <span className="text-xs font-medium text-slate-700 w-56 truncate">{ph.label}</span>
                         <span className="text-xs text-slate-500">{s.start}–{s.end} mes. ({s.dur} mes.)</span>
                       </div>
                       <div className="relative h-7 bg-slate-100 rounded-lg overflow-hidden">
@@ -218,7 +286,6 @@ export default function PermitTimeline() {
                   );
                 })}
               </div>
-              {/* Month markers */}
               <div className="flex justify-between mt-4 text-xs text-slate-400">
                 {Array.from({ length: 6 }, (_, i) => (
                   <span key={i}>{Math.round((maxMonths / 5) * i)} mes.</span>
@@ -241,16 +308,18 @@ export default function PermitTimeline() {
                   </tr>
                 </thead>
                 <tbody>
-                  {PHASES.map(ph => {
-                    const opt = scenarios.opt.find(p => p.id === ph.id);
+                  {phases.map(ph => {
+                    const opt  = scenarios.opt.find(p => p.id === ph.id);
                     const real = scenarios.real.find(p => p.id === ph.id);
                     const pess = scenarios.pess.find(p => p.id === ph.id);
                     if (!opt || opt.dur === 0) return null;
                     return (
                       <tr key={ph.id} className="border-b border-slate-100 hover:bg-slate-50">
-                        <td className="px-5 py-3 font-medium text-[#0F172A] flex items-center gap-2">
-                          <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ backgroundColor: ph.color }} />
-                          {ph.label}
+                        <td className="px-5 py-3 font-medium text-[#0F172A]">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded-sm flex-shrink-0" style={{ backgroundColor: ph.color }} />
+                            {ph.label}
+                          </div>
                         </td>
                         <td className="px-3 py-3 text-center text-green-700 font-semibold">{opt.dur} mes.</td>
                         <td className="px-3 py-3 text-center text-blue-700 font-bold">{real.dur} mes.</td>
