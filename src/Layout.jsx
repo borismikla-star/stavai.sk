@@ -101,7 +101,7 @@ export default function Layout({ children, currentPageName }) {
                 {toolsOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setToolsOpen(false)} />
-                    <div className="absolute top-full left-0 mt-1.5 w-56 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1.5">
+                    <div className="absolute top-full left-0 mt-1.5 w-56 bg-white border border-gray-100 rounded-2xl shadow-xl shadow-gray-200/80 z-50 py-1.5">
                       {tools.map((tool) => (
                         <Link
                           key={tool.path}
