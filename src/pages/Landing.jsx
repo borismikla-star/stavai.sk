@@ -335,16 +335,16 @@ export default function Landing() {
                 cta: isBeta ? 'Pripojiť sa do beta' : 'Začať zadarmo', highlight: true, badge: isBeta ? 'Teraz dostupné' : 'Free'
               },
               {
-                name: 'Pro', price: '79 €', period: '/mesiac',
-                desc: 'Čoskoro dostupné',
+                name: 'Pro', price: null, period: '/mesiac',
+                desc: 'Profesionálne funkcie už čoskoro.',
                 features: ['Neobmedzené projekty', 'Všetky kalkulačky', 'AI analýza', 'PDF export', 'Detailné benchmarky SK'],
-                cta: 'Prihlásiť sa do waitlistu', highlight: false, badge: 'Čoskoro'
+                cta: 'Pripojiť sa k Waiting List', highlight: false, badge: 'Čoskoro'
               },
               {
-                name: 'Enterprise', price: 'Na mieru', period: '',
-                desc: 'Pre tímy a firmy',
+                name: 'Enterprise', price: null, period: '',
+                desc: 'Pre tímy a firmy.',
                 features: ['Všetko z Pro', 'Tímová spolupráca', 'Bankové modely', 'API prístup', 'Dedikovaná podpora'],
-                cta: 'Kontaktovať', highlight: false, badge: 'Čoskoro'
+                cta: 'Pripojiť sa k Waiting List', highlight: false, badge: 'Čoskoro'
               }
             ].map((plan, i) => (
               <div key={i} className={`rounded-2xl p-7 border relative ${
