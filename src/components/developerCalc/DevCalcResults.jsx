@@ -9,6 +9,7 @@ import AISummary from './AISummary';
 import ExportPDFButton from './ExportPDF';
 import ScenariosTab from './ScenariosTab';
 import SalesPlanTab from './SalesPlanTab';
+import MonteCarloTab from './MonteCarloTab';
 
 const fmt = (n) => Math.round(n || 0).toLocaleString('sk-SK');
 const fmtEur = (n) => `€ ${fmt(n)}`;
@@ -81,13 +82,14 @@ export default function DevCalcResults({ results, baseData, projectName }) {
       </div>
 
       <Tabs defaultValue="overview">
-        <TabsList className="w-full grid grid-cols-7 mb-0">
+        <TabsList className="w-full grid grid-cols-8 mb-0">
           <TabsTrigger value="overview" className="text-xs">Prehľad</TabsTrigger>
           <TabsTrigger value="charts" className="text-xs">Grafy</TabsTrigger>
           <TabsTrigger value="cashflow" className="text-xs">Cash Flow</TabsTrigger>
           <TabsTrigger value="sensitivity" className="text-xs">Citlivosť</TabsTrigger>
           <TabsTrigger value="scenarios" className="text-xs">Scenáre</TabsTrigger>
           <TabsTrigger value="salesplan" className="text-xs">Predaj</TabsTrigger>
+          <TabsTrigger value="montecarlo" className="text-xs">Monte Carlo</TabsTrigger>
           <TabsTrigger value="ai" className="text-xs">✦ AI</TabsTrigger>
         </TabsList>
 
@@ -248,6 +250,16 @@ export default function DevCalcResults({ results, baseData, projectName }) {
             <CardHeader className="pb-2"><CardTitle className="text-sm">Predajný plán</CardTitle></CardHeader>
             <CardContent>
               {baseData ? <SalesPlanTab baseData={baseData} results={r} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* MONTE CARLO */}
+        <TabsContent value="montecarlo" className="mt-3">
+          <Card>
+            <CardHeader className="pb-2"><CardTitle className="text-sm">Monte Carlo simulácia</CardTitle></CardHeader>
+            <CardContent>
+              {baseData ? <MonteCarloTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
             </CardContent>
           </Card>
         </TabsContent>
