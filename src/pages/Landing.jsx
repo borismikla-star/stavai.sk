@@ -238,7 +238,7 @@ export default function Landing() {
                 className="group bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-xl hover:shadow-blue-100/40 hover:-translate-y-1 transition-all duration-200 cursor-pointer"
                 onClick={handleLogin}
               >
-                <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mb-5">
+                <div className="w-11 h-11 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center mb-5 border border-blue-100 shadow-sm">
                   <tool.icon className="w-5 h-5 text-blue-600" />
                 </div>
                 <div className="flex items-start justify-between mb-2">
