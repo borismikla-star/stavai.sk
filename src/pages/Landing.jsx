@@ -311,9 +311,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Pricing */}
-      {!isBeta && <section id="cennik" className="py-24 bg-white" style={{display:'none'}} />}
-      <section id="cennik" className="py-24 bg-white" style={isBeta ? {display:'none'} : {}}>
+      {/* Pricing — skryté počas beta */}
+      {!isBeta && <section id="cennik" className="py-24 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-6">
             <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Cenník</p>
