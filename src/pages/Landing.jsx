@@ -206,7 +206,7 @@ export default function Landing() {
       </section>
 
       {/* Stats strip */}
-      <section className="bg-[#0d1e35] border-b border-white/5 py-10">
+      <section className="bg-[#07111f] border-b border-white/5 py-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
