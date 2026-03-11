@@ -151,11 +151,11 @@ export default function Dashboard() {
               Nová <ArrowUpRight className="w-3 h-3" />
             </Link>
           </div>
-          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+          <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
             {recentAnalyses.length === 0 ? (
               <div className="py-12 text-center">
-                <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <FileText className="w-5 h-5 text-gray-400" />
+                <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <FileText className="w-5 h-5 text-blue-400" />
                 </div>
                 <p className="text-gray-500 text-sm font-medium mb-1">Zatiaľ žiadne analýzy</p>
                 <Link to={createPageUrl('LandFeasibility')} className="text-blue-600 text-xs font-medium hover:underline">
