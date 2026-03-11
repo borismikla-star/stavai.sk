@@ -65,11 +65,12 @@ export default function DevCalcResults({ results, baseData, projectName }) {
   return (
     <div className="space-y-4">
       {/* KPI Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <KPI label="IRR" value={r.irr != null ? fmtPct(r.irr) : 'N/A'} sub="ročná návratnosť" color="dark" tooltip="Internal Rate of Return – ročná percentuálna návratnosť zohľadňujúca časovú hodnotu peňazí." />
         <KPI label="Zisková marža" value={fmtPct(r.profitMargin)} sub="zisk / tržby" color={r.profitMargin >= 15 ? 'green' : r.profitMargin >= 5 ? 'amber' : 'red'} tooltip="Zisk ako percento z celkových tržieb." />
         <KPI label="Dev. marža" value={fmtPct(r.developerMargin)} sub="zisk / náklady" color={r.developerMargin >= 20 ? 'green' : r.developerMargin >= 10 ? 'amber' : 'red'} tooltip="Zisk ako percento z celkových nákladov projektu." />
         <KPI label="Násobok kapitálu" value={r.equityMultiple > 0 ? `${r.equityMultiple.toFixed(2)}×` : '—'} sub="vlastný kapitál" color="blue" tooltip="Koľkokrát sa vráti investovaný vlastný kapitál." />
+        <KPI label={`Zisk po dani (${r.entityType || 'PO'})`} value={fmtEur(r.profitAfterTax)} sub={`sadzba ${fmtPct(r.taxRate)}`} color={r.profitAfterTax >= 0 ? 'green' : 'red'} tooltip="Zisk po zdanení podľa SK daňových pravidiel pre FO alebo PO." />
       </div>
 
       <Tabs defaultValue="overview">
