@@ -12,14 +12,7 @@ import {
 export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [toolsOpen, setToolsOpen] = React.useState(false);
-  const [bannerDismissed, setBannerDismissed] = React.useState(false);
 
-  const { data: settingsRecords } = useQuery({
-    queryKey: ['platformSettings'],
-    queryFn: () => base44.entities.PlatformSettings.filter({ key: 'main' }),
-    staleTime: 5 * 60 * 1000,
-  });
-  const platformSettings = settingsRecords?.[0] || null;
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
