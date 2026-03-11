@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-
-import { Settings, Globe, Bell, Shield, Save, CheckCircle, Info } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { base44 } from '@/api/base44Client';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Globe, Shield, Save, CheckCircle, Info } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,25 +10,48 @@ import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 
+const DEFAULTS = {
+  key: 'main',
+  platform_name: 'stavai.sk',
+  beta_mode: true,
+  beta_banner: 'Vitajte v beta verzii stavai.sk! Počas beta fázy máte prístup ku všetkým Pro funkciám zadarmo.',
+  maintenance_mode: false,
+  allow_registrations: true,
+  contact_email: 'info@stavai.sk',
+  announcement: '',
+};
 
 export default function AdminSettings() {
   const [saved, setSaved] = useState(false);
+  const [settings, setSettings] = useState(DEFAULTS);
+  const [recordId, setRecordId] = useState(null);
+  const queryClient = useQueryClient();
 
-  const [settings, setSettings] = useState({
-    platform_name: 'stavai.sk',
-    beta_mode: true,
-    beta_banner: 'Vitajte v beta verzii stavai.sk! Počas beta fázy máte prístup ku všetkým Pro funkciám zadarmo.',
-    maintenance_mode: false,
-    allow_registrations: true,
-    contact_email: 'info@stavai.sk',
-    announcement: '',
+  const { data: records } = useQuery({
+    queryKey: ['platformSettings'],
+    queryFn: () => base44.entities.PlatformSettings.filter({ key: 'main' }),
   });
 
-  const handleSave = () => {
-    // In production this would persist to a settings entity
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
-  };
+  useEffect(() => {
+    if (records && records.length > 0) {
+      setRecordId(records[0].id);
+      setSettings({ ...DEFAULTS, ...records[0] });
+    }
+  }, [records]);
+
+  const saveMutation = useMutation({
+    mutationFn: () => recordId
+      ? base44.entities.PlatformSettings.update(recordId, settings)
+      : base44.entities.PlatformSettings.create(settings),
+    onSuccess: (data) => {
+      if (!recordId) setRecordId(data.id);
+      queryClient.invalidateQueries({ queryKey: ['platformSettings'] });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    },
+  });
+
+  const handleSave = () => saveMutation.mutate();
 
   const sections = [
     {
