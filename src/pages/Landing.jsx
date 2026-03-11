@@ -242,9 +242,9 @@ export default function Landing() {
                   <tool.icon className="w-5 h-5 text-blue-600" />
                 </div>
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-semibold text-gray-900 text-sm group-hover:text-blue-600 transition-colors leading-snug pr-2">{tool.title}</h3>
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full flex-shrink-0 ${
-                    tool.tag === 'Pro' ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-gray-100 text-gray-500'
+                  <h3 className="font-bold text-gray-900 text-sm group-hover:text-blue-600 transition-colors leading-snug pr-2">{tool.title}</h3>
+                  <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full flex-shrink-0 ${
+                    tool.tag === 'Pro' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-500'
                   }`}>{tool.tag}</span>
                 </div>
                 <p className="text-xs text-gray-500 leading-relaxed">{tool.desc}</p>
