@@ -237,16 +237,17 @@ export default function Dashboard() {
 
       {/* Beta banner */}
       {user?.beta_access && (
-        <div className="mt-8 bg-gradient-to-r from-violet-50 to-blue-50 border border-violet-200 rounded-2xl p-5 flex items-center gap-4">
-          <div className="w-10 h-10 bg-violet-100 rounded-xl flex items-center justify-center flex-shrink-0">
-            <Zap className="w-5 h-5 text-violet-600" />
+        <div className="mt-8 bg-gradient-to-r from-violet-600 to-blue-600 rounded-2xl p-5 flex items-center gap-4 shadow-lg shadow-violet-200">
+          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+            <Zap className="w-5 h-5 text-white" />
           </div>
           <div>
-            <div className="font-semibold text-gray-900 text-sm">Beta prístup aktívny</div>
-            <div className="text-xs text-gray-500 mt-0.5">Máte prístup ku všetkým Pro funkciám počas beta fázy. Ďakujeme za spätnú väzbu!</div>
+            <div className="font-bold text-white text-sm">Beta prístup aktívny</div>
+            <div className="text-xs text-white/70 mt-0.5">Máte prístup ku všetkým Pro funkciám počas beta fázy. Ďakujeme za spätnú väzbu!</div>
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }
