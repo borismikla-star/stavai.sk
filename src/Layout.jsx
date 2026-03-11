@@ -88,9 +88,9 @@ export default function Layout({ children, currentPageName }) {
               <div className="relative">
                 <button
                   onClick={() => setToolsOpen(o => !o)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
                     tools.some(t => t.path === currentPageName)
-                      ? 'bg-blue-50 text-blue-700'
+                      ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                   }`}
                 >
