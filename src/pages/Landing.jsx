@@ -122,7 +122,7 @@ export default function Landing() {
               <div className="flex items-center gap-5 text-sm text-gray-400">
                 <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>Bez kreditky</span></div>
                 <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>Free plán</span></div>
-                <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>SK/CZ dáta</span></div>
+                <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>SK dáta</span></div>
               </div>
             </div>
 
