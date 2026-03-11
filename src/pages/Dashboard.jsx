@@ -85,16 +85,22 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
 
-      {/* Header */}
-      <div className="mb-10">
-        <p className="text-sm font-medium text-blue-600 mb-1">Dashboard</p>
-        <h1 className="text-3xl font-bold text-gray-900 mb-1">
-          Dobrý deň, {user?.full_name?.split(' ')[0]} 👋
-        </h1>
-        <p className="text-gray-500 text-sm">Vyberte nástroj alebo pokračujte v rozpracovanom projekte.</p>
+      {/* Hero header */}
+      <div className="bg-gradient-to-br from-[#0a1628] via-[#0d2040] to-[#1a3560] px-4 sm:px-6 lg:px-8 pt-10 pb-14">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs font-semibold bg-blue-500/20 text-blue-300 px-2.5 py-1 rounded-full border border-blue-500/30">Dashboard</span>
+          </div>
+          <h1 className="text-3xl lg:text-4xl font-extrabold text-white mb-2 tracking-tight">
+            Dobrý deň, {user?.full_name?.split(' ')[0]} 👋
+          </h1>
+          <p className="text-blue-200/60 text-sm">Vyberte nástroj alebo pokračujte v rozpracovanom projekte.</p>
+        </div>
       </div>
+
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
 
       {/* Tools */}
       <div className="mb-12">
