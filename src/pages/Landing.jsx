@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
 import {
   BarChart2, Calculator, Clock, TrendingUp, ChevronRight,
-  Shield, Zap, Target, ArrowRight, Check, Star, Building2,
-  BookOpen, Users, LineChart, FileSpreadsheet
+  Shield, Target, ArrowRight, Check, Star, Building2,
+  FileSpreadsheet, X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -12,6 +13,14 @@ export default function Landing() {
   const [calcInputs, setCalcInputs] = useState({ investment: '', revenue: '', duration: '' });
   const [calcResult, setCalcResult] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
+  const [bannerDismissed, setBannerDismissed] = useState(false);
+
+  const { data: settingsRecords } = useQuery({
+    queryKey: ['platformSettings'],
+    queryFn: () => base44.entities.PlatformSettings.filter({ key: 'main' }),
+    staleTime: 5 * 60 * 1000,
+  });
+  const platformSettings = settingsRecords?.[0] || null;
 
   const handleLogin = () => {
     base44.auth.redirectToLogin(createPageUrl('Dashboard'));
