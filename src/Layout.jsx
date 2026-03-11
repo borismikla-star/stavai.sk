@@ -8,6 +8,7 @@ import {
   ChevronDown, Home, User, Settings, Rocket, Building2
 } from 'lucide-react';
 
+
 export default function Layout({ children, currentPageName }) {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [toolsOpen, setToolsOpen] = React.useState(false);
