@@ -6,6 +6,7 @@ import InfoTooltip from '../shared/InfoTooltip';
 import { TrendingUp, TrendingDown, AlertTriangle } from 'lucide-react';
 import SensitivityTab from './SensitivityTab';
 import AISummary from './AISummary';
+import ExportPDFButton from './ExportPDF';
 
 const fmt = (n) => Math.round(n || 0).toLocaleString('sk-SK');
 const fmtEur = (n) => `€ ${fmt(n)}`;
@@ -64,6 +65,10 @@ export default function DevCalcResults({ results, baseData, projectName }) {
 
   return (
     <div className="space-y-4">
+      {/* Export */}
+      <div className="flex justify-end">
+        <ExportPDFButton results={r} projectName={projectName} data={baseData} />
+      </div>
       {/* KPI Row */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <KPI label="IRR" value={r.irr != null ? fmtPct(r.irr) : 'N/A'} sub="ročná návratnosť" color="dark" tooltip="Internal Rate of Return – ročná percentuálna návratnosť zohľadňujúca časovú hodnotu peňazí." />
@@ -170,7 +175,7 @@ export default function DevCalcResults({ results, baseData, projectName }) {
         </TabsContent>
 
         {/* CASHFLOW */}
-        <TabsContent value="cashflow" className="mt-3">
+        <TabsContent value="cashflow" className="mt-3 space-y-4">
           <Card>
             <CardHeader className="pb-2"><CardTitle className="text-sm">Kumulatívny Cash Flow</CardTitle></CardHeader>
             <CardContent>
@@ -183,6 +188,32 @@ export default function DevCalcResults({ results, baseData, projectName }) {
                   <Line type="monotone" dataKey="cumulative" stroke="#2563EB" strokeWidth={2} dot={false} name="Kumul. CF" />
                 </LineChart>
               </ResponsiveContainer>
+            </CardContent>
+          </Card>
+          {/* Monthly table */}
+          <Card>
+            <CardHeader className="pb-2"><CardTitle className="text-sm">Mesačný prehľad cash flow</CardTitle></CardHeader>
+            <CardContent className="p-0">
+              <div className="overflow-auto max-h-64">
+                <table className="w-full text-xs">
+                  <thead className="sticky top-0 bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th className="text-left px-4 py-2 font-semibold text-gray-600">Mesiac</th>
+                      <th className="text-right px-4 py-2 font-semibold text-gray-600">Mesačný CF</th>
+                      <th className="text-right px-4 py-2 font-semibold text-gray-600">Kumulatívny CF</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(r.monthlyData || []).map((m, i) => (
+                      <tr key={i} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                        <td className="px-4 py-1.5 text-gray-500 font-medium">{m.month}</td>
+                        <td className={`px-4 py-1.5 text-right font-mono ${m.net >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>{fmtEur(m.net)}</td>
+                        <td className={`px-4 py-1.5 text-right font-mono font-semibold ${m.cumulative >= 0 ? 'text-emerald-700' : 'text-red-600'}`}>{fmtEur(m.cumulative)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
