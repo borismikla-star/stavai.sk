@@ -60,6 +60,8 @@ import Landing from './pages/Landing';
 import PermitTimeline from './pages/PermitTimeline';
 import Profile from './pages/Profile';
 import SensitivityEngine from './pages/SensitivityEngine';
+import Pricing from './pages/Pricing';
+import Portfolio from './pages/Portfolio';
 import __Layout from './Layout.jsx';
 
 
@@ -77,6 +79,8 @@ export const PAGES = {
     "PermitTimeline": PermitTimeline,
     "Profile": Profile,
     "SensitivityEngine": SensitivityEngine,
+    "Pricing": Pricing,
+    "Portfolio": Portfolio,
 }
 
 export const pagesConfig = {
