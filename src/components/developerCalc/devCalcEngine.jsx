@@ -110,10 +110,24 @@ export function calculateDevelopment(d) {
 
   const totalProjectCosts = totalCostsNet + totalFinancingCosts;
 
+  // ── VAT & TAX ──
+  const vatRate = n(d.vat_rate) || 0; // e.g. 20 = 20%
+  const vatOnRevenue = totalGrossRevenue * (vatRate / (100 + vatRate)); // VAT included in price
+  const revenueExVat = totalGrossRevenue - vatOnRevenue;
+  const entityType = d.entity_type || 'PO'; // 'FO' | 'PO'
+  // PO: 21% corporate tax on profit; FO: 15% if turnover < 100k else 19%/25% (simplified)
+  const taxRate = entityType === 'FO'
+    ? (totalGrossRevenue <= 100000 ? 15 : 19)
+    : 21;
+
   // ── KPIs ──
   const grossProfit = totalGrossRevenue - totalProjectCosts;
   const profitMargin = totalGrossRevenue > 0 ? (grossProfit / totalGrossRevenue) * 100 : 0;
   const developerMargin = totalProjectCosts > 0 ? (grossProfit / totalProjectCosts) * 100 : 0;
+  const taxAmount = grossProfit > 0 ? grossProfit * (taxRate / 100) : 0;
+  const profitAfterTax = grossProfit - taxAmount;
+  const profitMarginAfterTax = totalGrossRevenue > 0 ? (profitAfterTax / totalGrossRevenue) * 100 : 0;
+
   const equityMultiple = ownResources > 0 ? (ownResources + grossProfit) / ownResources : 0;
   const annualizedReturn = ownResources > 0 && projectDurationYears > 0
     ? (Math.pow(equityMultiple, 1 / projectDurationYears) - 1) * 100
@@ -165,6 +179,8 @@ export function calculateDevelopment(d) {
     // Revenue
     apartmentsRevenue, nonResRevenue, parkingIndoorRevenue, parkingOutdoorRevenue,
     balconiesRevenue, gardensRevenue, basementsRevenue, otherRevenue, totalGrossRevenue,
+    // Tax
+    vatRate, vatOnRevenue, revenueExVat, taxRate, taxAmount, profitAfterTax, profitMarginAfterTax, entityType,
     // KPIs
     grossProfit, profitMargin, developerMargin, equityMultiple,
     annualizedReturn, irr, costPerM2, revenuePerM2, profitPerM2,
