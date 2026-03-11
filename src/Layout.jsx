@@ -132,7 +132,7 @@ export default function Layout({ children, currentPageName }) {
               )}
               <div className="relative group">
                 <button className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-all">
-                  <div className="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center">
+                  <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-blue-700 rounded-full flex items-center justify-center shadow-sm">
                     <span className="text-white text-xs font-bold">{user?.full_name?.charAt(0) || '?'}</span>
                   </div>
                   <span>{user?.full_name?.split(' ')[0]}</span>
