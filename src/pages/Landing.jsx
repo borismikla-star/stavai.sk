@@ -225,7 +225,7 @@ export default function Landing() {
       </section>
 
       {/* Tools */}
-      <section id="nastroje" className="py-24 bg-gray-50">
+      <section id="nastroje" className="py-24 bg-[#f5f6fa]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-xl mb-14">
             <p className="text-xs font-semibold text-blue-600 uppercase tracking-widest mb-3">Nástroje</p>
