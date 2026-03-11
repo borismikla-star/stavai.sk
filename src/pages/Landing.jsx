@@ -34,7 +34,7 @@ export default function Landing() {
     { icon: Clock, title: 'Harmonogram Povolení', desc: 'Gantt diagram ÚR, SP, EIA s dopadom na cashflow.', tag: 'Pro', accent: 'amber' },
     { icon: BarChart2, title: 'Cost Benchmark', desc: 'Databáza stavebných nákladov podľa regiónu a štandardu.', tag: 'Free', accent: 'violet' },
     { icon: TrendingUp, title: 'Sensitivity Engine', desc: 'Scenáriové simulácie dopadu zmien na IRR a zisk.', tag: 'Pro', accent: 'rose' },
-    { icon: BookOpen, title: 'Odborné Články', desc: 'Analýzy trhu, legislatíva, case studies pre SK/CZ.', tag: 'Free', accent: 'sky' },
+    { icon: BookOpen, title: 'Odborné Články', desc: 'Analýzy trhu, legislatíva, case studies pre SK trh.', tag: 'Free', accent: 'sky' },
   ];
 
   const accentMap = {
