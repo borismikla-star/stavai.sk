@@ -358,9 +358,13 @@ export default function Landing() {
                   }`}>{plan.badge}</span>
                 </div>
                 <div className={`text-xs font-semibold uppercase tracking-wider mb-2 mt-2 ${plan.highlight ? 'text-blue-400' : 'text-gray-400'}`}>{plan.name}</div>
-                <div className={`text-3xl font-bold mb-1 tracking-tight ${plan.highlight ? 'text-white' : 'text-gray-900'}`}>
-                  {plan.price}<span className={`text-sm font-normal ml-1 ${plan.highlight ? 'text-white/40' : 'text-gray-400'}`}>{plan.period}</span>
-                </div>
+                {plan.price === null ? (
+                  <div className="text-5xl font-bold mb-1 tracking-tight text-gray-300">Čoskoro</div>
+                ) : (
+                  <div className={`text-3xl font-bold mb-1 tracking-tight ${plan.highlight ? 'text-white' : 'text-gray-900'}`}>
+                    {plan.price}<span className={`text-sm font-normal ml-1 ${plan.highlight ? 'text-white/40' : 'text-gray-400'}`}>{plan.period}</span>
+                  </div>
+                )}
                 <div className={`text-sm mb-7 ${plan.highlight ? 'text-white/50' : 'text-gray-400'}`}>{plan.desc}</div>
                 <ul className="space-y-2.5 mb-8">
                   {plan.features.map((f, j) => (
