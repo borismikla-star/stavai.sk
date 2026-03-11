@@ -65,7 +65,7 @@ export default function Landing() {
   const betaBannerText = settings?.beta_banner || 'BETA · Pridajte sa ako prví adopteri platformy!';
 
   return (
-    <div className="min-h-screen bg-white" style={{ fontFamily: "'Inter', -apple-system, sans-serif" }}>
+    <div className="min-h-screen bg-white" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" }}>
 
       {/* Beta Banner */}
       {isBeta && !bannerDismissed && (
