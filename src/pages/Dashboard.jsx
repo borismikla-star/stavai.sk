@@ -165,37 +165,42 @@ export default function Dashboard() {
         {/* Analyses */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-bold text-gray-900">Posledné analýzy</h2>
-            <Link to={createPageUrl('LandFeasibility')} className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
+            <h2 className="text-base font-bold text-white">Posledné analýzy</h2>
+            <Link to={createPageUrl('LandFeasibility')} className="text-xs font-semibold flex items-center gap-1 transition-colors"
+              style={{ color: '#818cf8' }}>
               Nová <ArrowUpRight className="w-3 h-3" />
             </Link>
           </div>
-          <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+          <div className="rounded-2xl overflow-hidden"
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
             {recentAnalyses.length === 0 ? (
               <div className="py-12 text-center">
-                <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <FileText className="w-5 h-5 text-blue-400" />
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
+                  style={{ background: 'rgba(99,102,241,0.15)' }}>
+                  <FileText className="w-5 h-5" style={{ color: '#818cf8' }} />
                 </div>
-                <p className="text-gray-500 text-sm font-medium mb-1">Zatiaľ žiadne analýzy</p>
-                <Link to={createPageUrl('LandFeasibility')} className="text-blue-600 text-xs font-medium hover:underline">
+                <p className="text-sm font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Zatiaľ žiadne analýzy</p>
+                <Link to={createPageUrl('LandFeasibility')} className="text-xs font-medium" style={{ color: '#818cf8' }}>
                   Vytvoriť prvú analýzu →
                 </Link>
               </div>
             ) : (
-              <div className="divide-y divide-gray-100">
+              <div>
                 {recentAnalyses.map((a) => (
-                  <div key={a.id} className="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+                  <div key={a.id} className="flex items-center justify-between px-5 py-4 transition-colors"
+                    style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                     <div>
-                      <div className="font-medium text-gray-900 text-sm">{a.project_name}</div>
-                      <div className="text-xs text-gray-400 mt-0.5">
+                      <div className="font-semibold text-white text-sm">{a.project_name}</div>
+                      <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
                         IRR: {a.irr ? `${a.irr}%` : 'N/A'} · {new Date(a.created_date).toLocaleDateString('sk')}
                       </div>
                     </div>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
-                      a.recommendation === 'proceed' ? 'bg-emerald-100 text-emerald-700' :
-                      a.recommendation === 'reject' ? 'bg-red-100 text-red-600' :
-                      'bg-amber-100 text-amber-700'
-                    }`}>
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                      style={a.recommendation === 'proceed' ? { background: 'rgba(16,185,129,0.15)', color: '#34d399' } :
+                             a.recommendation === 'reject' ? { background: 'rgba(239,68,68,0.15)', color: '#f87171' } :
+                             { background: 'rgba(245,158,11,0.15)', color: '#fbbf24' }}>
                       {a.recommendation === 'proceed' ? 'Odporúčané' : a.recommendation === 'reject' ? 'Zamietnuté' : 'Na zváženie'}
                     </span>
                   </div>
@@ -208,40 +213,44 @@ export default function Dashboard() {
         {/* Projects */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-bold text-gray-900">Moje projekty</h2>
+            <h2 className="text-base font-bold text-white">Moje projekty</h2>
             <div className="flex items-center gap-3">
-              <Link to={createPageUrl('Portfolio')} className="text-xs text-gray-500 hover:text-gray-700 font-medium">Portfólio →</Link>
-              <Link to={createPageUrl('DeveloperCalc')} className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1">
+              <Link to={createPageUrl('Portfolio')} className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>Portfólio →</Link>
+              <Link to={createPageUrl('DeveloperCalc')} className="text-xs font-semibold flex items-center gap-1" style={{ color: '#818cf8' }}>
                 Nový <ArrowUpRight className="w-3 h-3" />
               </Link>
             </div>
           </div>
-          <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+          <div className="rounded-2xl overflow-hidden"
+            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
             {recentProjects.length === 0 ? (
               <div className="py-12 text-center">
-                <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <Calculator className="w-5 h-5 text-blue-400" />
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
+                  style={{ background: 'rgba(99,102,241,0.15)' }}>
+                  <Calculator className="w-5 h-5" style={{ color: '#818cf8' }} />
                 </div>
-                <p className="text-gray-500 text-sm font-medium mb-1">Zatiaľ žiadne projekty</p>
-                <Link to={createPageUrl('DeveloperCalc')} className="text-blue-600 text-xs font-medium hover:underline">
+                <p className="text-sm font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Zatiaľ žiadne projekty</p>
+                <Link to={createPageUrl('DeveloperCalc')} className="text-xs font-medium" style={{ color: '#818cf8' }}>
                   Vytvoriť prvý projekt →
                 </Link>
               </div>
             ) : (
-              <div className="divide-y divide-gray-100">
+              <div>
                 {recentProjects.map((p) => (
-                  <div key={p.id} className="flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors">
+                  <div key={p.id} className="flex items-center justify-between px-5 py-4 transition-colors"
+                    style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
                     <div>
-                      <div className="font-medium text-gray-900 text-sm">{p.name}</div>
-                      <div className="text-xs text-gray-400 mt-0.5 capitalize">
+                      <div className="font-semibold text-white text-sm">{p.name}</div>
+                      <div className="text-xs mt-0.5 capitalize" style={{ color: 'rgba(255,255,255,0.4)' }}>
                         {p.type} · {p.location || 'Bez lokality'}
                       </div>
                     </div>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
-                      p.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
-                      p.status === 'in_progress' ? 'bg-blue-100 text-blue-700' :
-                      'bg-gray-100 text-gray-600'
-                    }`}>
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                      style={p.status === 'completed' ? { background: 'rgba(16,185,129,0.15)', color: '#34d399' } :
+                             p.status === 'in_progress' ? { background: 'rgba(99,102,241,0.15)', color: '#818cf8' } :
+                             { background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }}>
                       {p.status === 'planning' ? 'Plánovaný' :
                        p.status === 'in_progress' ? 'Prebieha' :
                        p.status === 'completed' ? 'Dokončený' : 'Analýza'}
