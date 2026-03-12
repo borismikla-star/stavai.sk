@@ -1,1 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap');
+
+:root {
+  --primary: 243 75% 59%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 245 60% 97%;
+  --secondary-foreground: 243 75% 45%;
+  --muted: 240 10% 96%;
+  --muted-foreground: 240 5% 46%;
+  --accent: 250 60% 96%;
+  --accent-foreground: 243 75% 45%;
+  --ring: 243 75% 59%;
+  --background: 240 20% 98%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 10%;
+  --foreground: 240 10% 10%;
+  --border: 240 10% 91%;
+}
