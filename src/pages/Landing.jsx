@@ -412,13 +412,12 @@ export default function Landing() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-[#0a1628] relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="py-20 bg-indigo-600 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-white/5 rounded-full blur-3xl pointer-events-none" />
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Pripravený na lepšie rozhodnutia?</h2>
-          <p className="text-white/50 mb-8 leading-relaxed">Pripojte sa k developerom, ktorí rozhodujú na dátach, nie na odhadoch.</p>
-          <Button onClick={handleLogin} className="bg-blue-500 hover:bg-blue-400 text-white px-7 py-3 text-sm font-bold rounded-xl shadow-lg shadow-blue-500/25">
+          <p className="text-indigo-100 mb-8 leading-relaxed">Pripojte sa k developerom, ktorí rozhodujú na dátach, nie na odhadoch.</p>
+          <Button onClick={handleLogin} className="bg-white text-indigo-600 hover:bg-indigo-50 px-7 py-3 text-sm font-bold rounded-xl shadow-lg">
             {isBeta ? 'Pripojiť sa do beta' : 'Začať zadarmo'} <ArrowRight className="w-4 h-4 ml-2 inline" />
           </Button>
         </div>
