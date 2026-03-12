@@ -438,11 +438,23 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div className="md:col-span-2">
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <Building2 className="w-4 h-4 text-white" />
-                </div>
-                <span className="font-bold text-gray-900 text-lg">stavai<span className="text-blue-600">.sk</span></span>
+              <div className="mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 285 72" height="32">
+                  <defs>
+                    <filter id="shadow3" x="-20%" y="-20%" width="140%" height="140%">
+                      <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#4F46E5" floodOpacity="0.22"/>
+                    </filter>
+                  </defs>
+                  <g filter="url(#shadow3)">
+                    <rect x="0" y="0" width="72" height="72" rx="20" fill="#4F46E5"/>
+                    <rect x="0" y="0" width="72" height="36" rx="20" fill="white" opacity="0.04"/>
+                    <path d="M36 18L55 32V54H17V32L36 18Z" stroke="white" strokeWidth="3" strokeLinejoin="round" fill="rgba(255,255,255,0.1)"/>
+                    <rect x="30" y="41" width="12" height="13" rx="3" fill="white"/>
+                    <rect x="43" y="31" width="6" height="6" rx="1.5" fill="white" opacity="0.55"/>
+                  </g>
+                  <text x="88" y="54" fontFamily="'Outfit', sans-serif" fontSize="52" fontWeight="900" letterSpacing="-2" fill="#111118">stav</text>
+                  <text x="200" y="54" fontFamily="'Outfit', sans-serif" fontSize="52" fontWeight="900" letterSpacing="-2" fill="#4F46E5">ai</text>
+                </svg>
               </div>
               <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
                 Analytická platforma pre real estate development na Slovensku.
