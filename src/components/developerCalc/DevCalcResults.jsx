@@ -14,6 +14,7 @@ import BenchmarkContext from './BenchmarkContext';
 import VatInputBanner from '../shared/VatInputBanner';
 import LegislativeNotes from '../shared/LegislativeNotes';
 import UpgradePrompt from '../shared/UpgradePrompt';
+import Paywall from '../shared/Paywall';
 
 const fmt = (n) => Math.round(n || 0).toLocaleString('sk-SK');
 const fmtEur = (n) => `€ ${fmt(n)}`;
