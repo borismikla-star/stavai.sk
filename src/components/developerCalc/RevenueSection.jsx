@@ -40,6 +40,7 @@ export default function RevenueSection({ data, projectData, results, onChange })
     <Card>
       <CardHeader className="pb-2"><CardTitle className="text-sm">Tržby z predaja</CardTitle></CardHeader>
       <CardContent>
+        {data.vat_rate > 0 && <div className="mb-3"><VatInputBanner vatRate={data.vat_rate} totalRevenue={r.totalGrossRevenue} /></div>}
         <div className="grid grid-cols-12 gap-2 pb-2 border-b text-gray-400 text-xs">
           <div className="col-span-4">Položka</div>
           <div className="col-span-3">Množstvo</div>
