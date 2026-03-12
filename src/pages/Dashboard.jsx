@@ -109,32 +109,47 @@ export default function Dashboard() {
       {/* Tools */}
       <div className="mb-10">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-base font-bold text-gray-900">Analytické nástroje</h2>
-          <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full">{tools.length} nástrojov</span>
+          <h2 className="text-base font-bold text-white">Analytické nástroje</h2>
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
+            style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }}>
+            {tools.length} nástrojov
+          </span>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {tools.map((tool, i) => {
             const a = accentMap[tool.accent];
             return (
               <Link key={i} to={createPageUrl(tool.path)}>
-                <div className="group bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-lg hover:shadow-gray-200/60 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer h-full flex flex-col">
+                <div className="group rounded-2xl p-5 hover:-translate-y-1 transition-all duration-200 cursor-pointer h-full flex flex-col"
+                  style={{
+                    background: 'rgba(255,255,255,0.05)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    backdropFilter: 'blur(10px)',
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.09)'; e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.3)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.boxShadow = 'none'; }}>
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center ${a.bg} border ${a.border} shadow-sm`}>
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center ${a.bg} border ${a.border}`}
+                      style={{ boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>
                       <tool.icon className={`w-5 h-5 ${a.icon}`} />
                     </div>
-                    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
-                      tool.tag === 'Pro'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-100 text-gray-500'
-                    }`}>
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+                      style={tool.tag === 'Pro' ? {
+                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                        color: '#fff',
+                      } : {
+                        background: 'rgba(255,255,255,0.08)',
+                        color: 'rgba(255,255,255,0.45)',
+                      }}>
                       {tool.tag}
                     </span>
                   </div>
-                  <h3 className="font-bold text-gray-900 text-sm mb-1.5 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-bold text-white text-sm mb-1.5">
                     {tool.title}
                   </h3>
-                  <p className="text-xs text-gray-500 leading-relaxed flex-1">{tool.desc}</p>
-                  <div className="flex items-center gap-1 mt-4 text-xs text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                  <p className="text-xs leading-relaxed flex-1" style={{ color: 'rgba(255,255,255,0.5)' }}>{tool.desc}</p>
+                  <div className="flex items-center gap-1 mt-4 text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{ color: '#818cf8' }}>
                     Otvoriť <ChevronRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
