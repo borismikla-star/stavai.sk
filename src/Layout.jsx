@@ -9,8 +9,8 @@ import {
 } from 'lucide-react';
 
 export default function Layout({ children, currentPageName }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
-  const [toolsOpen, setToolsOpen] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
