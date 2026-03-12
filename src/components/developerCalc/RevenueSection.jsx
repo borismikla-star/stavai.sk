@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import VatInputBanner from '../shared/VatInputBanner';
 
 const fmt = (n) => n > 0 ? `€ ${Math.round(n).toLocaleString('sk-SK')}` : '—';
 const n = (v) => { const p = Number(v); return isNaN(p) ? 0 : p; };
