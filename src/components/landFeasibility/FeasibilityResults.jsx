@@ -145,6 +145,7 @@ export default function FeasibilityResults({ results }) {
       <LandBalanceBlock balance={results.land_balance} t={t} />
 
       {/* Results Card */}
+      <Paywall feature="Detailné výstupy konceptu vyžadujú Pro plán" minHeight={400}>
       <Card>
         <CardHeader className="pb-2">
           <div className="flex items-center justify-between">
