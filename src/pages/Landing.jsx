@@ -349,33 +349,33 @@ export default function Landing() {
             ].map((plan, i) => (
               <div key={i} className={`rounded-2xl p-7 border relative ${
                 plan.highlight
-                  ? 'bg-[#0a1628] border-blue-500/50 shadow-xl shadow-blue-500/10'
-                  : 'bg-white border-gray-200'
+                  ? 'bg-indigo-600 border-indigo-600 shadow-xl shadow-indigo-100'
+                  : 'bg-white border-slate-200'
               }`}>
                 <div className="absolute -top-3 left-6">
                   <span className={`text-xs font-semibold px-3 py-1 rounded-full ${
-                    plan.highlight ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-500'
+                    plan.highlight ? 'bg-white text-indigo-600' : 'bg-slate-100 text-slate-500'
                   }`}>{plan.badge}</span>
                 </div>
-                <div className={`text-xs font-semibold uppercase tracking-wider mb-2 mt-2 ${plan.highlight ? 'text-blue-400' : 'text-gray-400'}`}>{plan.name}</div>
+                <div className={`text-xs font-semibold uppercase tracking-wider mb-2 mt-2 ${plan.highlight ? 'text-indigo-200' : 'text-slate-400'}`}>{plan.name}</div>
                 {plan.price === null ? (
-                  <div className="text-5xl font-bold mb-1 tracking-tight text-gray-300">Čoskoro</div>
+                  <div className="text-5xl font-bold mb-1 tracking-tight text-slate-300">Čoskoro</div>
                 ) : (
-                  <div className={`text-3xl font-bold mb-1 tracking-tight ${plan.highlight ? 'text-white' : 'text-gray-900'}`}>
-                    {plan.price}<span className={`text-sm font-normal ml-1 ${plan.highlight ? 'text-white/40' : 'text-gray-400'}`}>{plan.period}</span>
+                  <div className={`text-3xl font-bold mb-1 tracking-tight ${plan.highlight ? 'text-white' : 'text-slate-900'}`}>
+                    {plan.price}<span className={`text-sm font-normal ml-1 ${plan.highlight ? 'text-indigo-200' : 'text-slate-400'}`}>{plan.period}</span>
                   </div>
                 )}
-                <div className={`text-sm mb-7 ${plan.highlight ? 'text-white/50' : 'text-gray-400'}`}>{plan.desc}</div>
+                <div className={`text-sm mb-7 ${plan.highlight ? 'text-indigo-100' : 'text-slate-400'}`}>{plan.desc}</div>
                 <ul className="space-y-2.5 mb-8">
                   {plan.features.map((f, j) => (
-                    <li key={j} className={`flex items-center gap-2.5 text-sm ${plan.highlight ? 'text-white/70' : 'text-gray-600'}`}>
-                      <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? 'text-blue-400' : 'text-blue-500'}`} />
+                    <li key={j} className={`flex items-center gap-2.5 text-sm ${plan.highlight ? 'text-white/90' : 'text-slate-600'}`}>
+                      <Check className={`w-4 h-4 flex-shrink-0 ${plan.highlight ? 'text-indigo-200' : 'text-indigo-500'}`} />
                       {f}
                     </li>
                   ))}
                 </ul>
                 <Button onClick={handleLogin} className={`w-full py-2.5 font-semibold rounded-xl text-sm ${
-                  plan.highlight ? 'bg-blue-500 hover:bg-blue-400 text-white shadow-lg shadow-blue-500/25' : plan.price === null ? 'bg-transparent text-gray-400 hover:text-gray-600 border-0 shadow-none' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  plan.highlight ? 'bg-white text-indigo-600 hover:bg-indigo-50 shadow-lg' : plan.price === null ? 'bg-transparent text-slate-400 hover:text-slate-600 border-0 shadow-none' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                 }`} variant={plan.price === null ? 'ghost' : 'default'}>
                   {plan.cta}
                 </Button>
