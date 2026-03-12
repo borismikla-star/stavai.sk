@@ -97,8 +97,9 @@ export default function Landing() {
                 <rect x="30" y="41" width="12" height="13" rx="3" fill="white"/>
                 <rect x="43" y="31" width="6" height="6" rx="1.5" fill="white" opacity="0.55"/>
               </g>
-              <text x="88" y="54" fontFamily="'Outfit', sans-serif" fontSize="52" fontWeight="900" letterSpacing="-2" fill="#111118">stav</text>
-              <text x="200" y="54" fontFamily="'Outfit', sans-serif" fontSize="52" fontWeight="900" letterSpacing="-2" fill="#4F46E5">ai</text>
+              <text x="88" y="54" fontFamily="'Outfit', sans-serif" fontSize="52" fontWeight="900" letterSpacing="-2">
+                <tspan fill="#111118">stav</tspan><tspan fill="#4F46E5">ai</tspan>
+              </text>
             </svg>
           </div>
 
