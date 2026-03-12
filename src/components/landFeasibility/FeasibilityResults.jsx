@@ -5,6 +5,9 @@ import { AlertTriangle, AlertCircle } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import LandBalanceBlock from './LandBalanceBlock';
 import { HelpCircle } from 'lucide-react';
+import Paywall from '../shared/Paywall';
+import LegislativeNotes from '../shared/LegislativeNotes';
+import UpgradePrompt from '../shared/UpgradePrompt';
 
 const fmt = (n) => Math.round(n ?? 0).toLocaleString('sk-SK');
 
