@@ -74,7 +74,9 @@ export default function DevCalcResults({ results, baseData, projectName }) {
     <div className="space-y-4">
       {/* Export */}
       <div className="flex justify-end">
-        <ExportPDFButton results={r} projectName={projectName} data={baseData} />
+        <Paywall feature="PDF export vyžaduje Pro plán" minHeight={36}>
+          <ExportPDFButton results={r} projectName={projectName} data={baseData} />
+        </Paywall>
       </div>
       <UpgradePrompt />
       {/* KPI Row */}
