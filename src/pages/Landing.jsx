@@ -81,30 +81,30 @@ export default function Landing() {
       )}
 
       {/* Navbar */}
-      <header className="sticky top-0 z-50 bg-[#0a1628]/95 backdrop-blur border-b border-white/10">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center shadow-sm">
+            <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
               <Building2 className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold text-white text-lg tracking-tight">
-              stavai<span className="text-blue-400">.sk</span>
+            <span className="font-extrabold text-slate-900 text-lg tracking-tight">
+              stavai<span className="text-indigo-500">.sk</span>
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-white/60">
-            <a href="#nastroje" className="hover:text-white transition-colors">Nástroje</a>
-            <a href="#preco" className="hover:text-white transition-colors">Prečo stavai</a>
-            <a href="#cennik" className="hover:text-white transition-colors">Cenník</a>
-            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
-            <a href="#kontakt" className="hover:text-white transition-colors">Kontakt</a>
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-500">
+            <a href="#nastroje" className="hover:text-slate-900 transition-colors">Nástroje</a>
+            <a href="#preco" className="hover:text-slate-900 transition-colors">Prečo stavai</a>
+            <a href="#cennik" className="hover:text-slate-900 transition-colors">Cenník</a>
+            <a href="#faq" className="hover:text-slate-900 transition-colors">FAQ</a>
+            <a href="#kontakt" className="hover:text-slate-900 transition-colors">Kontakt</a>
           </nav>
 
           <div className="flex items-center gap-2">
-            <button onClick={handleLogin} className="text-sm font-medium text-white/70 hover:text-white transition-colors px-3 py-2 rounded-lg hover:bg-white/10">
+            <button onClick={handleLogin} className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-3 py-2 rounded-lg hover:bg-slate-100">
               Prihlásiť sa
             </button>
-            <Button onClick={handleLogin} className="bg-blue-500 hover:bg-blue-400 text-white text-sm px-4 py-2 rounded-lg font-semibold shadow-sm">
+            <Button onClick={handleLogin} className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-xl font-semibold shadow-sm">
               Začať zadarmo
             </Button>
           </div>
