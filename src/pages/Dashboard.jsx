@@ -85,33 +85,28 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
+    <div className="bg-slate-50 min-h-screen" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', sans-serif" }}>
 
       {/* Hero header */}
-      <div className="px-4 sm:px-6 lg:px-8 pt-10 pb-14"
-        style={{ background: 'transparent' }}>
+      <div className="bg-white border-b border-slate-100 px-4 sm:px-6 lg:px-8 pt-10 pb-10">
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full"
-              style={{ background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.3)' }}>
-              Dashboard
-            </span>
-          </div>
-          <h1 className="text-3xl lg:text-4xl font-extrabold text-white mb-2 tracking-tight">
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-600 inline-block mb-3">
+            Dashboard
+          </span>
+          <h1 className="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight">
             Dobrý deň, {user?.full_name?.split(' ')[0]} 👋
           </h1>
-          <p className="text-sm" style={{ color: 'rgba(255,255,255,0.45)' }}>Vyberte nástroj alebo pokračujte v rozpracovanom projekte.</p>
+          <p className="text-sm text-slate-500">Vyberte nástroj alebo pokračujte v rozpracovanom projekte.</p>
         </div>
       </div>
 
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
       {/* Tools */}
       <div className="mb-10">
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-base font-bold text-white">Analytické nástroje</h2>
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
-            style={{ background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }}>
+          <h2 className="text-base font-bold text-slate-900">Analytické nástroje</h2>
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
             {tools.length} nástrojov
           </span>
         </div>
@@ -120,36 +115,24 @@ export default function Dashboard() {
             const a = accentMap[tool.accent];
             return (
               <Link key={i} to={createPageUrl(tool.path)}>
-                <div className="group rounded-2xl p-5 hover:-translate-y-1 transition-all duration-200 cursor-pointer h-full flex flex-col"
-                  style={{
-                    background: 'rgba(255,255,255,0.05)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    backdropFilter: 'blur(10px)',
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.09)'; e.currentTarget.style.boxShadow = '0 20px 60px rgba(0,0,0,0.3)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.boxShadow = 'none'; }}>
+                <div className="group bg-white rounded-2xl p-5 border border-slate-200 hover:border-indigo-200 hover:shadow-lg hover:shadow-indigo-50 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer h-full flex flex-col">
                   <div className="flex items-start justify-between mb-4">
-                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center ${a.bg} border ${a.border}`}
-                      style={{ boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center ${a.bg} border ${a.border}`}>
                       <tool.icon className={`w-5 h-5 ${a.icon}`} />
                     </div>
-                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full"
-                      style={tool.tag === 'Pro' ? {
-                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                        color: '#fff',
-                      } : {
-                        background: 'rgba(255,255,255,0.08)',
-                        color: 'rgba(255,255,255,0.45)',
-                      }}>
+                    <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${
+                      tool.tag === 'Pro'
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-slate-100 text-slate-500'
+                    }`}>
                       {tool.tag}
                     </span>
                   </div>
-                  <h3 className="font-bold text-white text-sm mb-1.5">
+                  <h3 className="font-bold text-slate-900 text-sm mb-1.5 group-hover:text-indigo-600 transition-colors">
                     {tool.title}
                   </h3>
-                  <p className="text-xs leading-relaxed flex-1" style={{ color: 'rgba(255,255,255,0.5)' }}>{tool.desc}</p>
-                  <div className="flex items-center gap-1 mt-4 text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ color: '#818cf8' }}>
+                  <p className="text-xs text-slate-500 leading-relaxed flex-1">{tool.desc}</p>
+                  <div className="flex items-center gap-1 mt-4 text-xs font-bold text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity">
                     Otvoriť <ChevronRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
@@ -165,42 +148,37 @@ export default function Dashboard() {
         {/* Analyses */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-bold text-white">Posledné analýzy</h2>
-            <Link to={createPageUrl('LandFeasibility')} className="text-xs font-semibold flex items-center gap-1 transition-colors"
-              style={{ color: '#818cf8' }}>
+            <h2 className="text-base font-bold text-slate-900">Posledné analýzy</h2>
+            <Link to={createPageUrl('LandFeasibility')} className="text-xs font-semibold flex items-center gap-1 text-indigo-600 hover:text-indigo-700">
               Nová <ArrowUpRight className="w-3 h-3" />
             </Link>
           </div>
-          <div className="rounded-2xl overflow-hidden"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
             {recentAnalyses.length === 0 ? (
               <div className="py-12 text-center">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
-                  style={{ background: 'rgba(99,102,241,0.15)' }}>
-                  <FileText className="w-5 h-5" style={{ color: '#818cf8' }} />
+                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <FileText className="w-5 h-5 text-indigo-400" />
                 </div>
-                <p className="text-sm font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Zatiaľ žiadne analýzy</p>
-                <Link to={createPageUrl('LandFeasibility')} className="text-xs font-medium" style={{ color: '#818cf8' }}>
+                <p className="text-slate-500 text-sm font-medium mb-1">Zatiaľ žiadne analýzy</p>
+                <Link to={createPageUrl('LandFeasibility')} className="text-indigo-600 text-xs font-medium hover:underline">
                   Vytvoriť prvú analýzu →
                 </Link>
               </div>
             ) : (
-              <div>
+              <div className="divide-y divide-slate-100">
                 {recentAnalyses.map((a) => (
-                  <div key={a.id} className="flex items-center justify-between px-5 py-4 transition-colors"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
-                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                  <div key={a.id} className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition-colors">
                     <div>
-                      <div className="font-semibold text-white text-sm">{a.project_name}</div>
-                      <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                      <div className="font-semibold text-slate-900 text-sm">{a.project_name}</div>
+                      <div className="text-xs text-slate-400 mt-0.5">
                         IRR: {a.irr ? `${a.irr}%` : 'N/A'} · {new Date(a.created_date).toLocaleDateString('sk')}
                       </div>
                     </div>
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                      style={a.recommendation === 'proceed' ? { background: 'rgba(16,185,129,0.15)', color: '#34d399' } :
-                             a.recommendation === 'reject' ? { background: 'rgba(239,68,68,0.15)', color: '#f87171' } :
-                             { background: 'rgba(245,158,11,0.15)', color: '#fbbf24' }}>
+                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                      a.recommendation === 'proceed' ? 'bg-emerald-100 text-emerald-700' :
+                      a.recommendation === 'reject' ? 'bg-red-100 text-red-600' :
+                      'bg-amber-100 text-amber-700'
+                    }`}>
                       {a.recommendation === 'proceed' ? 'Odporúčané' : a.recommendation === 'reject' ? 'Zamietnuté' : 'Na zváženie'}
                     </span>
                   </div>
@@ -213,44 +191,40 @@ export default function Dashboard() {
         {/* Projects */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-bold text-white">Moje projekty</h2>
+            <h2 className="text-base font-bold text-slate-900">Moje projekty</h2>
             <div className="flex items-center gap-3">
-              <Link to={createPageUrl('Portfolio')} className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>Portfólio →</Link>
-              <Link to={createPageUrl('DeveloperCalc')} className="text-xs font-semibold flex items-center gap-1" style={{ color: '#818cf8' }}>
+              <Link to={createPageUrl('Portfolio')} className="text-xs text-slate-400 hover:text-slate-600 font-medium">Portfólio →</Link>
+              <Link to={createPageUrl('DeveloperCalc')} className="text-xs text-indigo-600 hover:text-indigo-700 font-semibold flex items-center gap-1">
                 Nový <ArrowUpRight className="w-3 h-3" />
               </Link>
             </div>
           </div>
-          <div className="rounded-2xl overflow-hidden"
-            style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
             {recentProjects.length === 0 ? (
               <div className="py-12 text-center">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3"
-                  style={{ background: 'rgba(99,102,241,0.15)' }}>
-                  <Calculator className="w-5 h-5" style={{ color: '#818cf8' }} />
+                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <Calculator className="w-5 h-5 text-indigo-400" />
                 </div>
-                <p className="text-sm font-medium mb-1" style={{ color: 'rgba(255,255,255,0.5)' }}>Zatiaľ žiadne projekty</p>
-                <Link to={createPageUrl('DeveloperCalc')} className="text-xs font-medium" style={{ color: '#818cf8' }}>
+                <p className="text-slate-500 text-sm font-medium mb-1">Zatiaľ žiadne projekty</p>
+                <Link to={createPageUrl('DeveloperCalc')} className="text-indigo-600 text-xs font-medium hover:underline">
                   Vytvoriť prvý projekt →
                 </Link>
               </div>
             ) : (
-              <div>
+              <div className="divide-y divide-slate-100">
                 {recentProjects.map((p) => (
-                  <div key={p.id} className="flex items-center justify-between px-5 py-4 transition-colors"
-                    style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
-                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                  <div key={p.id} className="flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition-colors">
                     <div>
-                      <div className="font-semibold text-white text-sm">{p.name}</div>
-                      <div className="text-xs mt-0.5 capitalize" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                      <div className="font-semibold text-slate-900 text-sm">{p.name}</div>
+                      <div className="text-xs text-slate-400 mt-0.5 capitalize">
                         {p.type} · {p.location || 'Bez lokality'}
                       </div>
                     </div>
-                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
-                      style={p.status === 'completed' ? { background: 'rgba(16,185,129,0.15)', color: '#34d399' } :
-                             p.status === 'in_progress' ? { background: 'rgba(99,102,241,0.15)', color: '#818cf8' } :
-                             { background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.5)' }}>
+                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                      p.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                      p.status === 'in_progress' ? 'bg-indigo-100 text-indigo-700' :
+                      'bg-slate-100 text-slate-500'
+                    }`}>
                       {p.status === 'planning' ? 'Plánovaný' :
                        p.status === 'in_progress' ? 'Prebieha' :
                        p.status === 'completed' ? 'Dokončený' : 'Analýza'}
@@ -265,19 +239,13 @@ export default function Dashboard() {
 
       {/* Beta banner */}
       {user?.beta_access && (
-        <div className="mt-8 rounded-2xl p-5 flex items-center gap-4"
-          style={{
-            background: 'linear-gradient(135deg, rgba(99,102,241,0.3), rgba(139,92,246,0.3))',
-            border: '1px solid rgba(139,92,246,0.4)',
-            boxShadow: '0 8px 30px rgba(99,102,241,0.2)',
-          }}>
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-            style={{ background: 'rgba(255,255,255,0.15)' }}>
+        <div className="mt-8 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-2xl p-5 flex items-center gap-4 shadow-lg shadow-indigo-100">
+          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
             <Zap className="w-5 h-5 text-white" />
           </div>
           <div>
             <div className="font-bold text-white text-sm">Beta prístup aktívny</div>
-            <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.6)' }}>Máte prístup ku všetkým Pro funkciám počas beta fázy. Ďakujeme za spätnú väzbu!</div>
+            <div className="text-xs text-white/70 mt-0.5">Máte prístup ku všetkým Pro funkciám počas beta fázy. Ďakujeme za spätnú väzbu!</div>
           </div>
         </div>
       )}

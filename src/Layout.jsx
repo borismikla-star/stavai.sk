@@ -26,7 +26,7 @@ export default function Layout({ children, currentPageName }) {
   }
 
   if (isLoading) {
-    return <div className="min-h-screen bg-slate-950" />;
+    return <div className="min-h-screen bg-slate-50" />;
   }
 
   if (!user) {
@@ -51,50 +51,41 @@ export default function Layout({ children, currentPageName }) {
   const isToolActive = tools.some(t => t.path === currentPageName);
 
   return (
-    <div className="min-h-screen" style={{
-      fontFamily: "'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif",
-      background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
-      backgroundAttachment: 'fixed',
-    }}>
+    <div className="min-h-screen bg-slate-50" style={{ fontFamily: "'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" }}>
+
       {/* Top nav */}
-      <nav style={{
-        background: 'rgba(15, 12, 41, 0.85)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(255,255,255,0.08)',
-      }} className="sticky top-0 z-50">
+      <nav className="sticky top-0 z-50 bg-white border-b border-slate-200/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-15" style={{ height: 60 }}>
 
             {/* Logo */}
             <Link to={createPageUrl('Landing')} className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg"
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm"
                 style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
-                <Building2 className="w-4.5 h-4.5 text-white" style={{ width: 18, height: 18 }} />
+                <Building2 className="text-white" style={{ width: 15, height: 15 }} />
               </div>
-              <span className="font-extrabold text-white text-lg tracking-tight">
-                stavai<span style={{ color: '#818cf8' }}>.sk</span>
+              <span className="font-extrabold text-slate-900 text-lg tracking-tight">
+                stavai<span className="text-indigo-500">.sk</span>
               </span>
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden md:flex items-center gap-0.5">
               {nav.map((item) => {
                 const isActive = currentPageName === item.path;
                 return (
                   <Link
                     key={item.path}
                     to={createPageUrl(item.path)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+                    className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-150"
                     style={isActive ? {
-                      background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                      color: '#fff',
-                      boxShadow: '0 4px 15px rgba(99,102,241,0.4)',
+                      background: 'linear-gradient(135deg, #eef2ff, #ede9fe)',
+                      color: '#4f46e5',
                     } : {
-                      color: 'rgba(255,255,255,0.65)',
+                      color: '#64748b',
                     }}
-                    onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
-                    onMouseLeave={e => { if (!isActive) { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'transparent'; } }}
+                    onMouseEnter={e => { if (!isActive) { e.currentTarget.style.color = '#1e293b'; e.currentTarget.style.background = '#f8fafc'; } }}
+                    onMouseLeave={e => { if (!isActive) { e.currentTarget.style.color = '#64748b'; e.currentTarget.style.background = 'transparent'; } }}
                   >
                     <item.icon className="w-4 h-4" />
                     {item.name}
@@ -106,15 +97,16 @@ export default function Layout({ children, currentPageName }) {
               <div className="relative">
                 <button
                   onClick={() => setToolsOpen(o => !o)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-150"
                   style={isToolActive ? {
-                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                    color: '#fff',
-                    boxShadow: '0 4px 15px rgba(99,102,241,0.4)',
+                    background: 'linear-gradient(135deg, #eef2ff, #ede9fe)',
+                    color: '#4f46e5',
                   } : {
-                    color: 'rgba(255,255,255,0.65)',
-                    background: toolsOpen ? 'rgba(255,255,255,0.08)' : 'transparent',
+                    color: '#64748b',
+                    background: toolsOpen ? '#f8fafc' : 'transparent',
                   }}
+                  onMouseEnter={e => { if (!isToolActive) { e.currentTarget.style.color = '#1e293b'; e.currentTarget.style.background = '#f8fafc'; } }}
+                  onMouseLeave={e => { if (!isToolActive && !toolsOpen) { e.currentTarget.style.color = '#64748b'; e.currentTarget.style.background = 'transparent'; } }}
                 >
                   <Calculator className="w-4 h-4" />
                   Nástroje
@@ -124,12 +116,10 @@ export default function Layout({ children, currentPageName }) {
                 {toolsOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setToolsOpen(false)} />
-                    <div className="absolute top-full left-0 mt-2 w-60 rounded-2xl z-50 py-2 overflow-hidden"
+                    <div className="absolute top-full left-0 mt-2 w-56 rounded-2xl z-50 py-1.5 overflow-hidden bg-white"
                       style={{
-                        background: 'rgba(15, 12, 41, 0.97)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-                        backdropFilter: 'blur(20px)',
+                        border: '1px solid #e2e8f0',
+                        boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
                       }}>
                       {tools.map((tool) => {
                         const active = currentPageName === tool.path;
@@ -138,16 +128,16 @@ export default function Layout({ children, currentPageName }) {
                             key={tool.path}
                             to={createPageUrl(tool.path)}
                             onClick={() => setToolsOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-150"
+                            className="flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-100"
                             style={active ? {
-                              color: '#818cf8',
-                              background: 'rgba(99,102,241,0.15)',
+                              color: '#4f46e5',
+                              background: '#eef2ff',
                               fontWeight: 600,
                             } : {
-                              color: 'rgba(255,255,255,0.7)',
+                              color: '#475569',
                             }}
-                            onMouseEnter={e => { if (!active) { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; } }}
-                            onMouseLeave={e => { if (!active) { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.background = 'transparent'; } }}
+                            onMouseEnter={e => { if (!active) { e.currentTarget.style.color = '#1e293b'; e.currentTarget.style.background = '#f8fafc'; } }}
+                            onMouseLeave={e => { if (!active) { e.currentTarget.style.color = '#475569'; e.currentTarget.style.background = 'transparent'; } }}
                           >
                             <tool.icon className="w-4 h-4" />
                             {tool.name}
@@ -161,33 +151,30 @@ export default function Layout({ children, currentPageName }) {
             </div>
 
             {/* Right */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2">
               {user?.beta_access && (
-                <span className="text-xs font-bold px-2.5 py-1 rounded-full"
-                  style={{ background: 'rgba(139,92,246,0.2)', color: '#c4b5fd', border: '1px solid rgba(139,92,246,0.3)' }}>
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-violet-100 text-violet-700">
                   Beta
                 </span>
               )}
               <div className="relative group">
-                <button className="flex items-center gap-2.5 px-3 py-2 rounded-xl transition-all duration-200"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <button className="flex items-center gap-2 px-3 py-1.5 rounded-xl transition-all duration-150 hover:bg-slate-100"
+                  style={{ border: '1px solid #e2e8f0' }}>
                   <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold"
                     style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
                     {user?.full_name?.charAt(0) || '?'}
                   </div>
-                  <span className="text-sm font-semibold text-white">{user?.full_name?.split(' ')[0]}</span>
-                  <ChevronDown className="w-3.5 h-3.5" style={{ color: 'rgba(255,255,255,0.4)' }} />
+                  <span className="text-sm font-semibold text-slate-700">{user?.full_name?.split(' ')[0]}</span>
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                 </button>
-                <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl z-50 py-2 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
+                <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl z-50 py-1.5 overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 bg-white"
                   style={{
-                    background: 'rgba(15, 12, 41, 0.97)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-                    backdropFilter: 'blur(20px)',
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
                   }}>
-                  <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <div className="text-sm font-bold text-white">{user?.full_name}</div>
-                    <div className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.4)' }}>{user?.role === 'admin' ? 'Admin' : 'Pro'}</div>
+                  <div className="px-4 py-3 border-b border-slate-100">
+                    <div className="text-sm font-bold text-slate-800">{user?.full_name}</div>
+                    <div className="text-xs text-slate-400 mt-0.5">{user?.role === 'admin' ? 'Admin' : 'Pro'}</div>
                   </div>
 
                   {[
@@ -195,38 +182,35 @@ export default function Layout({ children, currentPageName }) {
                     { path: 'BetaAccess', icon: Rocket, label: 'Beta program' },
                   ].map(item => (
                     <Link key={item.path} to={createPageUrl(item.path)}
-                      className="flex items-center gap-2.5 px-4 py-2.5 text-sm transition-all duration-150"
-                      style={{ color: 'rgba(255,255,255,0.65)' }}
-                      onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
-                      onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'transparent'; }}>
+                      className="flex items-center gap-2.5 px-4 py-2.5 text-sm transition-all duration-100 text-slate-600"
+                      onMouseEnter={e => { e.currentTarget.style.color = '#1e293b'; e.currentTarget.style.background = '#f8fafc'; }}
+                      onMouseLeave={e => { e.currentTarget.style.color = '#475569'; e.currentTarget.style.background = 'transparent'; }}>
                       <item.icon className="w-4 h-4" />{item.label}
                     </Link>
                   ))}
 
                   {user?.role === 'admin' && (
                     <>
-                      <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '4px 0' }} />
+                      <div className="border-t border-slate-100 my-1" />
                       {[
                         { path: 'Admin', icon: Settings, label: 'Admin panel' },
                         { path: 'AdminUsers', icon: User, label: 'Správa používateľov' },
                         { path: 'AdminSettings', icon: Settings, label: 'Nastavenia platformy' },
                       ].map(item => (
                         <Link key={item.path} to={createPageUrl(item.path)}
-                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm transition-all duration-150"
-                          style={{ color: 'rgba(255,255,255,0.65)' }}
-                          onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
-                          onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.65)'; e.currentTarget.style.background = 'transparent'; }}>
+                          className="flex items-center gap-2.5 px-4 py-2.5 text-sm transition-all duration-100 text-slate-600"
+                          onMouseEnter={e => { e.currentTarget.style.color = '#1e293b'; e.currentTarget.style.background = '#f8fafc'; }}
+                          onMouseLeave={e => { e.currentTarget.style.color = '#475569'; e.currentTarget.style.background = 'transparent'; }}>
                           <item.icon className="w-4 h-4" />{item.label}
                         </Link>
                       ))}
                     </>
                   )}
 
-                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '4px 0' }} />
+                  <div className="border-t border-slate-100 my-1" />
                   <button onClick={() => base44.auth.logout()}
-                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm transition-all duration-150"
-                    style={{ color: '#f87171' }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(248,113,113,0.1)'; }}
+                    className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-red-500 transition-all duration-100"
+                    onMouseEnter={e => { e.currentTarget.style.background = '#fff5f5'; }}
                     onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}>
                     <LogOut className="w-4 h-4" /> Odhlásiť sa
                   </button>
@@ -236,8 +220,7 @@ export default function Layout({ children, currentPageName }) {
 
             {/* Mobile toggle */}
             <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg transition-all"
-              style={{ color: 'rgba(255,255,255,0.7)', background: 'rgba(255,255,255,0.08)' }}>
+              className="md:hidden p-2 rounded-lg transition-all text-slate-600 hover:bg-slate-100">
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
@@ -245,47 +228,42 @@ export default function Layout({ children, currentPageName }) {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden px-4 py-3 space-y-1"
-            style={{ borderTop: '1px solid rgba(255,255,255,0.08)', background: 'rgba(15,12,41,0.97)' }}>
+          <div className="md:hidden px-4 py-3 space-y-0.5 border-t border-slate-100 bg-white">
             {nav.map((item) => {
               const isActive = currentPageName === item.path;
               return (
                 <Link key={item.path} to={createPageUrl(item.path)} onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all"
                   style={isActive ? {
-                    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                    color: '#fff',
-                  } : { color: 'rgba(255,255,255,0.65)' }}>
+                    background: '#eef2ff', color: '#4f46e5',
+                  } : { color: '#475569' }}>
                   <item.icon className="w-4 h-4" />{item.name}
                 </Link>
               );
             })}
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 8, marginTop: 8 }}>
-              <div className="text-xs font-bold uppercase tracking-wider px-4 mb-2" style={{ color: 'rgba(255,255,255,0.3)' }}>Nástroje</div>
+            <div className="border-t border-slate-100 pt-2 mt-2">
+              <div className="text-xs font-bold uppercase tracking-wider px-4 mb-2 text-slate-400">Nástroje</div>
               {tools.map((tool) => (
                 <Link key={tool.path} to={createPageUrl(tool.path)} onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all"
                   style={currentPageName === tool.path ? {
-                    background: 'rgba(99,102,241,0.2)', color: '#818cf8',
-                  } : { color: 'rgba(255,255,255,0.65)' }}>
+                    background: '#eef2ff', color: '#4f46e5',
+                  } : { color: '#475569' }}>
                   <tool.icon className="w-4 h-4" />{tool.name}
                 </Link>
               ))}
             </div>
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 8, marginTop: 8 }}>
+            <div className="border-t border-slate-100 pt-2 mt-2">
               <Link to={createPageUrl('Profile')} onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all"
-                style={{ color: 'rgba(255,255,255,0.65)' }}>
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-slate-600 transition-all">
                 <User className="w-4 h-4" /> Profil
               </Link>
               <Link to={createPageUrl('BetaAccess')} onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition-all"
-                style={{ color: 'rgba(255,255,255,0.65)' }}>
+                className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm text-slate-600 transition-all">
                 <Rocket className="w-4 h-4" /> Beta program
               </Link>
               <button onClick={() => base44.auth.logout()}
-                className="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl mt-1 transition-all"
-                style={{ color: '#f87171' }}>
+                className="w-full text-left flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl mt-1 text-red-500">
                 <LogOut className="w-4 h-4" /> Odhlásiť sa
               </button>
             </div>
@@ -293,7 +271,7 @@ export default function Layout({ children, currentPageName }) {
         )}
       </nav>
 
-      <main className="min-h-[calc(100vh-4rem)]">
+      <main className="min-h-[calc(100vh-60px)]">
         {children}
       </main>
     </div>
