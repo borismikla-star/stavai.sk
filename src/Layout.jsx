@@ -59,14 +59,23 @@ export default function Layout({ children, currentPageName }) {
           <div className="flex justify-between items-center h-15" style={{ height: 60 }}>
 
             {/* Logo */}
-            <Link to={createPageUrl('Landing')} className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-xl flex items-center justify-center shadow-sm"
-                style={{ background: 'linear-gradient(135deg, #6366f1, #8b5cf6)' }}>
-                <Building2 className="text-white" style={{ width: 15, height: 15 }} />
-              </div>
-              <span className="font-extrabold text-slate-900 text-lg tracking-tight">
-                stavai<span className="text-indigo-500">.sk</span>
-              </span>
+            <Link to={createPageUrl('Landing')} className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 285 72" height="36">
+                <defs>
+                  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#4F46E5" floodOpacity="0.22"/>
+                  </filter>
+                </defs>
+                <g filter="url(#shadow)">
+                  <rect x="0" y="0" width="72" height="72" rx="20" fill="#4F46E5"/>
+                  <rect x="0" y="0" width="72" height="36" rx="20" fill="white" opacity="0.04"/>
+                  <path d="M36 18L55 32V54H17V32L36 18Z" stroke="white" strokeWidth="3" strokeLinejoin="round" fill="rgba(255,255,255,0.1)"/>
+                  <rect x="30" y="41" width="12" height="13" rx="3" fill="white"/>
+                  <rect x="43" y="31" width="6" height="6" rx="1.5" fill="white" opacity="0.55"/>
+                </g>
+                <text x="88" y="54" fontFamily="'Outfit', sans-serif" fontSize="52" fontWeight="900" letterSpacing="-2" fill="#111118">stav</text>
+                <text x="200" y="54" fontFamily="'Outfit', sans-serif" fontSize="52" fontWeight="900" letterSpacing="-2" fill="#4F46E5">ai</text>
+              </svg>
             </Link>
 
             {/* Desktop Nav */}
