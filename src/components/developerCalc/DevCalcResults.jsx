@@ -265,12 +265,14 @@ export default function DevCalcResults({ results, baseData, projectName }) {
 
         {/* MONTE CARLO */}
         <TabsContent value="montecarlo" className="mt-3">
-          <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm">Monte Carlo simulácia</CardTitle></CardHeader>
-            <CardContent>
-              {baseData ? <MonteCarloTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
-            </CardContent>
-          </Card>
+          <Paywall feature="Monte Carlo simulácia vyžaduje Pro plán" minHeight={300}>
+            <Card>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">Monte Carlo simulácia</CardTitle></CardHeader>
+              <CardContent>
+                {baseData ? <MonteCarloTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
+              </CardContent>
+            </Card>
+          </Paywall>
         </TabsContent>
 
         {/* BENCHMARK */}
