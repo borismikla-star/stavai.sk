@@ -291,12 +291,14 @@ export default function DevCalcResults({ results, baseData, projectName }) {
 
         {/* AI */}
         <TabsContent value="ai" className="mt-3">
-          <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm">AI Sumarizácia projektu</CardTitle></CardHeader>
-            <CardContent>
-              <AISummary results={r} projectName={projectName} entityType={r.entityType} />
-            </CardContent>
-          </Card>
+          <Paywall feature="AI Sumarizácia vyžaduje Pro plán" minHeight={300}>
+            <Card>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">AI Sumarizácia projektu</CardTitle></CardHeader>
+              <CardContent>
+                <AISummary results={r} projectName={projectName} entityType={r.entityType} />
+              </CardContent>
+            </Card>
+          </Paywall>
         </TabsContent>
       </Tabs>
     </div>
