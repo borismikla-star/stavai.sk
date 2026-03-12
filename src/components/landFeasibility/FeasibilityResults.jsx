@@ -209,6 +209,10 @@ export default function FeasibilityResults({ results }) {
           )}
         </CardContent>
       </Card>
+      </Paywall>
+
+      {/* Legislative Notes */}
+      <LegislativeNotes />
     </div>
   );
 }
