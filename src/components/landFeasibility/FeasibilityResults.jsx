@@ -122,6 +122,7 @@ export default function FeasibilityResults({ results }) {
 
   return (
     <div className="space-y-4">
+      <UpgradePrompt text="Pokročilá analýza pozemku — IRR, NPV a detailné benchmarky vyžadujú Pro plán" />
       {/* Warnings */}
       {(errors.length > 0 || warnings.length > 0) && (
         <div className="space-y-2">
