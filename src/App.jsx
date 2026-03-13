@@ -67,6 +67,13 @@ const AuthenticatedApp = () => {
           }
         />
       ))}
+      {/* Portal routes */}
+      <Route path="/PortalHome" element={<LayoutWrapper currentPageName="PortalHome"><PortalHome /></LayoutWrapper>} />
+      <Route path="/ListingDetail" element={<LayoutWrapper currentPageName="ListingDetail"><ListingDetail /></LayoutWrapper>} />
+      <Route path="/NewListing" element={<LayoutWrapper currentPageName="NewListing"><NewListing /></LayoutWrapper>} />
+      <Route path="/MyListings" element={<LayoutWrapper currentPageName="MyListings"><MyListings /></LayoutWrapper>} />
+      <Route path="/SavedListings" element={<LayoutWrapper currentPageName="SavedListings"><SavedListings /></LayoutWrapper>} />
+      <Route path="/MyInquiries" element={<LayoutWrapper currentPageName="MyInquiries"><MyInquiries /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
