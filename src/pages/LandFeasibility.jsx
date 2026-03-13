@@ -195,7 +195,7 @@ export default function LandFeasibility() {
             <div>
               <FeasibilityResults results={results} />
               <div className="mt-4">
-                <ExportPDF results={results} projectName={conceptName || 'Land Feasibility'} baseData={inputs} />
+                <ExportPDFButton results={results} projectName={conceptName || 'Land Feasibility'} data={inputs} />
               </div>
             </div>
           </div>
