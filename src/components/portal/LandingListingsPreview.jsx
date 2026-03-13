@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
-import { MapPin, Maximize2, ArrowRight, Eye } from 'lucide-react';
+import { MapPin, Maximize2 } from 'lucide-react';
 
 const TYPE_LABELS = { residential: 'Rezidenčné', commercial: 'Komerčné', land: 'Pozemok', development: 'Development' };
 const LISTING_LABELS = { sale: 'Predaj', lease: 'Nájom', investment: 'Investícia' };
