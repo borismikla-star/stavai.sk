@@ -123,6 +123,25 @@ export default function Landing() {
         </div>
       </header>
 
+      {/* Portal Listings Strip */}
+      <section className="bg-slate-50 border-b border-slate-200 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-5">
+            <div>
+              <span className="text-xs font-semibold text-indigo-600 uppercase tracking-widest">Realitný portál</span>
+              <h2 className="text-xl font-bold text-slate-900 mt-0.5">Najnovšie ponuky</h2>
+            </div>
+            <button
+              onClick={handleLogin}
+              className="flex items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+            >
+              Zobraziť všetky <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+          <LandingListingsPreview onLogin={handleLogin} />
+        </div>
+      </section>
+
       {/* Hero */}
       <section className="bg-white pt-20 pb-28 lg:pt-28 lg:pb-36 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-indigo-50 rounded-full blur-3xl pointer-events-none opacity-60" />
