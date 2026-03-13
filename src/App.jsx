@@ -1,5 +1,12 @@
 import './App.css'
 import { Toaster } from "@/components/ui/toaster"
+// Portal pages
+import PortalHome from './pages/PortalHome';
+import ListingDetail from './pages/ListingDetail';
+import NewListing from './pages/NewListing';
+import MyListings from './pages/MyListings';
+import SavedListings from './pages/SavedListings';
+import MyInquiries from './pages/MyInquiries';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'
