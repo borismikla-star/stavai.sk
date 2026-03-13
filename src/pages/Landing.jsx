@@ -26,17 +26,6 @@ export default function Landing() {
     base44.auth.redirectToLogin(createPageUrl('Dashboard'));
   };
 
-  const calcROI = () => {
-    const inv = parseFloat(calcInputs.investment) || 0;
-    const rev = parseFloat(calcInputs.revenue) || 0;
-    const dur = parseFloat(calcInputs.duration) || 1;
-    if (!inv || !rev) return;
-    const profit = rev - inv;
-    const roi = ((profit / inv) * 100).toFixed(1);
-    const irr = (((Math.pow(rev / inv, 1 / dur)) - 1) * 100).toFixed(1);
-    setCalcResult({ profit, roi, irr });
-  };
-
   const tools = [
     { icon: BarChart2, title: 'Land Feasibility Analyzer', desc: 'Reziduálna hodnota pozemku, IRR, NPV. Rozhodujte na dátach.', tag: 'Pro' },
     { icon: Calculator, title: 'Developer Kalkulačka', desc: 'Kompletný finančný model — cashflow, DSCR, bankový export.', tag: 'Pro' },
