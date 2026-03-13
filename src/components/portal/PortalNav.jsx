@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Heart, MessageSquare, PlusCircle, Building2, Lock, Vault } from 'lucide-react';
+import { Home, Heart, MessageSquare, PlusCircle, Building2, Lock, ShieldCheck } from 'lucide-react';
 
 const links = [
   { to: '/PortalHome', label: 'Portál', Icon: Home },
