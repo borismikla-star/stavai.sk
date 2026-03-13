@@ -101,7 +101,7 @@ export default function SensitivityEngine() {
       </div>
 
       <Paywall feature="Sensitivity & Risk Engine je Pro funkcia" minHeight={400}>
-      <div className="grid lg:grid-cols-4 gap-8">
+        <div className="grid lg:grid-cols-4 gap-8">
         {/* Base Inputs */}
         <div className="space-y-6">
           <Card className="bg-white border-slate-200">
