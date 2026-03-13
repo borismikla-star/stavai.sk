@@ -56,22 +56,8 @@ export default function LandingListingsPreview({ onLogin }) {
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-100 overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-        <div>
-          <div className="font-bold text-slate-900 text-sm">Realitný portál</div>
-          <div className="text-xs text-slate-400 mt-0.5">Aktuálne ponuky</div>
-        </div>
-        <button
-          onClick={onLogin}
-          className="flex items-center gap-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
-        >
-          Zobraziť všetky <ArrowRight className="w-3.5 h-3.5" />
-        </button>
-      </div>
-
       {/* Listings grid */}
-      <div className="p-4">
+      <div>
         {isLoading ? (
           <div className="grid grid-cols-2 gap-3">
             {[...Array(4)].map((_, i) => (
