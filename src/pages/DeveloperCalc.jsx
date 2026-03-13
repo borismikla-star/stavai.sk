@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Save, Loader2, List, Plus, ArrowLeft, Calculator, BookTemplate } from 'lucide-react';
+import { Save, Loader2, List, Plus, ArrowLeft, Calculator, Copy } from 'lucide-react';
 import SaveTemplateDialog from '../components/shared/SaveTemplateDialog';
 import ProjectInfoSection from '../components/developerCalc/ProjectInfoSection';
 import CostSection from '../components/developerCalc/CostSection';
