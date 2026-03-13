@@ -77,15 +77,7 @@ export default function LandingListingsPreview({ onLogin }) {
           </div>
         )}
 
-        {listings.length > 0 && (
-          <button
-            onClick={onLogin}
-            className="mt-3 w-full flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 hover:text-indigo-600 py-2.5 rounded-xl border border-slate-200 hover:border-indigo-200 hover:bg-indigo-50 transition-all"
-          >
-            <Eye className="w-3.5 h-3.5" />
-            {listings.length > 4 ? `+ ${listings.length - 4} ďalších inzerátov` : 'Otvoriť portál'}
-          </button>
-        )}
+
       </div>
     </div>
   );
