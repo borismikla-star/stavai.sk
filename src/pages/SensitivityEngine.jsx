@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import Paywall from '../components/shared/Paywall';
 
 const fmt = (n) => new Intl.NumberFormat('sk-SK', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n || 0);
 const fmtEur = (n) => `€ ${fmt(n)}`;
