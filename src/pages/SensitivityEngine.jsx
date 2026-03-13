@@ -268,6 +268,7 @@ export default function SensitivityEngine() {
           </Card>
         </div>
       </div>
+      </Paywall>
     </div>
   );
 }
