@@ -245,22 +245,26 @@ export default function DevCalcResults({ results, baseData, projectName }) {
 
         {/* SCENARIOS */}
         <TabsContent value="scenarios" className="mt-3">
-          <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm">Porovnanie scenárov</CardTitle></CardHeader>
-            <CardContent>
-              {baseData ? <ScenariosTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
-            </CardContent>
-          </Card>
+          <Paywall feature="Scenárová analýza vyžaduje Pro plán" minHeight={300}>
+            <Card>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">Porovnanie scenárov</CardTitle></CardHeader>
+              <CardContent>
+                {baseData ? <ScenariosTab baseData={baseData} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
+              </CardContent>
+            </Card>
+          </Paywall>
         </TabsContent>
 
         {/* SALES PLAN */}
         <TabsContent value="salesplan" className="mt-3">
-          <Card>
-            <CardHeader className="pb-2"><CardTitle className="text-sm">Predajný plán</CardTitle></CardHeader>
-            <CardContent>
-              {baseData ? <SalesPlanTab baseData={baseData} results={r} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
-            </CardContent>
-          </Card>
+          <Paywall feature="Predajný plán vyžaduje Pro plán" minHeight={300}>
+            <Card>
+              <CardHeader className="pb-2"><CardTitle className="text-sm">Predajný plán</CardTitle></CardHeader>
+              <CardContent>
+                {baseData ? <SalesPlanTab baseData={baseData} results={r} /> : <p className="text-xs text-gray-400">Načítavam...</p>}
+              </CardContent>
+            </Card>
+          </Paywall>
         </TabsContent>
 
         {/* MONTE CARLO */}
