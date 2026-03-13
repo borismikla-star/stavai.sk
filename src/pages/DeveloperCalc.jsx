@@ -256,6 +256,13 @@ export default function DeveloperCalc() {
             </div>
             {isDirty && <Badge variant="outline" className="text-xs text-amber-600 border-amber-300">Neuložené</Badge>}
             <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTemplateDialogOpen(true)}
+            >
+              <Copy className="w-4 h-4 mr-1.5" /> Uložiť ako template
+            </Button>
+            <Button
               onClick={handleSave}
               disabled={saveMutation.isPending}
               className="bg-emerald-600 hover:bg-emerald-700 text-white"
@@ -265,6 +272,23 @@ export default function DeveloperCalc() {
               {saveMutation.isPending ? 'Ukladám…' : 'Uložiť'}
             </Button>
           </div>
+
+          <SaveTemplateDialog
+            open={templateDialogOpen}
+            onClose={() => setTemplateDialogOpen(false)}
+            onSave={(name) => {
+              saveMutation.mutate({
+                name,
+                type: 'residential',
+                area: data.gfa_above,
+                status: 'planning',
+                estimated_cost: results.totalProjectCosts,
+                estimated_duration: data.project_duration_months,
+                description: JSON.stringify({ inputs: data, results, isTemplate: true }),
+              });
+            }}
+            defaultName={projectName || 'Môj template'}
+          />
 
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Left — Inputs */}
