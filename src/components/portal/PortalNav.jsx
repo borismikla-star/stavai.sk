@@ -4,7 +4,7 @@ import { Home, Heart, MessageSquare, PlusCircle, Building2, Lock, ShieldCheck } 
 
 const links = [
   { to: '/PortalHome', label: 'Portál', Icon: Home },
-  { to: '/OffMarketHub', label: 'Off-Market', Icon: Lock },
+  { to: '/OffMarketHub', label: 'Off-Market', Icon: ShieldCheck },
   { to: '/MyListings', label: 'Moje inzeráty', Icon: Building2 },
   { to: '/SavedListings', label: 'Uložené', Icon: Heart },
   { to: '/MyInquiries', label: 'Dopyty', Icon: MessageSquare },
