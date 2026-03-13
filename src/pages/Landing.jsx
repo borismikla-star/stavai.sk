@@ -254,67 +254,6 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Quick ROI Check */}
-      <section id="roi" className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-xs font-semibold text-indigo-600 uppercase tracking-widest mb-3">Rýchly test</p>
-              <h2 className="text-3xl font-bold text-slate-900 mb-4 tracking-tight">Vypočítajte ROI projektu za 30 sekúnd</h2>
-              <p className="text-slate-500 leading-relaxed mb-6">Jednoduchý orientačný výpočet. Pre detailnú analýzu s IRR, NPV a cashflow použite naše Pro nástroje.</p>
-              <div className="flex items-center gap-3">
-                <Button onClick={handleLogin} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
-                  Otvoriť Pro kalkulačku
-                </Button>
-              </div>
-            </div>
-            <div className="bg-slate-50 rounded-2xl border border-slate-200 p-7">
-              <div className="flex items-center gap-2 mb-5">
-                <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
-                  <Target className="w-3.5 h-3.5 text-indigo-600" />
-                </div>
-                <span className="font-semibold text-slate-900 text-sm">Rýchly ROI Check</span>
-              </div>
-              <div className="space-y-3.5">
-                {[
-                  { label: 'Investícia (€)', key: 'investment', placeholder: 'napr. 1 000 000' },
-                  { label: 'Očakávaný výnos (€)', key: 'revenue', placeholder: 'napr. 1 400 000' },
-                  { label: 'Trvanie projektu (roky)', key: 'duration', placeholder: 'napr. 3' },
-                ].map(field => (
-                  <div key={field.key}>
-                    <label className="text-xs font-medium text-slate-500 mb-1.5 block">{field.label}</label>
-                    <input
-                      type="number"
-                      placeholder={field.placeholder}
-                      value={calcInputs[field.key]}
-                      onChange={e => setCalcInputs(p => ({ ...p, [field.key]: e.target.value }))}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white text-slate-900 placeholder-slate-300"
-                    />
-                  </div>
-                ))}
-                <Button onClick={calcROI} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl font-semibold text-sm">
-                  Vypočítať
-                </Button>
-              </div>
-              {calcResult && (
-                <div className="mt-5 pt-5 border-t border-slate-200 grid grid-cols-3 gap-3">
-                  {[
-                    { label: 'Zisk', value: `${calcResult.profit >= 0 ? '+' : ''}${new Intl.NumberFormat('sk', { maximumFractionDigits: 0 }).format(calcResult.profit)} €`, color: 'text-slate-900' },
-                    { label: 'ROI', value: `${calcResult.roi}%`, color: parseFloat(calcResult.roi) >= 15 ? 'text-emerald-600' : parseFloat(calcResult.roi) >= 5 ? 'text-amber-600' : 'text-red-600' },
-                    { label: 'IRR / rok', value: `${calcResult.irr}%`, color: parseFloat(calcResult.irr) >= 12 ? 'text-emerald-600' : parseFloat(calcResult.irr) >= 5 ? 'text-amber-600' : 'text-red-600' },
-                  ].map(m => (
-                    <div key={m.label} className="bg-white rounded-xl p-3 text-center border border-slate-100">
-                      <div className={`text-lg font-bold ${m.color}`}>{m.value}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Tools */}
       <section id="nastroje" className="py-24 bg-[#f5f6fa]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
