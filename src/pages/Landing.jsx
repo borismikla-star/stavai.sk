@@ -11,8 +11,6 @@ import { Button } from '@/components/ui/button';
 import LandingListingsPreview from '@/components/portal/LandingListingsPreview';
 
 export default function Landing() {
-  const [calcInputs, setCalcInputs] = useState({ investment: '', revenue: '', duration: '' });
-  const [calcResult, setCalcResult] = useState(null);
   const [openFaq, setOpenFaq] = useState(null);
   const [bannerDismissed, setBannerDismissed] = useState(false);
 
