@@ -75,6 +75,7 @@ const AuthenticatedApp = () => {
       <Route path="/MyListings" element={<LayoutWrapper currentPageName="MyListings"><MyListings /></LayoutWrapper>} />
       <Route path="/SavedListings" element={<LayoutWrapper currentPageName="SavedListings"><SavedListings /></LayoutWrapper>} />
       <Route path="/MyInquiries" element={<LayoutWrapper currentPageName="MyInquiries"><MyInquiries /></LayoutWrapper>} />
+      <Route path="/NDARequests" element={<LayoutWrapper currentPageName="NDARequests"><NDARequests /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
