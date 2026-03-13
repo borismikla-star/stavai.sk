@@ -97,6 +97,9 @@ export default function Landing() {
             <a href="#cennik" className="hover:text-slate-900 transition-colors">Cenník</a>
             <a href="#faq" className="hover:text-slate-900 transition-colors">FAQ</a>
             <a href="#kontakt" className="hover:text-slate-900 transition-colors">Kontakt</a>
+            <button onClick={handleLogin} className="flex items-center gap-1.5 text-indigo-600 font-semibold hover:text-indigo-800 transition-colors">
+              <Building2 className="w-4 h-4" /> Portál
+            </button>
           </nav>
 
           <div className="flex items-center gap-2">
