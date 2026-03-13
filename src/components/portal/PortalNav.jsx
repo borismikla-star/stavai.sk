@@ -18,7 +18,7 @@ export default function PortalNav() {
         return (
           <Link key={to} to={to}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${active ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'}`}>
-            <Icon className="w-4 h-4" />
+            <Icon className="w-4 h-4" strokeWidth={2} />
             {label}
           </Link>
         );
