@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import {
   BarChart2, Calculator, Clock, TrendingUp, ChevronRight,
-  Shield, ArrowRight, Check, Star, Building2,
+  Shield, Target, ArrowRight, Check, Star, Building2,
   BookOpen, FileSpreadsheet, ChevronDown, X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
