@@ -70,8 +70,8 @@ export default function LandingListingsPreview({ onLogin }) {
             <div className="text-xs">Čoskoro prvé inzeráty</div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
-            {listings.slice(0, 4).map(l => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {listings.slice(0, 6).map(l => (
               <MiniCard key={l.id} listing={l} />
             ))}
           </div>
