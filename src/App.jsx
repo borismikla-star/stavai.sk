@@ -8,6 +8,8 @@ import MyListings from './pages/MyListings';
 import SavedListings from './pages/SavedListings';
 import MyInquiries from './pages/MyInquiries';
 import NDARequests from './pages/NDARequests';
+import OffMarketHub from './pages/OffMarketHub';
+import PortalOnboarding from './pages/PortalOnboarding';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'

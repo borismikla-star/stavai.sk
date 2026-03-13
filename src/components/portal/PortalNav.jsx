@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Heart, MessageSquare, PlusCircle, Building2, Lock } from 'lucide-react';
+import { Home, Heart, MessageSquare, PlusCircle, Building2, Lock, Vault } from 'lucide-react';
 
 const links = [
   { to: '/PortalHome', label: 'Portál', Icon: Home },
+  { to: '/OffMarketHub', label: 'Off-Market', Icon: Lock },
   { to: '/MyListings', label: 'Moje inzeráty', Icon: Building2 },
   { to: '/SavedListings', label: 'Uložené', Icon: Heart },
   { to: '/MyInquiries', label: 'Dopyty', Icon: MessageSquare },
