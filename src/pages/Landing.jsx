@@ -147,90 +147,33 @@ export default function Landing() {
         <div className="absolute top-0 right-0 w-[700px] h-[700px] bg-indigo-50 rounded-full blur-3xl pointer-events-none opacity-60" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-violet-50 rounded-full blur-3xl pointer-events-none opacity-60" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-            {/* Left */}
-            <div>
-              {isBeta && (
-                <div className="inline-flex items-center gap-2 bg-amber-50 text-amber-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-8 border border-amber-200">
-                  <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
-                  BETA · Pridajte sa ako prví
-                </div>
-              )}
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-6 tracking-tight">
-                Investujte do{' '}
-                <span className="text-indigo-600">nehnuteľností</span>{' '}
-                inteligentne
-              </h1>
-              <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-lg">
-                Profesionálne kalkulačky a AI analýzy pre investorov, developerov a stavebné firmy na slovenskom trhu.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 mb-12">
-                <Button onClick={handleLogin} className="bg-indigo-600 hover:bg-indigo-700 text-white px-7 py-3 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-indigo-200">
-                  {isBeta ? 'Pripojiť sa do beta' : 'Začať zadarmo'} <ArrowRight className="w-4 h-4" />
-                </Button>
-                <Button variant="outline" onClick={handleLogin} className="px-7 py-3 text-sm rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 font-medium">
-                  Zobraziť nástroje
-                </Button>
-              </div>
-              <div className="flex items-center gap-6 text-sm text-slate-400">
-                <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>Bez kreditky</span></div>
-                <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>Free plán</span></div>
-                <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>SK dáta</span></div>
-              </div>
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
+          {isBeta && (
+            <div className="inline-flex items-center gap-2 bg-amber-50 text-amber-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-8 border border-amber-200">
+              <span className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-pulse"></span>
+              BETA · Pridajte sa ako prví
             </div>
-
-            {/* Right — Quick Calc */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-xl shadow-slate-100">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
-                  <Target className="w-3.5 h-3.5 text-indigo-600" />
-                </div>
-                <span className="font-semibold text-slate-900 text-sm">Rýchly ROI Check</span>
-              </div>
-              <p className="text-xs text-slate-400 mb-6 ml-9">Rýchly odhad rentability projektu</p>
-
-              <div className="space-y-3.5">
-                {[
-                  { label: 'Investícia (€)', key: 'investment', placeholder: 'napr. 1 000 000' },
-                  { label: 'Očakávaný výnos (€)', key: 'revenue', placeholder: 'napr. 1 400 000' },
-                  { label: 'Trvanie projektu (roky)', key: 'duration', placeholder: 'napr. 3' },
-                ].map(field => (
-                  <div key={field.key}>
-                    <label className="text-xs font-medium text-slate-500 mb-1.5 block">{field.label}</label>
-                    <input
-                      type="number"
-                      placeholder={field.placeholder}
-                      value={calcInputs[field.key]}
-                      onChange={e => setCalcInputs(p => ({ ...p, [field.key]: e.target.value }))}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-slate-50 text-slate-900 placeholder-slate-300 transition-shadow"
-                    />
-                  </div>
-                ))}
-                <Button onClick={calcROI} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-indigo-100">
-                  Vypočítať
-                </Button>
-              </div>
-
-              {calcResult && (
-                <div className="mt-6 pt-6 border-t border-slate-100 grid grid-cols-3 gap-3">
-                  {[
-                    { label: 'Zisk', value: `${calcResult.profit >= 0 ? '+' : ''}${new Intl.NumberFormat('sk', { maximumFractionDigits: 0 }).format(calcResult.profit)} €`, color: 'text-slate-900' },
-                    { label: 'ROI', value: `${calcResult.roi}%`, color: parseFloat(calcResult.roi) >= 15 ? 'text-emerald-600' : parseFloat(calcResult.roi) >= 5 ? 'text-amber-600' : 'text-red-600' },
-                    { label: 'IRR / rok', value: `${calcResult.irr}%`, color: parseFloat(calcResult.irr) >= 12 ? 'text-emerald-600' : parseFloat(calcResult.irr) >= 5 ? 'text-amber-600' : 'text-red-600' },
-                  ].map(m => (
-                    <div key={m.label} className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
-                      <div className={`text-lg font-bold ${m.color}`}>{m.value}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {!calcResult && (
-                <p className="mt-4 text-xs text-slate-400 text-center">Pre detailnú analýzu použite naše Pro nástroje</p>
-              )}
-            </div>
+          )}
+          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-6 tracking-tight">
+            Investujte do{' '}
+            <span className="text-indigo-600">nehnuteľností</span>{' '}
+            inteligentne
+          </h1>
+          <p className="text-lg text-slate-500 mb-10 leading-relaxed max-w-xl mx-auto">
+            Profesionálne kalkulačky a AI analýzy pre investorov, developerov a stavebné firmy na slovenskom trhu.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
+            <Button onClick={handleLogin} className="bg-indigo-600 hover:bg-indigo-700 text-white px-7 py-3 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-indigo-200">
+              {isBeta ? 'Pripojiť sa do beta' : 'Začať zadarmo'} <ArrowRight className="w-4 h-4" />
+            </Button>
+            <Button variant="outline" onClick={handleLogin} className="px-7 py-3 text-sm rounded-xl border-slate-200 text-slate-700 hover:bg-slate-50 font-medium">
+              Zobraziť nástroje
+            </Button>
+          </div>
+          <div className="flex items-center justify-center gap-6 text-sm text-slate-400">
+            <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>Bez kreditky</span></div>
+            <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>Free plán</span></div>
+            <div className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-500" /><span>SK dáta</span></div>
           </div>
         </div>
       </section>
