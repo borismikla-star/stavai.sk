@@ -425,7 +425,7 @@ export default function Landing() {
                 <li><a href="#cennik" className="hover:text-gray-900 transition-colors">Cenník</a></li>
                 <li><a href="#faq" className="hover:text-gray-900 transition-colors">FAQ</a></li>
                 <li><button onClick={handleLogin} className="hover:text-gray-900 transition-colors">Prihlásiť sa</button></li>
-                <li><button onClick={handleLogin} className="flex items-center gap-1.5 text-indigo-600 font-semibold hover:text-indigo-800 transition-colors"><Building2 className="w-3.5 h-3.5" /> Realitný portál</button></li>
+                <li><button onClick={handleLogin} className="text-indigo-600 font-semibold hover:text-indigo-800 transition-colors">Realitný portál</button></li>
               </ul>
             </div>
             <div>
