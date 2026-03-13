@@ -55,7 +55,7 @@ export default function LandingListingsPreview({ onLogin }) {
   });
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-100 overflow-hidden">
+    <div>
       {/* Listings grid */}
       <div>
         {isLoading ? (
