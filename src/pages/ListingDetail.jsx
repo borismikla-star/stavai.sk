@@ -229,6 +229,11 @@ export default function ListingDetail() {
             </CardContent>
           </Card>
 
+          {/* NDA block for off-market */}
+          {listing.visibility === 'off_market' && (
+            <NDARequestBlock listing={listing} user={user} />
+          )}
+
           {/* Inquiry form */}
           <Card>
             <CardHeader className="pb-2">
