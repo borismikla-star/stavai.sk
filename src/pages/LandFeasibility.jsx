@@ -162,6 +162,7 @@ export default function LandFeasibility() {
 
       {/* View: Editor */}
       {view === 'editor' && (
+        <Paywall feature="Land Feasibility je Pro nástroj" minHeight={400}>
         <div>
           {/* Save bar */}
           <div className="flex items-center gap-3 mb-6 bg-white border border-gray-200 rounded-xl px-4 py-3 flex-wrap">
