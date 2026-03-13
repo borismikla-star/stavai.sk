@@ -162,56 +162,8 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* Right — Quick Calc */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-8 shadow-xl shadow-slate-100">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
-                  <Target className="w-3.5 h-3.5 text-indigo-600" />
-                </div>
-                <span className="font-semibold text-slate-900 text-sm">Rýchly ROI Check</span>
-              </div>
-              <p className="text-xs text-slate-400 mb-6 ml-9">Rýchly odhad rentability projektu</p>
-
-              <div className="space-y-3.5">
-                {[
-                  { label: 'Investícia (€)', key: 'investment', placeholder: 'napr. 1 000 000' },
-                  { label: 'Očakávaný výnos (€)', key: 'revenue', placeholder: 'napr. 1 400 000' },
-                  { label: 'Trvanie projektu (roky)', key: 'duration', placeholder: 'napr. 3' },
-                ].map(field => (
-                  <div key={field.key}>
-                    <label className="text-xs font-medium text-slate-500 mb-1.5 block">{field.label}</label>
-                    <input
-                      type="number"
-                      placeholder={field.placeholder}
-                      value={calcInputs[field.key]}
-                      onChange={e => setCalcInputs(p => ({ ...p, [field.key]: e.target.value }))}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-slate-50 text-slate-900 placeholder-slate-300 transition-shadow"
-                    />
-                  </div>
-                ))}
-                <Button onClick={calcROI} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-indigo-100">
-                  Vypočítať
-                </Button>
-              </div>
-
-              {calcResult && (
-                <div className="mt-6 pt-6 border-t border-slate-100 grid grid-cols-3 gap-3">
-                  {[
-                    { label: 'Zisk', value: `${calcResult.profit >= 0 ? '+' : ''}${new Intl.NumberFormat('sk', { maximumFractionDigits: 0 }).format(calcResult.profit)} €`, color: 'text-slate-900' },
-                    { label: 'ROI', value: `${calcResult.roi}%`, color: parseFloat(calcResult.roi) >= 15 ? 'text-emerald-600' : parseFloat(calcResult.roi) >= 5 ? 'text-amber-600' : 'text-red-600' },
-                    { label: 'IRR / rok', value: `${calcResult.irr}%`, color: parseFloat(calcResult.irr) >= 12 ? 'text-emerald-600' : parseFloat(calcResult.irr) >= 5 ? 'text-amber-600' : 'text-red-600' },
-                  ].map(m => (
-                    <div key={m.label} className="bg-slate-50 rounded-xl p-3 text-center border border-slate-100">
-                      <div className={`text-lg font-bold ${m.color}`}>{m.value}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {!calcResult && (
-                <p className="mt-4 text-xs text-slate-400 text-center">Pre detailnú analýzu použite naše Pro nástroje</p>
-              )}
-            </div>
+            {/* Right — Portal Listings Preview */}
+            <LandingListingsPreview onLogin={handleLogin} />
           </div>
         </div>
       </section>
