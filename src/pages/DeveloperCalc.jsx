@@ -98,6 +98,7 @@ export default function DeveloperCalc() {
   const [editingId, setEditingId] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
   const [data, setData] = useState(DEFAULTS);
+  const [templateDialogOpen, setTemplateDialogOpen] = useState(false);
 
   const results = useMemo(() => calculateDevelopment(data), [data]);
 
