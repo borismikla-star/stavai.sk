@@ -8,6 +8,7 @@ import {
   BookOpen, FileSpreadsheet, ChevronDown, X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import LandingListingsPreview from '@/components/portal/LandingListingsPreview';
 
 export default function Landing() {
   const [calcInputs, setCalcInputs] = useState({ investment: '', revenue: '', duration: '' });
