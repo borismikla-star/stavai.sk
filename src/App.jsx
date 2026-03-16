@@ -10,6 +10,8 @@ import MyInquiries from './pages/MyInquiries';
 import NDARequests from './pages/NDARequests';
 import OffMarketHub from './pages/OffMarketHub';
 import PortalOnboarding from './pages/PortalOnboarding';
+import PortalMap from './pages/PortalMap';
+import DealRoomPage from './pages/DealRoomPage';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'
@@ -80,6 +82,8 @@ const AuthenticatedApp = () => {
       <Route path="/NDARequests" element={<LayoutWrapper currentPageName="NDARequests"><NDARequests /></LayoutWrapper>} />
       <Route path="/OffMarketHub" element={<LayoutWrapper currentPageName="OffMarketHub"><OffMarketHub /></LayoutWrapper>} />
       <Route path="/PortalOnboarding" element={<PortalOnboarding />} />
+      <Route path="/PortalMap" element={<LayoutWrapper currentPageName="PortalMap"><PortalMap /></LayoutWrapper>} />
+      <Route path="/DealRoomPage" element={<LayoutWrapper currentPageName="DealRoomPage"><DealRoomPage /></LayoutWrapper>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
