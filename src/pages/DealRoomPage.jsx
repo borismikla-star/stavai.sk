@@ -1,0 +1,402 @@
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
+import { Link } from 'react-router-dom';
+import {
+  FileText, Upload, CheckCircle2, Clock, AlertTriangle,
+  Download, Eye, Shield, User, Building2, ChevronDown, ChevronUp
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/use-toast';
+import PortalNav from '@/components/portal/PortalNav';
+
+const STATUS_LABELS = { active: 'Aktívny', reservation_signed: 'Rezervácia podpísaná', completed: 'Uzavretý', cancelled: 'Zrušený' };
+const STATUS_COLORS = { active: 'bg-blue-100 text-blue-700', reservation_signed: 'bg-amber-100 text-amber-700', completed: 'bg-green-100 text-green-700', cancelled: 'bg-red-100 text-red-700' };
+const DOC_TYPE_LABELS = { nda: 'NDA', reservation: 'Rezervačná zmluva', due_diligence: 'Due Diligence', spa_draft: 'Návrh kúpnej zmluvy', other: 'Iné' };
+
+function formatDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('sk-SK', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+export default function DealRoomPage() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const dealId = urlParams.get('id');
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+  const [showAuditLog, setShowAuditLog] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [docType, setDocType] = useState('other');
+  const [reportedPriceInput, setReportedPriceInput] = useState('');
+
+  const { data: user } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: () => base44.auth.me(),
+    retry: false
+  });
+
+  const { data: deal, isLoading } = useQuery({
+    queryKey: ['deal-room', dealId],
+    queryFn: () => base44.entities.DealRoom.get(dealId),
+    enabled: !!dealId
+  });
+
+  const { data: listing } = useQuery({
+    queryKey: ['listing', deal?.listing_id],
+    queryFn: () => base44.entities.Listing.get(deal.listing_id),
+    enabled: !!deal?.listing_id
+  });
+
+  const { data: allUsers = [] } = useQuery({
+    queryKey: ['users'],
+    queryFn: () => base44.entities.User.list(),
+    enabled: !!deal
+  });
+  const userMap = Object.fromEntries(allUsers.map(u => [u.id, u]));
+
+  const updateMutation = useMutation({
+    mutationFn: (data) => base44.entities.DealRoom.update(dealId, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['deal-room', dealId] })
+  });
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    const newDoc = {
+      name: file.name,
+      url: file_url,
+      type: docType,
+      uploaded_by: user.id,
+      uploaded_at: new Date().toISOString(),
+      visible_to: 'both'
+    };
+    const newLog = {
+      user_id: user.id,
+      action: `Nahrál dokument: ${file.name}`,
+      document_name: file.name,
+      timestamp: new Date().toISOString()
+    };
+    await updateMutation.mutateAsync({
+      documents: [...(deal.documents || []), newDoc],
+      audit_log: [...(deal.audit_log || []), newLog]
+    });
+    setUploading(false);
+    toast({ title: 'Dokument nahraný' });
+  };
+
+  const handleStatusChange = async (newStatus) => {
+    const logEntry = {
+      user_id: user.id,
+      action: `Zmenil status na: ${STATUS_LABELS[newStatus]}`,
+      timestamp: new Date().toISOString()
+    };
+    const updates = {
+      status: newStatus,
+      audit_log: [...(deal.audit_log || []), logEntry]
+    };
+    if (newStatus === 'reservation_signed') updates.reservation_signed_at = new Date().toISOString();
+    if (newStatus === 'completed') updates.deal_closed_at = new Date().toISOString();
+    await updateMutation.mutateAsync(updates);
+    toast({ title: `Status zmenený na: ${STATUS_LABELS[newStatus]}` });
+  };
+
+  const handleReportPrice = async () => {
+    const price = parseFloat(reportedPriceInput);
+    if (!price) return;
+    const isSeller = deal.seller_id === user.id;
+    const fee = Math.round(price * 0.01); // 1% success fee
+    const logEntry = {
+      user_id: user.id,
+      action: `Nahlásil predajnú cenu: €${price.toLocaleString('sk-SK')}`,
+      timestamp: new Date().toISOString()
+    };
+    await updateMutation.mutateAsync({
+      ...(isSeller ? { reported_price: price } : { buyer_confirmed_price: price }),
+      fee_calculated: fee,
+      audit_log: [...(deal.audit_log || []), logEntry]
+    });
+    setReportedPriceInput('');
+    toast({ title: 'Cena zaznamenaná', description: `Success fee: €${fee.toLocaleString('sk-SK')}` });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <PortalNav />
+        <div className="space-y-3 mt-6">
+          {[...Array(3)].map((_, i) => <div key={i} className="bg-slate-100 rounded-2xl h-20 animate-pulse" />)}
+        </div>
+      </div>
+    );
+  }
+
+  if (!deal) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <PortalNav />
+        <div className="text-center py-20">
+          <div className="text-5xl mb-3">🚪</div>
+          <div className="font-bold text-slate-700">Deal Room nenájdený</div>
+        </div>
+      </div>
+    );
+  }
+
+  const isSeller = deal.seller_id === user?.id;
+  const isBuyer = deal.buyer_id === user?.id;
+  const isAgent = deal.agent_id === user?.id;
+  const isParticipant = isSeller || isBuyer || isAgent || user?.role === 'admin';
+
+  if (!isParticipant) {
+    return (
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <PortalNav />
+        <div className="text-center py-20">
+          <Shield className="w-12 h-12 mx-auto mb-4 text-slate-300" />
+          <div className="font-bold text-slate-700">Nemáte prístup k tomuto Deal Roomu</div>
+        </div>
+      </div>
+    );
+  }
+
+  const visibleDocs = (deal.documents || []).filter(doc => {
+    if (doc.visible_to === 'both') return true;
+    if (doc.visible_to === 'seller_only' && isSeller) return true;
+    if (doc.visible_to === 'buyer_only' && isBuyer) return true;
+    return user?.role === 'admin';
+  });
+
+  return (
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <PortalNav />
+
+      {/* Header */}
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
+              <Shield className="w-4 h-4 text-white" />
+            </div>
+            <h1 className="text-2xl font-black text-slate-900">Deal Room</h1>
+          </div>
+          {listing && (
+            <p className="text-slate-500 text-sm">
+              <Link to={`/ListingDetail?id=${listing.id}`} className="hover:text-indigo-600 transition-colors">{listing.title}</Link>
+              {' · '}{listing.location_city}
+            </p>
+          )}
+        </div>
+        <Badge className={`text-sm px-3 py-1 ${STATUS_COLORS[deal.status]}`}>
+          {STATUS_LABELS[deal.status]}
+        </Badge>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        {/* Left — main content */}
+        <div className="lg:col-span-2 space-y-6">
+
+          {/* Participants */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-5">
+            <h2 className="font-bold text-slate-800 mb-4 flex items-center gap-2"><User className="w-4 h-4" /> Účastníci</h2>
+            <div className="space-y-3">
+              {[
+                { role: 'Predávajúci', id: deal.seller_id, color: 'bg-orange-100 text-orange-700' },
+                { role: 'Kupujúci', id: deal.buyer_id, color: 'bg-blue-100 text-blue-700' },
+                ...(deal.agent_id ? [{ role: 'Agent', id: deal.agent_id, color: 'bg-purple-100 text-purple-700' }] : [])
+              ].map(p => (
+                <div key={p.id} className="flex items-center gap-3">
+                  <Badge className={`text-xs w-24 text-center ${p.color}`}>{p.role}</Badge>
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white text-xs font-bold">
+                    {userMap[p.id]?.full_name?.charAt(0) || '?'}
+                  </div>
+                  <span className="text-sm font-medium text-slate-700">
+                    {userMap[p.id]?.full_name || p.id}
+                    {p.id === user?.id && <span className="text-xs text-slate-400 ml-1">(ty)</span>}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Documents */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-5">
+            <h2 className="font-bold text-slate-800 mb-4 flex items-center gap-2"><FileText className="w-4 h-4" /> Dokumenty</h2>
+
+            {visibleDocs.length === 0 ? (
+              <div className="text-center py-8 text-slate-400 text-sm">Žiadne dokumenty zatiaľ</div>
+            ) : (
+              <div className="space-y-2 mb-4">
+                {visibleDocs.map((doc, i) => (
+                  <div key={i} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <FileText className="w-4 h-4 text-slate-400" />
+                      <div>
+                        <div className="text-sm font-medium text-slate-700">{doc.name}</div>
+                        <div className="text-xs text-slate-400">
+                          {DOC_TYPE_LABELS[doc.type] || doc.type} · {formatDate(doc.uploaded_at)}
+                          {' · '}{userMap[doc.uploaded_by]?.full_name || 'neznámy'}
+                        </div>
+                      </div>
+                    </div>
+                    <a href={doc.url} target="_blank" rel="noreferrer"
+                      className="p-2 hover:bg-slate-200 rounded-lg transition-colors">
+                      <Download className="w-4 h-4 text-slate-500" />
+                    </a>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Upload */}
+            {deal.status !== 'completed' && deal.status !== 'cancelled' && (
+              <div className="border-t border-slate-100 pt-4">
+                <div className="flex gap-2 items-center mb-2">
+                  <select
+                    value={docType}
+                    onChange={e => setDocType(e.target.value)}
+                    className="flex-1 h-9 rounded-lg border border-slate-200 text-sm px-2 text-slate-700 bg-white"
+                  >
+                    {Object.entries(DOC_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                  </select>
+                  <label className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold cursor-pointer transition-colors ${uploading ? 'bg-slate-100 text-slate-400' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}>
+                    <Upload className="w-4 h-4" />
+                    {uploading ? 'Nahrávam...' : 'Nahrať dokument'}
+                    <input type="file" className="hidden" onChange={handleFileUpload} disabled={uploading} />
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Audit log */}
+          <div className="bg-white border border-slate-200 rounded-2xl p-5">
+            <button
+              onClick={() => setShowAuditLog(p => !p)}
+              className="w-full flex items-center justify-between text-left"
+            >
+              <h2 className="font-bold text-slate-800 flex items-center gap-2"><Clock className="w-4 h-4" /> Audit Log</h2>
+              {showAuditLog ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+            </button>
+            {showAuditLog && (
+              <div className="mt-4 space-y-2">
+                {(deal.audit_log || []).length === 0 ? (
+                  <div className="text-sm text-slate-400 text-center py-4">Žiadne záznamy</div>
+                ) : (
+                  [...(deal.audit_log || [])].reverse().map((entry, i) => (
+                    <div key={i} className="flex items-start gap-3 text-sm">
+                      <div className="w-2 h-2 rounded-full bg-indigo-400 mt-1.5 flex-shrink-0" />
+                      <div>
+                        <span className="font-medium text-slate-700">{userMap[entry.user_id]?.full_name || 'Používateľ'}</span>
+                        <span className="text-slate-500"> · {entry.action}</span>
+                        <div className="text-xs text-slate-400">{formatDate(entry.timestamp)}</div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right sidebar */}
+        <div className="space-y-4">
+
+          {/* Status actions */}
+          {deal.status !== 'completed' && deal.status !== 'cancelled' && (
+            <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <h2 className="font-bold text-slate-800 mb-3 text-sm">Zmena statusu</h2>
+              <div className="space-y-2">
+                {deal.status === 'active' && (
+                  <Button size="sm" className="w-full bg-amber-500 hover:bg-amber-600 text-white"
+                    onClick={() => handleStatusChange('reservation_signed')}>
+                    <CheckCircle2 className="w-4 h-4 mr-2" /> Rezervácia podpísaná
+                  </Button>
+                )}
+                {(deal.status === 'active' || deal.status === 'reservation_signed') && (
+                  <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    onClick={() => handleStatusChange('completed')}>
+                    <CheckCircle2 className="w-4 h-4 mr-2" /> Uzavrieť deal
+                  </Button>
+                )}
+                <Button size="sm" variant="outline" className="w-full border-red-200 text-red-500 hover:bg-red-50"
+                  onClick={() => handleStatusChange('cancelled')}>
+                  Zrušiť deal
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Report price */}
+          {(deal.status === 'reservation_signed' || deal.status === 'completed') && (
+            <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <h2 className="font-bold text-slate-800 mb-3 text-sm">Nahlásiť predajnú cenu</h2>
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  placeholder="Cena v EUR"
+                  value={reportedPriceInput}
+                  onChange={e => setReportedPriceInput(e.target.value)}
+                  className="flex-1 h-9 rounded-lg border border-slate-200 text-sm px-3"
+                />
+                <Button size="sm" onClick={handleReportPrice} disabled={!reportedPriceInput}>OK</Button>
+              </div>
+              {deal.fee_calculated && (
+                <div className="mt-3 p-3 bg-indigo-50 rounded-xl">
+                  <div className="text-xs text-indigo-600 font-semibold">Success Fee (1%)</div>
+                  <div className="text-lg font-black text-indigo-700">€{deal.fee_calculated?.toLocaleString('sk-SK')}</div>
+                  <div className="text-xs text-indigo-500 mt-0.5">
+                    {deal.fee_paid ? '✓ Zaplatené' : 'Čaká na platbu'}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Price info */}
+          {(deal.reported_price || deal.buyer_confirmed_price) && (
+            <div className="bg-white border border-slate-200 rounded-2xl p-5">
+              <h2 className="font-bold text-slate-800 mb-3 text-sm">Ceny</h2>
+              {deal.reported_price && (
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-slate-500">Predávajúci</span>
+                  <span className="font-bold text-slate-700">€{deal.reported_price.toLocaleString('sk-SK')}</span>
+                </div>
+              )}
+              {deal.buyer_confirmed_price && (
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-slate-500">Kupujúci</span>
+                  <span className="font-bold text-slate-700">€{deal.buyer_confirmed_price.toLocaleString('sk-SK')}</span>
+                </div>
+              )}
+              {deal.reported_price && deal.buyer_confirmed_price && deal.reported_price !== deal.buyer_confirmed_price && (
+                <div className="mt-2 p-2 bg-red-50 rounded-lg flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-red-500" />
+                  <span className="text-xs text-red-600 font-medium">Ceny sa nezhodujú — Red Flag</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Listing link */}
+          {listing && (
+            <Link to={`/ListingDetail?id=${listing.id}`}
+              className="block bg-slate-50 border border-slate-200 rounded-2xl p-4 hover:bg-slate-100 transition-colors">
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-slate-400" />
+                <div>
+                  <div className="text-xs text-slate-400">Listing</div>
+                  <div className="text-sm font-semibold text-slate-700 leading-tight">{listing.title}</div>
+                </div>
+              </div>
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
