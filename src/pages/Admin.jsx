@@ -119,8 +119,11 @@ export default function Admin() {
         ))}
       </div>
 
-      <Tabs defaultValue="users">
-        <TabsList className="mb-6">
+      <Tabs defaultValue="listings">
+        <TabsList className="mb-6 flex-wrap">
+          <TabsTrigger value="listings">Listingy ({allListings.length})</TabsTrigger>
+          <TabsTrigger value="dealrooms">Deal Rooms ({allDealRooms.length})</TabsTrigger>
+          <TabsTrigger value="nda">NDA Požiadavky ({allNdaRequests.length})</TabsTrigger>
           <TabsTrigger value="users">Používatelia</TabsTrigger>
           <TabsTrigger value="articles">Články</TabsTrigger>
           <TabsTrigger value="analyses">Analýzy</TabsTrigger>
