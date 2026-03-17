@@ -48,6 +48,9 @@ export default function LandFeasibility() {
 
   const [view, setView] = useState('list');
   const [inputs, setInputs] = useState(DEFAULT_INPUTS);
+  const [conceptName, setConceptName] = useState('');
+  const [editingId, setEditingId] = useState(null);
+  const [isDirty, setIsDirty] = useState(false);
 
   // Prefill from ListingDetail navigation
   useEffect(() => {
@@ -60,9 +63,6 @@ export default function LandFeasibility() {
       setView('editor');
     }
   }, []);
-  const [conceptName, setConceptName] = useState('');
-  const [editingId, setEditingId] = useState(null);
-  const [isDirty, setIsDirty] = useState(false);
 
   const results = useMemo(() => calculateFeasibility(inputs), [inputs]);
 
