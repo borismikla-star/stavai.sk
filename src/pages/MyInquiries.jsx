@@ -5,10 +5,11 @@ import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
-import { MessageSquare, Eye, ExternalLink } from 'lucide-react';
+import { MessageSquare, Eye, ExternalLink, Shield, Plus } from 'lucide-react';
 import PortalNav from '@/components/portal/PortalNav';
 import { formatDistanceToNow } from 'date-fns';
 import { sk } from 'date-fns/locale';
+import { useNavigate } from 'react-router-dom';
 
 const STATUS_COLORS = { sent: 'bg-blue-100 text-blue-700', read: 'bg-slate-100 text-slate-600', replied: 'bg-green-100 text-green-700', archived: 'bg-slate-100 text-slate-400' };
 const STATUS_LABELS = { sent: 'Odoslaný', read: 'Prečítaný', replied: 'Odpovedaný', archived: 'Archivovaný' };
