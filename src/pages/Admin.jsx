@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Users, FileText, BarChart2, Trash2, Plus, Edit, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Users, FileText, BarChart2, Trash2, Plus, Edit, CheckCircle, XCircle, Clock, Building2, AlertTriangle, Shield, Star, Eye, EyeOff } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Link } from 'react-router-dom';
+
+const LISTING_STATUS_COLORS = { draft: 'bg-slate-100 text-slate-600', active: 'bg-green-100 text-green-700', under_offer: 'bg-amber-100 text-amber-700', sold: 'bg-blue-100 text-blue-700', expired: 'bg-red-100 text-red-600' };
+const LISTING_STATUS_LABELS = { draft: 'Draft', active: 'Aktívny', under_offer: 'Pod ponukou', sold: 'Predaný', expired: 'Expirovaný' };
+const TYPE_LABELS = { residential: 'Rezidenčné', commercial: 'Komerčné', land: 'Pozemok', development: 'Development' };
+const REGION_LABELS = { BA:'BA', TT:'TT', TN:'TN', NR:'NR', ZA:'ZA', BB:'BB', PO:'PO', KE:'KE' };
+const fmt = (n) => n ? new Intl.NumberFormat('sk-SK', { maximumFractionDigits: 0 }).format(n) + ' €' : '—';
 
 const categoryLabels = {
   ai: 'AI & Technológie', construction: 'Stavebníctvo', real_estate: 'Reality',
