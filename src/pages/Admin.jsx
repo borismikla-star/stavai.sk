@@ -49,16 +49,52 @@ export default function Admin() {
     queryFn: () => base44.entities.Project.list('-created_date', 20)
   });
 
+  const { data: allListings = [] } = useQuery({
+    queryKey: ['admin-listings'],
+    queryFn: () => base44.entities.Listing.list('-created_date', 200)
+  });
+
+  const { data: allNdaRequests = [] } = useQuery({
+    queryKey: ['admin-nda-requests'],
+    queryFn: () => base44.entities.NDARequest.list('-created_date', 100)
+  });
+
+  const { data: allDealRooms = [] } = useQuery({
+    queryKey: ['admin-deal-rooms'],
+    queryFn: () => base44.entities.DealRoom.list('-created_date', 100)
+  });
+
   const deleteArticleMutation = useMutation({
     mutationFn: (id) => base44.entities.Article.delete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['allArticles'] })
   });
 
+  const updateListingMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.Listing.update(id, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-listings'] })
+  });
+
+  const deleteListingMutation = useMutation({
+    mutationFn: (id) => base44.entities.Listing.delete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-listings'] })
+  });
+
+  const updateDealMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.DealRoom.update(id, data),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-deal-rooms'] })
+  });
+
+  const activeListings = allListings.filter(l => l.status === 'active').length;
+  const offMarketListings = allListings.filter(l => l.visibility === 'off_market').length;
+  const pendingNda = allNdaRequests.filter(n => n.status === 'pending').length;
+  const redFlagDeals = allDealRooms.filter(d => d.red_flag).length;
+  const unpaidFees = allDealRooms.filter(d => d.fee_calculated && !d.fee_paid).length;
+
   const stats = [
     { label: 'Používatelia', value: users.length, icon: Users, color: 'text-blue-600' },
-    { label: 'Článkov', value: articles.length, icon: FileText, color: 'text-purple-600' },
-    { label: 'Analýz', value: analyses.length, icon: BarChart2, color: 'text-emerald-600' },
-    { label: 'Projektov', value: projects.length, icon: BarChart2, color: 'text-amber-600' },
+    { label: 'Aktívne listingy', value: activeListings, icon: Building2, color: 'text-emerald-600' },
+    { label: 'Čakajúce NDA', value: pendingNda, icon: Shield, color: 'text-violet-600' },
+    { label: 'Red Flags', value: redFlagDeals, icon: AlertTriangle, color: 'text-red-600' },
   ];
 
   return (
