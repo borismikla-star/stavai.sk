@@ -44,9 +44,22 @@ const DEFAULT_INPUTS = {
 
 export default function LandFeasibility() {
   const queryClient = useQueryClient();
+  const location = useLocation();
 
   const [view, setView] = useState('list');
   const [inputs, setInputs] = useState(DEFAULT_INPUTS);
+
+  // Prefill from ListingDetail navigation
+  useEffect(() => {
+    const prefill = location.state?.prefill;
+    if (prefill) {
+      const merged = { ...DEFAULT_INPUTS };
+      if (prefill.land_area) merged.land_area = prefill.land_area;
+      setInputs(merged);
+      if (prefill.location) setConceptName(`Analýza — ${prefill.location}`);
+      setView('editor');
+    }
+  }, []);
   const [conceptName, setConceptName] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
