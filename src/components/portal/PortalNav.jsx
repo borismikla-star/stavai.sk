@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 
 const links = [
-  { to: '/PortalHome', label: 'Portál', Icon: Home },
+  { to: '/PortalHome', label: 'Realitný portál', Icon: Home },
   { to: '/PortalMap', label: 'Mapa', Icon: Map },
   { to: '/OffMarketHub', label: 'Off-Market', Icon: ShieldCheck },
   { to: '/MyListings', label: 'Moje inzeráty', Icon: Building2 },

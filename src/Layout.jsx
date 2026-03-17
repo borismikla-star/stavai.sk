@@ -44,7 +44,7 @@ export default function Layout({ children, currentPageName }) {
 
   const nav = [
     { name: 'Dashboard', path: 'Dashboard', icon: Home },
-    { name: 'Portál nehnuteľností', path: 'PortalHome', icon: Building2 },
+    { name: 'Realitný portál', path: 'PortalHome', icon: Building2 },
     { name: 'Portfólio', path: 'Portfolio', icon: Building2 },
     { name: 'Články', path: 'Articles', icon: BookOpen },
   ];
