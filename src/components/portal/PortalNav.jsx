@@ -12,6 +12,7 @@ const links = [
   { to: '/SavedListings', label: 'Uložené', Icon: Heart },
   { to: '/MyInquiries', label: 'Dopyty', Icon: MessageSquare },
   { to: '/NDARequests', label: 'NDA žiadosti', Icon: Lock },
+  { to: '/MyDealRooms', label: 'Deal Rooms', Icon: Shield },
 ];
 
 export default function PortalNav() {
