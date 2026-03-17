@@ -68,11 +68,11 @@ export default function PortalMap() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-3 mb-4 flex flex-wrap gap-3 items-center">
+      <div className="bg-white rounded-2xl border border-slate-200 p-3 mb-4 flex flex-wrap gap-3 items-center" style={{ position: 'relative', zIndex: 1000 }}>
         <Filter className="w-4 h-4 text-slate-400" />
         <Select value={propertyType} onValueChange={setPropertyType}>
           <SelectTrigger className="w-40 h-9"><SelectValue placeholder="Typ" /></SelectTrigger>
-          <SelectContent>
+          <SelectContent style={{ zIndex: 2000 }}>
             <SelectItem value="all">Všetky typy</SelectItem>
             <SelectItem value="residential">Rezidenčné</SelectItem>
             <SelectItem value="commercial">Komerčné</SelectItem>
@@ -82,7 +82,7 @@ export default function PortalMap() {
         </Select>
         <Select value={listingType} onValueChange={setListingType}>
           <SelectTrigger className="w-36 h-9"><SelectValue placeholder="Predaj/Nájom" /></SelectTrigger>
-          <SelectContent>
+          <SelectContent style={{ zIndex: 2000 }}>
             <SelectItem value="all">Všetko</SelectItem>
             <SelectItem value="sale">Predaj</SelectItem>
             <SelectItem value="lease">Nájom</SelectItem>
