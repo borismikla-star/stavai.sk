@@ -86,8 +86,6 @@ export default function LandingListingsPreview({ onLogin }) {
     }).slice(0, 6);
   }, [listings, search, typeFilter, listingFilter]);
 
-  return (
-    <div>
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (search) params.set('q', search);
@@ -113,7 +111,7 @@ export default function LandingListingsPreview({ onLogin }) {
         </div>
         <button
           onClick={handleSearch}
-          className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-indigo-200 whitespace-nowrap"
+          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-indigo-200 whitespace-nowrap"
         >
           <Search className="w-4 h-4" /> Hľadať
         </button>
