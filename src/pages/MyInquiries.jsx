@@ -41,6 +41,44 @@ export default function MyInquiries() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['inquiries-received'] })
   });
 
+  const { data: listings = [] } = useQuery({
+    queryKey: ['listings-mini'],
+    queryFn: () => base44.entities.Listing.list(),
+    enabled: !!user
+  });
+  const listingMap = Object.fromEntries(listings.map(l => [l.id, l]));
+
+  const { data: existingDeals = [] } = useQuery({
+    queryKey: ['deals-all', user?.id],
+    queryFn: async () => {
+      const [asSeller, asBuyer] = await Promise.all([
+        base44.entities.DealRoom.filter({ seller_id: user.id }),
+        base44.entities.DealRoom.filter({ buyer_id: user.id }),
+      ]);
+      return [...asSeller, ...asBuyer];
+    },
+    enabled: !!user
+  });
+
+  const openDealRoomMutation = useMutation({
+    mutationFn: async (inq) => {
+      const listing = listingMap[inq.listing_id];
+      const deal = await base44.entities.DealRoom.create({
+        listing_id: inq.listing_id,
+        seller_id: inq.recipient_id,
+        buyer_id: inq.sender_id,
+        status: 'active',
+      });
+      await base44.entities.ListingInquiry.update(inq.id, { status: 'replied' });
+      return deal;
+    },
+    onSuccess: (deal) => {
+      queryClient.invalidateQueries({ queryKey: ['deals-all'] });
+      queryClient.invalidateQueries({ queryKey: ['inquiries-received'] });
+      navigate(`/DealRoomPage?id=${deal.id}`);
+    }
+  });
+
   const InquiryRow = ({ inq, isReceived }) => (
     <Card className="hover:shadow-sm transition-shadow">
       <CardContent className="p-4">
