@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Heart, MessageSquare, PlusCircle, Building2, Lock, ShieldCheck, Map } from 'lucide-react';
+import { Home, Heart, MessageSquare, PlusCircle, Building2, Lock, ShieldCheck, Map, Shield } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 
