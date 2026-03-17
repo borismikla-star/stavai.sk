@@ -30,6 +30,7 @@ export default function DealRoomPage() {
   const [uploading, setUploading] = useState(false);
   const [docType, setDocType] = useState('other');
   const [reportedPriceInput, setReportedPriceInput] = useState('');
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
