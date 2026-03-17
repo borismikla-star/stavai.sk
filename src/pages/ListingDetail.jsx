@@ -23,6 +23,7 @@ export default function ListingDetail() {
   const id = params.get('id');
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [activeImg, setActiveImg] = useState(0);
   const [inquiry, setInquiry] = useState({ message: '', email: '', phone: '' });
   const [inquirySent, setInquirySent] = useState(false);
