@@ -57,6 +57,8 @@ export default function NewListing() {
       ...form,
       price: parseFloat(form.price) || 0,
       area_total: parseFloat(form.area_total) || 0,
+      location_lat: form.location_lat || null,
+      location_lng: form.location_lng || null,
     }),
     onSuccess: () => navigate('/MyListings')
   });
