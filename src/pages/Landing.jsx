@@ -113,22 +113,31 @@ export default function Landing() {
         </div>
       </header>
 
-      {/* Portal Listings Strip */}
-      <section className="bg-slate-50 border-b border-slate-200 py-8">
+      {/* Portal Listings Section */}
+      <section className="bg-gradient-to-b from-slate-50 to-white border-b border-slate-200 py-14">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
             <div>
-              <span className="text-xs font-semibold text-indigo-600 uppercase tracking-widest">Realitný portál</span>
-              <h2 className="text-xl font-bold text-slate-900 mt-0.5">Najnovšie ponuky</h2>
+              <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest">Realitný portál</span>
+              <h2 className="text-2xl font-extrabold text-slate-900 mt-1 tracking-tight">Najnovšie ponuky nehnuteľností</h2>
+              <p className="text-slate-500 text-sm mt-1">Exkluzívne off-market príležitosti aj verejné ponuky na jednom mieste.</p>
             </div>
             <button
               onClick={handleLogin}
-              className="flex items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors"
+              className="flex items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors whitespace-nowrap"
             >
-              Zobraziť všetky <ArrowRight className="w-4 h-4" />
+              Zobraziť všetky ponuky <ArrowRight className="w-4 h-4" />
             </button>
           </div>
           <LandingListingsPreview onLogin={handleLogin} />
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button onClick={handleLogin} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 text-sm font-semibold rounded-xl flex items-center gap-2 shadow-md shadow-indigo-100">
+              <Building2 className="w-4 h-4" /> Prejsť do realitného portálu
+            </Button>
+            <button onClick={handleLogin} className="text-sm text-slate-500 hover:text-slate-700 transition-colors underline underline-offset-2">
+              Pridať vlastnú ponuku
+            </button>
+          </div>
         </div>
       </section>
 
