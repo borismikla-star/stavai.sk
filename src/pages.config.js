@@ -62,6 +62,18 @@ import Portfolio from './pages/Portfolio';
 import Pricing from './pages/Pricing';
 import Profile from './pages/Profile';
 import SensitivityEngine from './pages/SensitivityEngine';
+import PortalHome from './pages/PortalHome';
+import ListingDetail from './pages/ListingDetail';
+import NewListing from './pages/NewListing';
+import MyListings from './pages/MyListings';
+import SavedListings from './pages/SavedListings';
+import MyInquiries from './pages/MyInquiries';
+import NDARequests from './pages/NDARequests';
+import OffMarketHub from './pages/OffMarketHub';
+import PortalOnboarding from './pages/PortalOnboarding';
+import PortalMap from './pages/PortalMap';
+import DealRoomPage from './pages/DealRoomPage';
+import EditListing from './pages/EditListing';
 import __Layout from './Layout.jsx';
 
 
@@ -81,10 +93,22 @@ export const PAGES = {
     "Pricing": Pricing,
     "Profile": Profile,
     "SensitivityEngine": SensitivityEngine,
+    "PortalHome": PortalHome,
+    "ListingDetail": ListingDetail,
+    "NewListing": NewListing,
+    "MyListings": MyListings,
+    "SavedListings": SavedListings,
+    "MyInquiries": MyInquiries,
+    "NDARequests": NDARequests,
+    "OffMarketHub": OffMarketHub,
+    "PortalOnboarding": PortalOnboarding,
+    "PortalMap": PortalMap,
+    "DealRoomPage": DealRoomPage,
+    "EditListing": EditListing,
 }
 
 export const pagesConfig = {
-    mainPage: "Admin",
+    mainPage: "Landing",
     Pages: PAGES,
     Layout: __Layout,
 };
