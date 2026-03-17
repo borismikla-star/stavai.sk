@@ -204,7 +204,20 @@ export default function NewListing() {
             </div>
             <div>
               <Label className="text-sm font-medium">Presná adresa</Label>
-              <Input value={form.location_address} onChange={e => set('location_address', e.target.value)} placeholder="napr. Hlavná 1 (skrytá pre off-market)" className="mt-1" />
+              <div className="relative mt-1">
+                <Input
+                  value={form.location_address}
+                  onChange={e => set('location_address', e.target.value)}
+                  onBlur={geocodeAddress}
+                  placeholder="napr. Hlavná 1 (skrytá pre off-market)"
+                />
+                {geocoding && <Loader2 className="absolute right-3 top-2.5 w-4 h-4 text-slate-400 animate-spin" />}
+              </div>
+              {form.location_lat && form.location_lng && (
+                <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                  <MapPin className="w-3 h-3" /> GPS: {form.location_lat.toFixed(4)}, {form.location_lng.toFixed(4)}
+                </p>
+              )}
             </div>
           </CardContent>
         </Card>
