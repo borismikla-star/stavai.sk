@@ -13,6 +13,7 @@ import PortalOnboarding from './pages/PortalOnboarding';
 import PortalMap from './pages/PortalMap';
 import DealRoomPage from './pages/DealRoomPage';
 import EditListing from './pages/EditListing';
+import MyDealRooms from './pages/MyDealRooms';
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import VisualEditAgent from '@/lib/VisualEditAgent'
