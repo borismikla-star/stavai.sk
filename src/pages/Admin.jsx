@@ -129,6 +129,202 @@ export default function Admin() {
           <TabsTrigger value="analyses">Analýzy</TabsTrigger>
         </TabsList>
 
+        {/* Listings Tab */}
+        <TabsContent value="listings">
+          <Card className="bg-white border-slate-200">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-base text-[#0F172A]">Všetky listingy</CardTitle>
+              <div className="flex gap-2 text-xs text-slate-500">
+                <span className="bg-violet-100 text-violet-700 px-2 py-0.5 rounded-full font-medium">{offMarketListings} off-market</span>
+              </div>
+            </CardHeader>
+            <CardContent className="p-0 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200">
+                    <th className="text-left px-4 py-3 text-slate-600 font-semibold">Názov</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Typ</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Status</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Viditeľnosť</th>
+                    <th className="text-right px-3 py-3 text-slate-600 font-semibold">Cena</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Featured</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Akcie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allListings.map(l => (
+                    <tr key={l.id} className="border-b border-slate-100 hover:bg-slate-50">
+                      <td className="px-4 py-3">
+                        <Link to={`/ListingDetail?id=${l.id}`} className="font-medium text-slate-800 hover:text-indigo-600 max-w-[200px] block truncate">
+                          {l.title}
+                        </Link>
+                        <div className="text-xs text-slate-400">{l.location_city}, {REGION_LABELS[l.location_region]}</div>
+                      </td>
+                      <td className="px-3 py-3 text-center">
+                        <Badge variant="outline" className="text-xs">{TYPE_LABELS[l.property_type]}</Badge>
+                      </td>
+                      <td className="px-3 py-3 text-center">
+                        <Badge className={`text-xs ${LISTING_STATUS_COLORS[l.status]}`}>{LISTING_STATUS_LABELS[l.status]}</Badge>
+                      </td>
+                      <td className="px-3 py-3 text-center">
+                        {l.visibility === 'off_market'
+                          ? <Badge className="text-xs bg-violet-100 text-violet-700"><EyeOff className="w-3 h-3 mr-1 inline" />Off-Market</Badge>
+                          : <Badge className="text-xs bg-slate-100 text-slate-600"><Eye className="w-3 h-3 mr-1 inline" />Verejný</Badge>
+                        }
+                      </td>
+                      <td className="px-3 py-3 text-right font-semibold text-slate-700">{fmt(l.price)}</td>
+                      <td className="px-3 py-3 text-center">
+                        <button
+                          onClick={() => updateListingMutation.mutate({ id: l.id, data: { is_featured: !l.is_featured } })}
+                          className={`transition-colors ${l.is_featured ? 'text-amber-500' : 'text-slate-200 hover:text-amber-400'}`}
+                        >
+                          <Star className="w-4 h-4" fill={l.is_featured ? 'currentColor' : 'none'} />
+                        </button>
+                      </td>
+                      <td className="px-3 py-3 text-center">
+                        <div className="flex items-center justify-center gap-1">
+                          <Select value={l.status} onValueChange={(v) => updateListingMutation.mutate({ id: l.id, data: { status: v } })}>
+                            <SelectTrigger className="h-7 w-28 text-xs"><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                              {Object.entries(LISTING_STATUS_LABELS).map(([k, v]) => <SelectItem key={k} value={k} className="text-xs">{v}</SelectItem>)}
+                            </SelectContent>
+                          </Select>
+                          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => deleteListingMutation.mutate(l.id)}>
+                            <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {allListings.length === 0 && (
+                    <tr><td colSpan={7} className="px-5 py-8 text-center text-slate-400">Žiadne listingy</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Deal Rooms Tab */}
+        <TabsContent value="dealrooms">
+          {unpaidFees > 0 && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4 flex items-center gap-2 text-sm text-amber-800">
+              <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
+              <span><strong>{unpaidFees}</strong> deal roomov má nezaplatený success fee</span>
+            </div>
+          )}
+          <Card className="bg-white border-slate-200">
+            <CardHeader><CardTitle className="text-base text-[#0F172A]">Deal Rooms</CardTitle></CardHeader>
+            <CardContent className="p-0 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200">
+                    <th className="text-left px-4 py-3 text-slate-600 font-semibold">Deal Room ID</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Status</th>
+                    <th className="text-right px-3 py-3 text-slate-600 font-semibold">Nahlásená cena</th>
+                    <th className="text-right px-3 py-3 text-slate-600 font-semibold">Success Fee (1%)</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Fee zaplatený</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Red Flag</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Akcie</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allDealRooms.map(d => (
+                    <tr key={d.id} className={`border-b border-slate-100 hover:bg-slate-50 ${d.red_flag ? 'bg-red-50' : ''}`}>
+                      <td className="px-4 py-3">
+                        <Link to={`/DealRoomPage?id=${d.id}`} className="font-mono text-xs text-indigo-600 hover:underline">{d.id.slice(0, 8)}...</Link>
+                        <div className="text-xs text-slate-400">{new Date(d.created_date).toLocaleDateString('sk')}</div>
+                      </td>
+                      <td className="px-3 py-3 text-center">
+                        <Badge className={`text-xs ${
+                          d.status === 'completed' ? 'bg-green-100 text-green-700' :
+                          d.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                          d.status === 'reservation_signed' ? 'bg-amber-100 text-amber-700' :
+                          'bg-blue-100 text-blue-700'
+                        }`}>
+                          {d.status === 'active' ? 'Aktívny' : d.status === 'reservation_signed' ? 'Rezerv. podpísaná' : d.status === 'completed' ? 'Uzavretý' : 'Zrušený'}
+                        </Badge>
+                      </td>
+                      <td className="px-3 py-3 text-right text-slate-700">{fmt(d.reported_price)}</td>
+                      <td className="px-3 py-3 text-right font-bold text-emerald-700">{fmt(d.fee_calculated)}</td>
+                      <td className="px-3 py-3 text-center">
+                        {d.fee_calculated ? (
+                          <button
+                            onClick={() => updateDealMutation.mutate({ id: d.id, data: { fee_paid: !d.fee_paid, fee_paid_at: !d.fee_paid ? new Date().toISOString() : null } })}
+                            className={`text-xs font-semibold px-2 py-1 rounded-full transition-colors ${d.fee_paid ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-slate-100 text-slate-500 hover:bg-amber-100 hover:text-amber-700'}`}
+                          >
+                            {d.fee_paid ? '✓ Zaplatený' : 'Označiť'}
+                          </button>
+                        ) : <span className="text-slate-300">—</span>}
+                      </td>
+                      <td className="px-3 py-3 text-center">
+                        <button
+                          onClick={() => updateDealMutation.mutate({ id: d.id, data: { red_flag: !d.red_flag } })}
+                          className={`transition-colors ${d.red_flag ? 'text-red-500' : 'text-slate-200 hover:text-red-400'}`}
+                        >
+                          <AlertTriangle className="w-4 h-4" />
+                        </button>
+                      </td>
+                      <td className="px-3 py-3 text-center">
+                        <Link to={`/DealRoomPage?id=${d.id}`}>
+                          <Button variant="outline" size="sm" className="h-7 text-xs">Detail</Button>
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                  {allDealRooms.length === 0 && (
+                    <tr><td colSpan={7} className="px-5 py-8 text-center text-slate-400">Žiadne deal roomy</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* NDA Requests Tab */}
+        <TabsContent value="nda">
+          <Card className="bg-white border-slate-200">
+            <CardHeader><CardTitle className="text-base text-[#0F172A]">NDA Požiadavky</CardTitle></CardHeader>
+            <CardContent className="p-0 overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-slate-50 border-b border-slate-200">
+                    <th className="text-left px-4 py-3 text-slate-600 font-semibold">Listing ID</th>
+                    <th className="text-left px-3 py-3 text-slate-600 font-semibold">Žiadateľ</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Status</th>
+                    <th className="text-left px-3 py-3 text-slate-600 font-semibold">Poznámka predávajúceho</th>
+                    <th className="text-center px-3 py-3 text-slate-600 font-semibold">Dátum</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allNdaRequests.map(n => (
+                    <tr key={n.id} className="border-b border-slate-100 hover:bg-slate-50">
+                      <td className="px-4 py-3">
+                        <Link to={`/ListingDetail?id=${n.listing_id}`} className="font-mono text-xs text-indigo-600 hover:underline">{n.listing_id.slice(0, 8)}...</Link>
+                      </td>
+                      <td className="px-3 py-3 text-xs text-slate-600 font-mono">{n.requester_id.slice(0, 8)}...</td>
+                      <td className="px-3 py-3 text-center">
+                        <Badge className={`text-xs ${
+                          n.status === 'approved' ? 'bg-green-100 text-green-700' :
+                          n.status === 'rejected' ? 'bg-red-100 text-red-700' :
+                          'bg-amber-100 text-amber-700'
+                        }`}>
+                          {n.status === 'pending' ? 'Čakajúce' : n.status === 'approved' ? 'Schválené' : 'Zamietnuté'}
+                        </Badge>
+                      </td>
+                      <td className="px-3 py-3 text-xs text-slate-500 max-w-[200px] truncate">{n.seller_notes || '—'}</td>
+                      <td className="px-3 py-3 text-center text-xs text-slate-400">{new Date(n.created_date).toLocaleDateString('sk')}</td>
+                    </tr>
+                  ))}
+                  {allNdaRequests.length === 0 && (
+                    <tr><td colSpan={5} className="px-5 py-8 text-center text-slate-400">Žiadne NDA požiadavky</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         {/* Users Tab */}
         <TabsContent value="users">
           <Card className="bg-white border-slate-200">
