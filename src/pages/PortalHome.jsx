@@ -11,9 +11,10 @@ const REGIONS = ['BA','TT','TN','NR','ZA','BB','PO','KE'];
 const REGION_LABELS = { BA:'Bratislava', TT:'Trnava', TN:'Trenčín', NR:'Nitra', ZA:'Žilina', BB:'Banská Bystrica', PO:'Prešov', KE:'Košice' };
 
 export default function PortalHome() {
-  const [search, setSearch] = useState('');
-  const [propertyType, setPropertyType] = useState('all');
-  const [listingType, setListingType] = useState('all');
+  const urlParams = new URLSearchParams(window.location.search);
+  const [search, setSearch] = useState(urlParams.get('q') || '');
+  const [propertyType, setPropertyType] = useState(urlParams.get('type') || 'all');
+  const [listingType, setListingType] = useState(urlParams.get('listing') || 'all');
   const [region, setRegion] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
   const [viewMode, setViewMode] = useState('grid');
