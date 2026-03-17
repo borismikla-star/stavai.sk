@@ -137,6 +137,9 @@ export default function MyListings() {
                         <Button size="sm" variant="ghost" className="h-7 text-xs text-slate-500 gap-1" asChild>
                           <Link to={`/ListingDetail?id=${listing.id}`}><Eye className="w-3 h-3" />Detail</Link>
                         </Button>
+                        <Button size="sm" variant="ghost" className="h-7 text-xs text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 gap-1" asChild>
+                          <Link to={`/EditListing?id=${listing.id}`}><Pencil className="w-3 h-3" />Editovať</Link>
+                        </Button>
                         <Button size="sm" variant="ghost" className="h-7 text-xs text-red-400 hover:text-red-600 hover:bg-red-50"
                           onClick={() => { if (confirm('Zmazať inzerát?')) deleteMutation.mutate(listing.id); }}>
                           <Trash2 className="w-3 h-3" />
