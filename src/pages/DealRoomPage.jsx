@@ -376,14 +376,76 @@ export default function DealRoomPage() {
             </div>
           )}
 
-          {/* Red flag warning */}
+          {/* Red flag warning + contract upload */}
           {deal.red_flag && (
-            <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
-              <div className="flex items-center gap-2 mb-2">
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-4 space-y-3">
+              <div className="flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 text-red-500" />
                 <span className="font-bold text-red-700 text-sm">Red Flag — Nahrajte sken zmluvy</span>
               </div>
-              <p className="text-xs text-red-600">Nahlásená cena je o viac ako 20% nižšia od listingovej ceny. Prosím nahrajte sken podpísanej kúpnej zmluvy na overenie.</p>
+              <p className="text-xs text-red-600">Nahlásená cena je o viac ako 20% nižšia od listingovej ceny. Prosím nahrajte sken podpísanej kúpnej zmluvy na manuálne overenie.</p>
+
+              {deal.contract_url ? (
+                <div className="bg-white border border-red-200 rounded-xl p-3 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-green-500" />
+                      <span className="text-xs font-semibold text-green-700">Sken nahraný</span>
+                    </div>
+                    <a href={deal.contract_url} target="_blank" rel="noreferrer"
+                      className="flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800 font-medium">
+                      <Eye className="w-3.5 h-3.5" /> Zobraziť
+                    </a>
+                  </div>
+                  {user?.role === 'admin' && (
+                    <div className="border-t border-slate-100 pt-2 space-y-2">
+                      <p className="text-xs font-semibold text-slate-600">Admin: Manuálne overenie</p>
+                      <div className="flex gap-2">
+                        <Button size="sm" variant="outline" className="flex-1 text-xs border-green-300 text-green-700 hover:bg-green-50"
+                          onClick={async () => {
+                            const recalcPrice = deal.reported_price || deal.buyer_confirmed_price;
+                            const verifiedFee = recalcPrice ? Math.round(recalcPrice * 0.01) : deal.fee_calculated;
+                            const log = { user_id: user.id, action: `Admin overil zmluvu — fee potvrdený: €${verifiedFee?.toLocaleString('sk-SK')}`, timestamp: new Date().toISOString() };
+                            await updateMutation.mutateAsync({ red_flag: false, fee_calculated: verifiedFee, audit_log: [...(deal.audit_log || []), log] });
+                            toast({ title: 'Zmluva overená', description: `Red Flag zrušený. Fee: €${verifiedFee?.toLocaleString('sk-SK')}` });
+                          }}
+                          disabled={updateMutation.isPending}>
+                          ✓ Potvrdiť
+                        </Button>
+                        <Button size="sm" variant="outline" className="flex-1 text-xs border-red-300 text-red-600 hover:bg-red-50"
+                          onClick={async () => {
+                            const log = { user_id: user.id, action: 'Admin zamietol zmluvu — Red Flag ostáva aktívny', timestamp: new Date().toISOString() };
+                            await updateMutation.mutateAsync({ audit_log: [...(deal.audit_log || []), log] });
+                            toast({ title: 'Zmluva zamietnutá', description: 'Red Flag ostáva aktívny.', variant: 'destructive' });
+                          }}
+                          disabled={updateMutation.isPending}>
+                          ✗ Zamietnuť
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                  {user?.role !== 'admin' && (
+                    <p className="text-xs text-slate-400">Čaká na manuálne overenie administrátorom.</p>
+                  )}
+                </div>
+              ) : (
+                <label className={`flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-semibold cursor-pointer border-2 border-dashed transition-colors ${uploadingContract ? 'border-slate-200 text-slate-400' : 'border-red-300 text-red-600 hover:bg-red-100'}`}>
+                  <Upload className="w-4 h-4" />
+                  {uploadingContract ? 'Nahrávam...' : 'Nahrať sken kúpnej zmluvy'}
+                  <input type="file" accept=".pdf,.jpg,.jpeg,.png" className="hidden" disabled={uploadingContract}
+                    onChange={async (e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+                      setUploadingContract(true);
+                      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+                      const log = { user_id: user.id, action: `Nahral sken kúpnej zmluvy: ${file.name}`, timestamp: new Date().toISOString() };
+                      await updateMutation.mutateAsync({ contract_url: file_url, audit_log: [...(deal.audit_log || []), log] });
+                      setUploadingContract(false);
+                      toast({ title: 'Sken nahraný', description: 'Zmluva čaká na manuálne overenie.' });
+                    }}
+                  />
+                </label>
+              )}
             </div>
           )}
 
