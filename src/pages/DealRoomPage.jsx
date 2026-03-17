@@ -463,6 +463,48 @@ export default function DealRoomPage() {
           )}
         </div>
       </div>
+
+      {/* Cancellation Fee Dialog */}
+      <Dialog open={showCancelConfirm} onOpenChange={setShowCancelConfirm}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-red-600">
+              <XCircle className="w-5 h-5" /> Zrušenie rezervácie — Cancellation Fee
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="bg-red-50 rounded-xl p-4 text-sm text-red-700">
+              Rezervačná zmluva už bola podpísaná. Zrušenie vyžaduje zaplatenie <strong>Cancellation Fee €500</strong>.
+            </div>
+            <div className="bg-slate-50 rounded-xl p-4 space-y-2 text-sm">
+              <div className="font-semibold text-slate-700 mb-2">Rozdelenie poplatku:</div>
+              <div className="flex justify-between">
+                <span className="text-slate-600">Kredit kupujúcemu</span>
+                <span className="font-bold text-blue-600">€300</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-600">Platforma stavai.sk</span>
+                <span className="font-bold text-slate-700">€200</span>
+              </div>
+              <div className="border-t border-slate-200 pt-2 flex justify-between font-bold">
+                <span>Celkom</span>
+                <span>€500</span>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1" onClick={() => setShowCancelConfirm(false)}>Späť</Button>
+              <Button
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                onClick={handleCancellationFeePaid}
+                disabled={updateMutation.isPending}
+              >
+                {updateMutation.isPending ? 'Spracovávam...' : 'Potvrdiť zrušenie (€500)'}
+              </Button>
+            </div>
+            <p className="text-xs text-slate-400 text-center">Platba bude spracovaná cez Stripe platobný link.</p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
