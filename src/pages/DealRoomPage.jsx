@@ -4,8 +4,9 @@ import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import {
   FileText, Upload, CheckCircle2, Clock, AlertTriangle,
-  Download, Eye, Shield, User, Building2, ChevronDown, ChevronUp
+  Download, Eye, Shield, User, Building2, ChevronDown, ChevronUp, XCircle
 } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
