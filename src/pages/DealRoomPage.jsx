@@ -375,10 +375,32 @@ export default function DealRoomPage() {
             </div>
           )}
 
+          {/* Red flag warning */}
+          {deal.red_flag && (
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertTriangle className="w-4 h-4 text-red-500" />
+                <span className="font-bold text-red-700 text-sm">Red Flag — Nahrajte sken zmluvy</span>
+              </div>
+              <p className="text-xs text-red-600">Nahlásená cena je o viac ako 20% nižšia od listingovej ceny. Prosím nahrajte sken podpísanej kúpnej zmluvy na overenie.</p>
+            </div>
+          )}
+
+          {/* Cancellation fee info */}
+          {deal.status === 'cancelled' && deal.cancellation_fee_paid && (
+            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-sm">
+              <div className="font-bold text-amber-800 mb-1">Cancellation Fee zaplatené</div>
+              <div className="text-amber-700">€500 · Kupujúci dostal kredit €300 · Platforma €200</div>
+            </div>
+          )}
+
           {/* Report price */}
           {(deal.status === 'reservation_signed' || deal.status === 'completed') && (
             <div className="bg-white border border-slate-200 rounded-2xl p-5">
-              <h2 className="font-bold text-slate-800 mb-3 text-sm">Nahlásiť predajnú cenu</h2>
+              <h2 className="font-bold text-slate-800 mb-1 text-sm">Nahlásiť predajnú cenu</h2>
+              {listing?.price > 0 && (
+                <p className="text-xs text-slate-400 mb-3">Listing cena: €{listing.price.toLocaleString('sk-SK')} · Red flag pri poklese &gt;20%</p>
+              )}
               <div className="flex gap-2">
                 <input
                   type="number"
@@ -390,10 +412,10 @@ export default function DealRoomPage() {
                 <Button size="sm" onClick={handleReportPrice} disabled={!reportedPriceInput}>OK</Button>
               </div>
               {deal.fee_calculated && (
-                <div className="mt-3 p-3 bg-indigo-50 rounded-xl">
-                  <div className="text-xs text-indigo-600 font-semibold">Success Fee (1%)</div>
-                  <div className="text-lg font-black text-indigo-700">€{deal.fee_calculated?.toLocaleString('sk-SK')}</div>
-                  <div className="text-xs text-indigo-500 mt-0.5">
+                <div className={`mt-3 p-3 rounded-xl ${deal.red_flag ? 'bg-red-50' : 'bg-indigo-50'}`}>
+                  <div className={`text-xs font-semibold ${deal.red_flag ? 'text-red-600' : 'text-indigo-600'}`}>Success Fee (1%){deal.red_flag ? ' · ⚠️ Red Flag' : ''}</div>
+                  <div className={`text-lg font-black ${deal.red_flag ? 'text-red-700' : 'text-indigo-700'}`}>€{deal.fee_calculated?.toLocaleString('sk-SK')}</div>
+                  <div className={`text-xs mt-0.5 ${deal.red_flag ? 'text-red-500' : 'text-indigo-500'}`}>
                     {deal.fee_paid ? '✓ Zaplatené' : 'Čaká na platbu'}
                   </div>
                 </div>
