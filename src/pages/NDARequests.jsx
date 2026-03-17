@@ -27,7 +27,7 @@ export default function NDARequests() {
 
   const { data: ndaRequests = [], isLoading } = useQuery({
     queryKey: ['ndaRequests-seller', user?.id],
-    queryFn: () => base44.entities.NDARequest.filter({ seller_id: user.id }, '-created_date'),
+    queryFn: () => base44.entities.NDARequest.filter({ seller_id: user.email }, '-created_date'),
     enabled: !!user
   });
 
