@@ -70,6 +70,7 @@ export default function LandingListingsPreview({ onLogin }) {
   const [search, setSearch] = useState('');
   const [typeFilter, setTypeFilter] = useState('all');
   const [listingFilter, setListingFilter] = useState('all');
+  const navigate = useNavigate();
 
   const { data: listings = [], isLoading } = useQuery({
     queryKey: ['landing-listings-preview'],
