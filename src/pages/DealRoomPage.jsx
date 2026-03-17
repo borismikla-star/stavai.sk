@@ -90,6 +90,11 @@ export default function DealRoomPage() {
   };
 
   const handleStatusChange = async (newStatus) => {
+    // Cancellation fee required if reservation already signed
+    if (newStatus === 'cancelled' && deal.status === 'reservation_signed') {
+      setShowCancelConfirm(true);
+      return;
+    }
     const logEntry = {
       user_id: user.id,
       action: `Zmenil status na: ${STATUS_LABELS[newStatus]}`,
@@ -105,23 +110,60 @@ export default function DealRoomPage() {
     toast({ title: `Status zmenený na: ${STATUS_LABELS[newStatus]}` });
   };
 
+  const handleCancellationFeePaid = async () => {
+    const logEntry = {
+      user_id: user.id,
+      action: 'Zaplatil Cancellation Fee €500 (€300 kredit kupujúcemu / €200 platforma)',
+      timestamp: new Date().toISOString()
+    };
+    await updateMutation.mutateAsync({
+      status: 'cancelled',
+      cancellation_fee_paid: true,
+      cancellation_paid_at: new Date().toISOString(),
+      buyer_credit_issued: 300,
+      audit_log: [...(deal.audit_log || []), logEntry]
+    });
+    setShowCancelConfirm(false);
+    toast({ title: 'Deal zrušený', description: 'Cancellation Fee €500 zaplatené. Kupujúci dostane kredit €300.' });
+  };
+
   const handleReportPrice = async () => {
     const price = parseFloat(reportedPriceInput);
     if (!price) return;
     const isSeller = deal.seller_id === user.id;
-    const fee = Math.round(price * 0.01); // 1% success fee
+
+    // Red flag: reported price >20% below listing price
+    const listingPrice = listing?.price || 0;
+    const priceDrop = listingPrice > 0 ? (listingPrice - price) / listingPrice : 0;
+    const isRedFlag = priceDrop > 0.20;
+
+    // Fee table: base 1%, red flag requires contract scan upload
+    const fee = Math.round(price * 0.01);
+
     const logEntry = {
       user_id: user.id,
-      action: `Nahlásil predajnú cenu: €${price.toLocaleString('sk-SK')}`,
+      action: `Nahlásil predajnú cenu: €${price.toLocaleString('sk-SK')}${isRedFlag ? ' ⚠️ Red Flag (pokles >20% od listingovej ceny)' : ''}`,
       timestamp: new Date().toISOString()
     };
-    await updateMutation.mutateAsync({
+
+    const updates = {
       ...(isSeller ? { reported_price: price } : { buyer_confirmed_price: price }),
       fee_calculated: fee,
       audit_log: [...(deal.audit_log || []), logEntry]
-    });
+    };
+    if (isRedFlag) updates.red_flag = true;
+
+    await updateMutation.mutateAsync(updates);
     setReportedPriceInput('');
-    toast({ title: 'Cena zaznamenaná', description: `Success fee: €${fee.toLocaleString('sk-SK')}` });
+    if (isRedFlag) {
+      toast({
+        title: '⚠️ Red Flag aktivovaný',
+        description: `Cena je o ${Math.round(priceDrop * 100)}% nižšia ako listing cena. Nahrajte sken zmluvy.`,
+        variant: 'destructive'
+      });
+    } else {
+      toast({ title: 'Cena zaznamenaná', description: `Success fee (1%): €${fee.toLocaleString('sk-SK')}` });
+    }
   };
 
   if (isLoading) {
