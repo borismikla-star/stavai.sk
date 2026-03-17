@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Heart, MessageSquare, PlusCircle, Building2, Lock, ShieldCheck, Map } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 
 const links = [
   { to: '/PortalHome', label: 'Portál', Icon: Home },
@@ -14,15 +16,34 @@ const links = [
 
 export default function PortalNav() {
   const location = useLocation();
+
+  const { data: user } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: () => base44.auth.me(),
+    retry: false
+  });
+
+  const { data: pendingNda = [] } = useQuery({
+    queryKey: ['ndaPendingCount', user?.email],
+    queryFn: () => base44.entities.NDARequest.filter({ seller_id: user.email, status: 'pending' }),
+    enabled: !!user?.email
+  });
+
   return (
     <div className="flex items-center gap-1 mb-6 bg-white rounded-2xl border border-slate-200 p-1.5 overflow-x-auto">
       {links.map(({ to, label, Icon }) => {
         const active = location.pathname === to;
+        const isNda = to === '/NDARequests';
         return (
           <Link key={to} to={to}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${active ? 'bg-indigo-600 text-white' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'}`}>
             <Icon className="w-4 h-4" strokeWidth={2} />
             {label}
+            {isNda && pendingNda.length > 0 && (
+              <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${active ? 'bg-white text-indigo-600' : 'bg-amber-500 text-white'}`}>
+                {pendingNda.length}
+              </span>
+            )}
           </Link>
         );
       })}
