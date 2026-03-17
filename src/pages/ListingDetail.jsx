@@ -187,16 +187,14 @@ export default function ListingDetail() {
                 <div className="text-xs text-indigo-600">Analyzujte tento pozemok priamo v kalkulačkách stavai.sk</div>
               </div>
               <div className="flex gap-2 shrink-0">
-                <Link to="/LandFeasibility">
-                  <Button size="sm" variant="outline" className="text-indigo-600 border-indigo-300 gap-1.5">
-                    <BarChart2 className="w-3.5 h-3.5" /> Land Feasibility
-                  </Button>
-                </Link>
-                <Link to="/DeveloperCalc">
-                  <Button size="sm" variant="outline" className="text-indigo-600 border-indigo-300 gap-1.5">
-                    <Calculator className="w-3.5 h-3.5" /> Dev. Kalkulačka
-                  </Button>
-                </Link>
+                <Button size="sm" variant="outline" className="text-indigo-600 border-indigo-300 gap-1.5"
+                  onClick={() => navigate('/LandFeasibility', { state: { prefill: { land_area: listing.area_total, land_price: listing.price, location: listing.location_city } } })}>
+                  <BarChart2 className="w-3.5 h-3.5" /> Land Feasibility
+                </Button>
+                <Button size="sm" variant="outline" className="text-indigo-600 border-indigo-300 gap-1.5"
+                  onClick={() => navigate('/DeveloperCalc', { state: { prefill: { land_price: listing.price, land_area: listing.area_total, location: listing.location_city } } })}>
+                  <Calculator className="w-3.5 h-3.5" /> Dev. Kalkulačka
+                </Button>
               </div>
             </div>
           )}
