@@ -31,6 +31,20 @@ export default function NewListing() {
   const [form, setForm] = useState(defaultForm);
   const [imageUrl, setImageUrl] = useState('');
   const [errors, setErrors] = useState({});
+  const [geocoding, setGeocoding] = useState(false);
+
+  const geocodeAddress = async () => {
+    const address = form.location_address || form.location_city;
+    if (!address) return;
+    setGeocoding(true);
+    const query = `${form.location_address ? form.location_address + ', ' : ''}${form.location_city}, Slovakia`;
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`);
+    const data = await res.json();
+    if (data && data[0]) {
+      setForm(p => ({ ...p, location_lat: parseFloat(data[0].lat), location_lng: parseFloat(data[0].lon) }));
+    }
+    setGeocoding(false);
+  };
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
