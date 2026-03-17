@@ -79,40 +79,57 @@ export default function MyInquiries() {
     }
   });
 
-  const InquiryRow = ({ inq, isReceived }) => (
-    <Card className="hover:shadow-sm transition-shadow">
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <Badge className={`text-xs ${STATUS_COLORS[inq.status]}`}>{STATUS_LABELS[inq.status]}</Badge>
-              {inq.is_off_market && <Badge className="text-xs bg-violet-100 text-violet-700">Off-Market</Badge>}
-              <span className="text-xs text-slate-400">
-                {formatDistanceToNow(new Date(inq.created_date), { addSuffix: true, locale: sk })}
-              </span>
+  const InquiryRow = ({ inq, isReceived }) => {
+    const existingDeal = existingDeals.find(d => d.listing_id === inq.listing_id &&
+      (d.seller_id === inq.recipient_id || d.buyer_id === inq.sender_id));
+    return (
+      <Card className="hover:shadow-sm transition-shadow">
+        <CardContent className="p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <Badge className={`text-xs ${STATUS_COLORS[inq.status]}`}>{STATUS_LABELS[inq.status]}</Badge>
+                {inq.is_off_market && <Badge className="text-xs bg-violet-100 text-violet-700">Off-Market</Badge>}
+                <span className="text-xs text-slate-400">
+                  {formatDistanceToNow(new Date(inq.created_date), { addSuffix: true, locale: sk })}
+                </span>
+              </div>
+              <p className="text-sm text-slate-700 leading-relaxed line-clamp-3">{inq.message}</p>
+              {inq.sender_contact_email && (
+                <div className="text-xs text-slate-400 mt-1">📧 {inq.sender_contact_email}</div>
+              )}
+              {inq.sender_contact_phone && (
+                <div className="text-xs text-slate-400">📞 {inq.sender_contact_phone}</div>
+              )}
             </div>
-            <p className="text-sm text-slate-700 leading-relaxed line-clamp-3">{inq.message}</p>
-            {inq.sender_contact_email && (
-              <div className="text-xs text-slate-400 mt-1">📧 {inq.sender_contact_email}</div>
-            )}
-            {inq.sender_contact_phone && (
-              <div className="text-xs text-slate-400">📞 {inq.sender_contact_phone}</div>
-            )}
+            <div className="flex flex-col gap-2 items-end shrink-0">
+              <Link to={`/ListingDetail?id=${inq.listing_id}`} className="text-xs text-indigo-600 hover:underline flex items-center gap-1">
+                <ExternalLink className="w-3 h-3" /> Listing
+              </Link>
+              {isReceived && inq.status === 'sent' && (
+                <button onClick={() => markReadMutation.mutate(inq.id)} className="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1">
+                  <Eye className="w-3 h-3" /> Označiť prečítané
+                </button>
+              )}
+              {existingDeal ? (
+                <Link to={`/DealRoomPage?id=${existingDeal.id}`}
+                  className="flex items-center gap-1 text-xs font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-lg transition-colors">
+                  <Shield className="w-3 h-3" /> Otvoriť Deal Room
+                </Link>
+              ) : isReceived && (
+                <button
+                  onClick={() => openDealRoomMutation.mutate(inq)}
+                  disabled={openDealRoomMutation.isPending}
+                  className="flex items-center gap-1 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 px-2.5 py-1 rounded-lg transition-colors">
+                  <Plus className="w-3 h-3" /> Vytvoriť Deal Room
+                </button>
+              )}
+            </div>
           </div>
-          <div className="flex flex-col gap-2 items-end shrink-0">
-            <Link to={`/ListingDetail?id=${inq.listing_id}`} className="text-xs text-indigo-600 hover:underline flex items-center gap-1">
-              <ExternalLink className="w-3 h-3" /> Listing
-            </Link>
-            {isReceived && inq.status === 'sent' && (
-              <button onClick={() => markReadMutation.mutate(inq.id)} className="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1">
-                <Eye className="w-3 h-3" /> Označiť prečítané
-              </button>
-            )}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
