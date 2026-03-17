@@ -88,6 +88,16 @@ export default function LandingListingsPreview({ onLogin }) {
 
   return (
     <div>
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (search) params.set('q', search);
+    if (typeFilter !== 'all') params.set('type', typeFilter);
+    if (listingFilter !== 'all') params.set('listing', listingFilter);
+    navigate(`/PortalHome?${params.toString()}`);
+  };
+
+  return (
+    <div>
       {/* Search & filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="relative flex-1">
@@ -97,9 +107,16 @@ export default function LandingListingsPreview({ onLogin }) {
             placeholder="Hľadať podľa názvu alebo mesta..."
             value={search}
             onChange={e => setSearch(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSearch()}
             className="w-full pl-10 pr-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-all"
           />
         </div>
+        <button
+          onClick={handleSearch}
+          className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl transition-colors shadow-sm shadow-indigo-200 whitespace-nowrap"
+        >
+          <Search className="w-4 h-4" /> Hľadať
+        </button>
         <div className="flex gap-2">
           <div className="relative">
             <SlidersHorizontal className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400 pointer-events-none" />
