@@ -16,6 +16,7 @@ const STATUS_LABELS = { sent: 'Odoslaný', read: 'Prečítaný', replied: 'Odpov
 
 export default function MyInquiries() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
