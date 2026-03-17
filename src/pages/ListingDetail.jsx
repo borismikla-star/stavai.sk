@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, MapPin, Maximize2, ChevronLeft, ExternalLink, Calculator, BarChart2, Send, CheckCircle2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import NDARequestBlock from '@/components/portal/NDARequestBlock';
 import { useToast } from '@/components/ui/use-toast';
 
