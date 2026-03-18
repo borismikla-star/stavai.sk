@@ -57,11 +57,19 @@ export default function ListingDetail() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['savedListings'] })
   });
 
+  // Fetch seller's user record to get their ID from email
+  const { data: allUsers = [] } = useQuery({
+    queryKey: ['users-for-inquiry'],
+    queryFn: () => base44.entities.User.list(),
+    enabled: !!listing
+  });
+  const sellerUser = allUsers.find(u => u.email === listing?.created_by);
+
   const inquiryMutation = useMutation({
     mutationFn: () => base44.entities.ListingInquiry.create({
       listing_id: id,
       sender_id: user.id,
-      recipient_id: listing.created_by,
+      recipient_id: sellerUser?.id || listing.created_by,
       message: inquiry.message,
       sender_contact_email: inquiry.email || user.email,
       sender_contact_phone: inquiry.phone,
