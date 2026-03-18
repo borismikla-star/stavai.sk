@@ -52,12 +52,14 @@ export default function DealRoomPage() {
     enabled: !!deal?.listing_id
   });
 
-  const { data: allUsers = [] } = useQuery({
-    queryKey: ['users'],
-    queryFn: () => base44.entities.User.list(),
-    enabled: !!deal
+  // #11 — fetch only relevant participants, not all users
+  const participantIds = deal ? [deal.seller_id, deal.buyer_id, deal.agent_id].filter(Boolean) : [];
+  const { data: participantUsers = [] } = useQuery({
+    queryKey: ['deal-participants', ...participantIds],
+    queryFn: () => base44.entities.User.filter({ id: { $in: participantIds } }),
+    enabled: participantIds.length > 0
   });
-  const userMap = Object.fromEntries(allUsers.map(u => [u.id, u]));
+  const userMap = Object.fromEntries(participantUsers.map(u => [u.id, u]));
 
   const updateMutation = useMutation({
     mutationFn: (data) => base44.entities.DealRoom.update(dealId, data),
