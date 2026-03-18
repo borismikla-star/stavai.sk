@@ -70,10 +70,10 @@ export default function MyInquiries() {
 
   const openDealRoomMutation = useMutation({
     mutationFn: async (inq) => {
-      const listing = listingMap[inq.listing_id];
+      // seller_id is always the current user (recipient of the inquiry)
       const deal = await base44.entities.DealRoom.create({
         listing_id: inq.listing_id,
-        seller_id: inq.recipient_id,
+        seller_id: user.id,
         buyer_id: inq.sender_id,
         status: 'active',
       });
