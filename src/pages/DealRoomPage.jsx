@@ -404,9 +404,10 @@ export default function DealRoomPage() {
               <h2 className="font-bold text-slate-800 mb-3 text-sm">Správa dealu</h2>
               {isSeller ? (
                 <div className="space-y-2">
-                  {deal.status === 'active' && (
+                  {/* #6 — clickwrap before signing reservation */}
+                  {deal.status === 'active' && !deal.reservation_signed_at && (
                     <Button size="sm" className="w-full bg-amber-500 hover:bg-amber-600 text-white"
-                      onClick={() => handleStatusChange('reservation_signed')}>
+                      onClick={() => { setReservationChecked(false); setShowReservationClickwrap(true); }}>
                       <CheckCircle2 className="w-4 h-4 mr-2" /> Potvrdiť podpis rezervácie
                     </Button>
                   )}
