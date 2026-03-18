@@ -628,6 +628,47 @@ export default function DealRoomPage() {
         </div>
       </div>
 
+      {/* #6 — Reservation Clickwrap Dialog */}
+      <Dialog open={showReservationClickwrap} onOpenChange={setShowReservationClickwrap}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-amber-700">
+              <CheckCircle2 className="w-5 h-5" /> Podpis rezervačnej zmluvy
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 max-h-40 overflow-y-auto">
+              <p className="font-semibold mb-2">Rezervačná dohoda</p>
+              <p>Týmto potvrdzujem, že som si prečítal/a a súhlasím s podmienkami rezervácie nehnuteľnosti. Beriem na vedomie, že zrušenie po podpise tejto rezervácie podlieha Cancellation Fee vo výške €500 (z toho €300 ide kupujúcemu ako kredit a €200 platforme stavai.sk).</p>
+              <p className="mt-2">Podpisom rezervácie sa zaväzujem pokračovať v obchodnom procese v dobrej viere a v súlade s podmienkami platformy stavai.sk.</p>
+            </div>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={reservationChecked}
+                onChange={e => setReservationChecked(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded border-slate-300 accent-amber-500"
+              />
+              <span className="text-sm text-slate-700">Prečítal/a som si rezervačnú dohodu a súhlasím s jej podmienkami. Rozumiem, že zrušenie podlieha poplatku €500.</span>
+            </label>
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1" onClick={() => setShowReservationClickwrap(false)}>Zrušiť</Button>
+              <Button
+                className="flex-1 bg-amber-500 hover:bg-amber-600 text-white"
+                disabled={!reservationChecked || updateMutation.isPending}
+                onClick={async () => {
+                  await handleStatusChange('reservation_signed');
+                  setShowReservationClickwrap(false);
+                }}
+              >
+                Podpísať rezerváciu
+              </Button>
+            </div>
+            <p className="text-xs text-slate-400 text-center">Timestamp podpisu: {new Date().toLocaleString('sk-SK')}</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Cancellation Fee Dialog */}
       <Dialog open={showCancelConfirm} onOpenChange={setShowCancelConfirm}>
         <DialogContent className="max-w-md">
