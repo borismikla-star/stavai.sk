@@ -80,7 +80,7 @@ export default function DealRoomPage() {
       type: docType,
       uploaded_by: user.id,
       uploaded_at: new Date().toISOString(),
-      visible_to: 'both'
+      visible_to: docVisibility
     };
     const newLog = {
       user_id: user.id,
