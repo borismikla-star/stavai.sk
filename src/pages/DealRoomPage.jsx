@@ -167,9 +167,10 @@ export default function DealRoomPage() {
   };
 
   const handleReportPrice = async () => {
-    const price = parseFloat(reportedPriceInput);
-    if (!price) return;
     const isSeller = deal.seller_id === user.id;
+    // #7 — buyer can confirm seller's price without re-entering it
+    const price = parseFloat(reportedPriceInput) || (!isSeller && deal.reported_price ? deal.reported_price : 0);
+    if (!price) return;
 
     // Red flag: reported price >20% below listing price
     const listingPrice = listing?.price || 0;
