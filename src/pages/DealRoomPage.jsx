@@ -114,8 +114,39 @@ export default function DealRoomPage() {
     // Auto-update listing status when deal is closed
     if (newStatus === 'completed' && deal.listing_id) {
       await base44.entities.Listing.update(deal.listing_id, { status: 'sold' });
+      // #9 — notify buyer when seller closes deal
+      const buyerUser = participantUsers.find(u => u.id === deal.buyer_id);
+      if (buyerUser?.email) {
+        base44.integrations.Core.SendEmail({
+          to: buyerUser.email,
+          subject: `Predávajúci uzavrel deal — potvrďte predajnú cenu`,
+          body: `Dobrý deň,\n\npredávajúci nahlásil uzavretie dealu pre listing: ${listing?.title || ''}.\n\nProsím prihláste sa do Deal Roomu a potvrďte predajnú cenu.\n\nhttps://stavai.sk/DealRoomPage?id=${dealId}\n\nTím stavai.sk`
+        }).catch(() => {});
+      }
     }
     toast({ title: `Status zmenený na: ${STATUS_LABELS[newStatus]}` });
+  };
+
+  // #3 — buyer can only request cancellation, not directly cancel
+  const handleBuyerCancelRequest = async () => {
+    const logEntry = {
+      user_id: user.id,
+      action: 'Kupujúci požiadal o zrušenie dealu — čaká na schválenie predávajúceho',
+      timestamp: new Date().toISOString()
+    };
+    await updateMutation.mutateAsync({
+      audit_log: [...(deal.audit_log || []), logEntry]
+    });
+    // Notify seller
+    const sellerUser = participantUsers.find(u => u.id === deal.seller_id);
+    if (sellerUser?.email) {
+      base44.integrations.Core.SendEmail({
+        to: sellerUser.email,
+        subject: `Kupujúci požiadal o zrušenie dealu`,
+        body: `Dobrý deň,\n\nkupujúci požiadal o zrušenie dealu pre listing: ${listing?.title || ''}.\n\nProsím prihláste sa do Deal Roomu a potvrďte alebo zamietnte žiadosť.\n\nhttps://stavai.sk/DealRoomPage?id=${dealId}\n\nTím stavai.sk`
+      }).catch(() => {});
+    }
+    toast({ title: 'Žiadosť o zrušenie odoslaná', description: 'Predávajúci bol upozornený. Čaká na jeho schválenie.' });
   };
 
   const handleCancellationFeePaid = async () => {
