@@ -475,10 +475,12 @@ export default function DealRoomPage() {
             </div>
           )}
 
-          {/* Report price */}
+          {/* Report price — seller reports, buyer confirms */}
           {(deal.status === 'reservation_signed' || deal.status === 'completed') && (
             <div className="bg-white border border-slate-200 rounded-2xl p-5">
-              <h2 className="font-bold text-slate-800 mb-1 text-sm">Nahlásiť predajnú cenu</h2>
+              <h2 className="font-bold text-slate-800 mb-1 text-sm">
+                {isSeller ? 'Nahlásiť predajnú cenu' : 'Potvrdiť predajnú cenu'}
+              </h2>
               {listing?.price > 0 && (
                 <p className="text-xs text-slate-400 mb-3">Listing cena: €{listing.price.toLocaleString('sk-SK')} · Red flag pri poklese &gt;20%</p>
               )}
