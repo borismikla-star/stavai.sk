@@ -26,7 +26,15 @@ export default function MyInquiries() {
 
   const { data: received = [] } = useQuery({
     queryKey: ['inquiries-received', user?.id],
-    queryFn: () => base44.entities.ListingInquiry.filter({ recipient_id: user.id }, '-created_date'),
+    queryFn: async () => {
+      // Support both old (email) and new (id) recipient_id formats
+      const [byId, byEmail] = await Promise.all([
+        base44.entities.ListingInquiry.filter({ recipient_id: user.id }, '-created_date'),
+        base44.entities.ListingInquiry.filter({ recipient_id: user.email }, '-created_date'),
+      ]);
+      const seen = new Set();
+      return [...byId, ...byEmail].filter(i => seen.has(i.id) ? false : seen.add(i.id));
+    },
     enabled: !!user
   });
 
