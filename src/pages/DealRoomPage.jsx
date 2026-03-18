@@ -522,24 +522,42 @@ export default function DealRoomPage() {
           )}
 
           {/* Report price — seller reports, buyer confirms */}
-          {(deal.status === 'reservation_signed' || deal.status === 'completed') && (
+          {(deal.status === 'reservation_signed' || deal.status === 'completed') && (isSeller || isBuyer) && (
             <div className="bg-white border border-slate-200 rounded-2xl p-5">
               <h2 className="font-bold text-slate-800 mb-1 text-sm">
                 {isSeller ? 'Nahlásiť predajnú cenu' : 'Potvrdiť predajnú cenu'}
               </h2>
-              {listing?.price > 0 && (
-                <p className="text-xs text-slate-400 mb-3">Listing cena: €{listing.price.toLocaleString('sk-SK')} · Red flag pri poklese &gt;20%</p>
+              {/* #7 — buyer sees seller price prefilled */}
+              {!isSeller && deal.reported_price && !deal.buyer_confirmed_price && (
+                <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-3">
+                  Predávajúci nahlásil: <strong>€{deal.reported_price.toLocaleString('sk-SK')}</strong> — potvrďte alebo opravte.
+                </p>
               )}
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  placeholder="Cena v EUR"
-                  value={reportedPriceInput}
-                  onChange={e => setReportedPriceInput(e.target.value)}
-                  className="flex-1 h-9 rounded-lg border border-slate-200 text-sm px-3"
-                />
-                <Button size="sm" onClick={handleReportPrice} disabled={!reportedPriceInput}>OK</Button>
-              </div>
+              {isSeller && deal.reported_price ? (
+                <p className="text-xs text-green-600 bg-green-50 rounded-lg px-3 py-2">
+                  ✓ Cena nahlásená: <strong>€{deal.reported_price.toLocaleString('sk-SK')}</strong>
+                </p>
+              ) : isBuyer && deal.buyer_confirmed_price ? (
+                <p className="text-xs text-green-600 bg-green-50 rounded-lg px-3 py-2">
+                  ✓ Cena potvrdená: <strong>€{deal.buyer_confirmed_price.toLocaleString('sk-SK')}</strong>
+                </p>
+              ) : (
+                <>
+                  {listing?.price > 0 && (
+                    <p className="text-xs text-slate-400 mb-3">Listing cena: €{listing.price.toLocaleString('sk-SK')} · Red flag pri poklese &gt;20%</p>
+                  )}
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      placeholder={!isSeller && deal.reported_price ? `${deal.reported_price}` : 'Cena v EUR'}
+                      value={reportedPriceInput || (!isSeller && deal.reported_price && !deal.buyer_confirmed_price ? deal.reported_price : '')}
+                      onChange={e => setReportedPriceInput(e.target.value)}
+                      className="flex-1 h-9 rounded-lg border border-slate-200 text-sm px-3"
+                    />
+                    <Button size="sm" onClick={handleReportPrice} disabled={!reportedPriceInput && !(!isSeller && deal.reported_price)}>OK</Button>
+                  </div>
+                </>
+              )}
               {deal.fee_calculated && (
                 <div className={`mt-3 p-3 rounded-xl ${deal.red_flag ? 'bg-red-50' : 'bg-indigo-50'}`}>
                   <div className={`text-xs font-semibold ${deal.red_flag ? 'text-red-600' : 'text-indigo-600'}`}>Success Fee (1%){deal.red_flag ? ' · ⚠️ Red Flag' : ''}</div>
