@@ -351,28 +351,40 @@ export default function DealRoomPage() {
         {/* Right sidebar */}
         <div className="space-y-4">
 
-          {/* Status actions */}
+          {/* Status actions — seller only for main actions */}
           {deal.status !== 'completed' && deal.status !== 'cancelled' && (
             <div className="bg-white border border-slate-200 rounded-2xl p-5">
-              <h2 className="font-bold text-slate-800 mb-3 text-sm">Zmena statusu</h2>
-              <div className="space-y-2">
-                {deal.status === 'active' && (
-                  <Button size="sm" className="w-full bg-amber-500 hover:bg-amber-600 text-white"
-                    onClick={() => handleStatusChange('reservation_signed')}>
-                    <CheckCircle2 className="w-4 h-4 mr-2" /> Rezervácia podpísaná
+              <h2 className="font-bold text-slate-800 mb-3 text-sm">Správa dealu</h2>
+              {isSeller ? (
+                <div className="space-y-2">
+                  {deal.status === 'active' && (
+                    <Button size="sm" className="w-full bg-amber-500 hover:bg-amber-600 text-white"
+                      onClick={() => handleStatusChange('reservation_signed')}>
+                      <CheckCircle2 className="w-4 h-4 mr-2" /> Potvrdiť podpis rezervácie
+                    </Button>
+                  )}
+                  {(deal.status === 'active' || deal.status === 'reservation_signed') && (
+                    <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white"
+                      onClick={() => handleStatusChange('completed')}>
+                      <CheckCircle2 className="w-4 h-4 mr-2" /> Uzavrieť deal
+                    </Button>
+                  )}
+                  <Button size="sm" variant="outline" className="w-full border-red-200 text-red-500 hover:bg-red-50"
+                    onClick={() => handleStatusChange('cancelled')}>
+                    Zrušiť deal
                   </Button>
-                )}
-                {(deal.status === 'active' || deal.status === 'reservation_signed') && (
-                  <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white"
-                    onClick={() => handleStatusChange('completed')}>
-                    <CheckCircle2 className="w-4 h-4 mr-2" /> Uzavrieť deal
+                </div>
+              ) : isBuyer ? (
+                <div className="space-y-2">
+                  <div className="text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
+                    Správu dealu vykonáva predávajúci. Vy budete informovaný o každej zmene.
+                  </div>
+                  <Button size="sm" variant="outline" className="w-full border-red-200 text-red-500 hover:bg-red-50"
+                    onClick={() => handleStatusChange('cancelled')}>
+                    Požiadať o zrušenie
                   </Button>
-                )}
-                <Button size="sm" variant="outline" className="w-full border-red-200 text-red-500 hover:bg-red-50"
-                  onClick={() => handleStatusChange('cancelled')}>
-                  Zrušiť deal
-                </Button>
-              </div>
+                </div>
+              ) : null}
             </div>
           )}
 
