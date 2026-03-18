@@ -430,8 +430,9 @@ export default function DealRoomPage() {
                   <div className="text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
                     Správu dealu vykonáva predávajúci. Vy budete informovaný o každej zmene.
                   </div>
+                  {/* #3 — buyer only requests cancellation, doesn't cancel directly */}
                   <Button size="sm" variant="outline" className="w-full border-red-200 text-red-500 hover:bg-red-50"
-                    onClick={() => handleStatusChange('cancelled')}>
+                    onClick={handleBuyerCancelRequest}>
                     Požiadať o zrušenie
                   </Button>
                 </div>
