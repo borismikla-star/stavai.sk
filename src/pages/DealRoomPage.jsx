@@ -109,6 +109,10 @@ export default function DealRoomPage() {
     if (newStatus === 'reservation_signed') updates.reservation_signed_at = new Date().toISOString();
     if (newStatus === 'completed') updates.deal_closed_at = new Date().toISOString();
     await updateMutation.mutateAsync(updates);
+    // Auto-update listing status when deal is closed
+    if (newStatus === 'completed' && deal.listing_id) {
+      await base44.entities.Listing.update(deal.listing_id, { status: 'sold' });
+    }
     toast({ title: `Status zmenený na: ${STATUS_LABELS[newStatus]}` });
   };
 
