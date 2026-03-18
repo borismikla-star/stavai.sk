@@ -332,6 +332,9 @@ export default function DealRoomPage() {
                         <div className="text-xs text-slate-400">
                           {DOC_TYPE_LABELS[doc.type] || doc.type} · {formatDate(doc.uploaded_at)}
                           {' · '}{userMap[doc.uploaded_by]?.full_name || 'neznámy'}
+                          {doc.visible_to !== 'both' && (
+                            <span className="ml-1 text-violet-500">· {doc.visible_to === 'seller_only' ? '🔒 len predávajúci' : '🔒 len kupujúci'}</span>
+                          )}
                         </div>
                       </div>
                     </div>
