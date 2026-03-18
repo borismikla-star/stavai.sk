@@ -344,10 +344,10 @@ export default function DealRoomPage() {
               </div>
             )}
 
-            {/* Upload */}
+            {/* Upload — #5 visible_to selector */}
             {deal.status !== 'completed' && deal.status !== 'cancelled' && (
-              <div className="border-t border-slate-100 pt-4">
-                <div className="flex gap-2 items-center mb-2">
+              <div className="border-t border-slate-100 pt-4 space-y-2">
+                <div className="flex gap-2">
                   <select
                     value={docType}
                     onChange={e => setDocType(e.target.value)}
@@ -355,12 +355,21 @@ export default function DealRoomPage() {
                   >
                     {Object.entries(DOC_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                   </select>
-                  <label className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold cursor-pointer transition-colors ${uploading ? 'bg-slate-100 text-slate-400' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}>
-                    <Upload className="w-4 h-4" />
-                    {uploading ? 'Nahrávam...' : 'Nahrať dokument'}
-                    <input type="file" className="hidden" onChange={handleFileUpload} disabled={uploading} />
-                  </label>
+                  <select
+                    value={docVisibility}
+                    onChange={e => setDocVisibility(e.target.value)}
+                    className="h-9 rounded-lg border border-slate-200 text-sm px-2 text-slate-700 bg-white"
+                  >
+                    <option value="both">Obaja</option>
+                    <option value="seller_only">Len predávajúci</option>
+                    <option value="buyer_only">Len kupujúci</option>
+                  </select>
                 </div>
+                <label className={`flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-semibold cursor-pointer transition-colors ${uploading ? 'bg-slate-100 text-slate-400' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}>
+                  <Upload className="w-4 h-4" />
+                  {uploading ? 'Nahrávam...' : 'Nahrať dokument'}
+                  <input type="file" className="hidden" onChange={handleFileUpload} disabled={uploading} />
+                </label>
               </div>
             )}
           </div>
