@@ -374,10 +374,18 @@ export default function DealRoomPage() {
                     </Button>
                   )}
                   {(deal.status === 'active' || deal.status === 'reservation_signed') && (
-                    <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white"
-                      onClick={() => handleStatusChange('completed')}>
-                      <CheckCircle2 className="w-4 h-4 mr-2" /> Uzavrieť deal
-                    </Button>
+                    <div className="space-y-1">
+                      <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                        onClick={() => handleStatusChange('completed')}
+                        disabled={!deal.reported_price}>
+                        <CheckCircle2 className="w-4 h-4 mr-2" /> Uzavrieť deal
+                      </Button>
+                      {!deal.reported_price && (
+                        <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2">
+                          ⚠️ Pred uzavretím zadajte predajnú cenu — potrebná pre výpočet fee.
+                        </p>
+                      )}
+                    </div>
                   )}
                   <Button size="sm" variant="outline" className="w-full border-red-200 text-red-500 hover:bg-red-50"
                     onClick={() => handleStatusChange('cancelled')}>
