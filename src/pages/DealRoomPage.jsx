@@ -158,9 +158,15 @@ export default function DealRoomPage() {
     await updateMutation.mutateAsync(updates);
     setReportedPriceInput('');
     if (isRedFlag) {
+      // Notify admin via email
+      base44.integrations.Core.SendEmail({
+        to: 'admin@stavai.sk',
+        subject: `⚠️ Red Flag aktivovaný — Deal Room ${dealId}`,
+        body: `Deal Room ID: ${dealId}\nListing: ${listing?.title || ''}\nNahlásená cena: €${price.toLocaleString('sk-SK')}\nListing cena: €${listingPrice.toLocaleString('sk-SK')}\nPokles: ${Math.round(priceDrop * 100)}%\n\nProsím overte zmluvu v administrácii.`
+      }).catch(() => {}); // fire and forget
       toast({
         title: '⚠️ Red Flag aktivovaný',
-        description: `Cena je o ${Math.round(priceDrop * 100)}% nižšia ako listing cena. Nahrajte sken zmluvy.`,
+        description: `Cena je o ${Math.round(priceDrop * 100)}% nižšia ako listing cena. Nahrajte sken zmluvy. Admin bol upozornený.`,
         variant: 'destructive'
       });
     } else {
