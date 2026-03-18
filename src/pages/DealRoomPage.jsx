@@ -160,7 +160,7 @@ export default function DealRoomPage() {
     if (isRedFlag) {
       // Notify admin via email
       base44.integrations.Core.SendEmail({
-        to: 'admin@stavai.sk',
+        to: 'info@stavai.sk',
         subject: `⚠️ Red Flag aktivovaný — Deal Room ${dealId}`,
         body: `Deal Room ID: ${dealId}\nListing: ${listing?.title || ''}\nNahlásená cena: €${price.toLocaleString('sk-SK')}\nListing cena: €${listingPrice.toLocaleString('sk-SK')}\nPokles: ${Math.round(priceDrop * 100)}%\n\nProsím overte zmluvu v administrácii.`
       }).catch(() => {}); // fire and forget
