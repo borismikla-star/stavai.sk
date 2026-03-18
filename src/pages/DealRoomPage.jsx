@@ -33,6 +33,9 @@ export default function DealRoomPage() {
   const [reportedPriceInput, setReportedPriceInput] = useState('');
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [uploadingContract, setUploadingContract] = useState(false);
+  const [docVisibility, setDocVisibility] = useState('both');
+  const [showReservationClickwrap, setShowReservationClickwrap] = useState(false);
+  const [reservationChecked, setReservationChecked] = useState(false);
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
