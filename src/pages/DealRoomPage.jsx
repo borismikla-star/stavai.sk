@@ -172,9 +172,9 @@ export default function DealRoomPage() {
     const price = parseFloat(reportedPriceInput) || (!isSeller && deal.reported_price ? deal.reported_price : 0);
     if (!price) return;
 
-    // Red flag: reported price >20% below listing price
+    // Red flag: reported price >20% below listing price (only applies to seller)
     const listingPrice = listing?.price || 0;
-    const priceDrop = listingPrice > 0 ? (listingPrice - price) / listingPrice : 0;
+    const priceDrop = isSeller && listingPrice > 0 ? (listingPrice - price) / listingPrice : 0;
     const isRedFlag = priceDrop > 0.20;
 
     // Fee table: base 1%, red flag requires contract scan upload
