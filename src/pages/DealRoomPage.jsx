@@ -262,8 +262,21 @@ export default function DealRoomPage() {
 
   // Phase advance conditions
   const canMoveToDueDiligence = deal.status === 'active';
+  const buyerSignedReservation = !!(deal.buyer_reservation_signed_at);
   const canMoveToReservation = deal.status === 'due_diligence' && ddComplete;
-  const canClose = (deal.status === 'reservation_signed') && !!deal.reported_price;
+  const canClose = (deal.status === 'reservation_signed') && !!deal.reported_price && buyerSignedReservation;
+
+  // Fee with 14-day timeout logic
+  const computeFee = (price) => {
+    if (!price || !listing?.price) return Math.round(price * 0.01);
+    const listingPrice = listing.price;
+    const priceDrop = (listingPrice - price) / listingPrice;
+    // 14-day timeout: if deal in reservation_signed for more than 14 days without close → reduced fee
+    const reservedAt = deal.reservation_signed_at ? new Date(deal.reservation_signed_at) : null;
+    const daysSinceReservation = reservedAt ? Math.floor((Date.now() - reservedAt.getTime()) / 86400000) : 0;
+    const baseRate = daysSinceReservation > 14 ? 0.005 : 0.01; // 0.5% po timeout
+    return Math.round(price * (priceDrop > 0.20 ? 0.01 : baseRate));
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
