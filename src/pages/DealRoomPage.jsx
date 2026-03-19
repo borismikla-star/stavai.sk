@@ -758,6 +758,46 @@ export default function DealRoomPage() {
         </DialogContent>
       </Dialog>
 
+      {/* Buyer Reservation Clickwrap */}
+      <Dialog open={showBuyerClickwrap} onOpenChange={setShowBuyerClickwrap}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-amber-700">
+              <CheckCircle2 className="w-5 h-5" /> Podpis rezervačnej zmluvy — Kupujúci
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800 max-h-40 overflow-y-auto">
+              <p className="font-semibold mb-2">Rezervačná dohoda — Kupujúci</p>
+              <p>Týmto potvrdzujem, že som prešiel Due Diligence dokumenty a súhlasím s podmienkami rezervácie nehnuteľnosti. Zrušenie po podpise podlieha Cancellation Fee €500 (€300 kredit kupujúcemu / €200 platforma stavai.sk).</p>
+              <p className="mt-2">Zaväzujem sa pokračovať v obchodnom procese v dobrej viere v súlade s podmienkami platformy stavai.sk.</p>
+            </div>
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" checked={buyerReservationChecked} onChange={e => setBuyerReservationChecked(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded border-slate-300 accent-amber-500" />
+              <span className="text-sm text-slate-700">Súhlasím s podmienkami rezervačnej dohody a beriem na vedomie Cancellation Fee €500.</span>
+            </label>
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1" onClick={() => setShowBuyerClickwrap(false)}>Zrušiť</Button>
+              <Button className="flex-1 bg-amber-500 hover:bg-amber-600 text-white"
+                disabled={!buyerReservationChecked || updateMutation.isPending}
+                onClick={async () => {
+                  const log = { user_id: user.id, action: 'Kupujúci podpísal rezervačnú dohodu', timestamp: new Date().toISOString() };
+                  await updateMutation.mutateAsync({
+                    buyer_reservation_signed_at: new Date().toISOString(),
+                    audit_log: [...(deal.audit_log || []), log]
+                  });
+                  setShowBuyerClickwrap(false);
+                  toast({ title: 'Rezervácia podpísaná' });
+                }}>
+                Podpísať rezerváciu
+              </Button>
+            </div>
+            <p className="text-xs text-slate-400 text-center">Timestamp: {new Date().toLocaleString('sk-SK')}</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Cancellation Fee Dialog (Seller) — Stripe placeholder */}
       <Dialog open={showCancelConfirm} onOpenChange={setShowCancelConfirm}>
         <DialogContent className="max-w-md">
