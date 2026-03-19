@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { MessageSquare, Send, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { formatDate } from '@/utils';
+function formatDate(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('sk-SK', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
 
 export default function QALog({ deal, user, userMap, onAddEntry }) {
   const [open, setOpen] = useState(true);
