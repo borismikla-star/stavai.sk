@@ -475,6 +475,11 @@ export default function DealRoomPage() {
                           ⚠️ Pred uzavretím zadajte predajnú cenu.
                         </p>
                       )}
+                      {!buyerSignedReservation && (
+                        <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2">
+                          ⚠️ Kupujúci ešte nepodpísal rezervačnú dohodu.
+                        </p>
+                      )}
                     </div>
                   )}
 
