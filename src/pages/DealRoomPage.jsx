@@ -182,7 +182,7 @@ export default function DealRoomPage() {
     const listingPrice = listing?.price || 0;
     const priceDrop = isSeller && listingPrice > 0 ? (listingPrice - price) / listingPrice : 0;
     const isRedFlag = priceDrop > 0.20;
-    const fee = Math.round(price * 0.01);
+    const fee = computeFee(price);
     const logEntry = {
       user_id: user.id,
       action: `Nahlásil predajnú cenu: €${price.toLocaleString('sk-SK')}${isRedFlag ? ' ⚠️ Red Flag (pokles >20%)' : ''}`,
