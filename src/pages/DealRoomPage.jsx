@@ -60,6 +60,9 @@ export default function DealRoomPage() {
   const [showReservationClickwrap, setShowReservationClickwrap] = useState(false);
   const [reservationChecked, setReservationChecked] = useState(false);
   const [buyerDDConfirmed, setBuyerDDConfirmed] = useState(false);
+  const [showBuyerClickwrap, setShowBuyerClickwrap] = useState(false);
+  const [buyerReservationChecked, setBuyerReservationChecked] = useState(false);
+  const [showAdminUnlock, setShowAdminUnlock] = useState(false);
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
