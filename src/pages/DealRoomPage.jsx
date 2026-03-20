@@ -167,12 +167,23 @@ export default function DealRoomPage() {
   };
 
   const handleCancellationFeePaid = async () => {
-    // Stripe placeholder
     toast({
       title: 'Stripe platba — čoskoro',
       description: 'Platba Cancellation Fee €500 bude aktivovaná po konfigurácii Stripe.',
     });
     setShowCancelConfirm(false);
+  };
+
+  // Fee with 14-day timeout logic — fee z vyššej z oboch cien
+  const computeFee = (price) => {
+    const effectivePrice = Math.max(price || 0, deal.buyer_confirmed_price || 0, deal.reported_price || 0);
+    if (!effectivePrice) return 0;
+    const listingPrice = listing?.price || 0;
+    const priceDrop = listingPrice > 0 ? (listingPrice - effectivePrice) / listingPrice : 0;
+    const reservedAt = deal.reservation_signed_at ? new Date(deal.reservation_signed_at) : null;
+    const daysSinceReservation = reservedAt ? Math.floor((Date.now() - reservedAt.getTime()) / 86400000) : 0;
+    const baseRate = daysSinceReservation > 14 ? 0.005 : 0.01;
+    return Math.round(effectivePrice * (priceDrop > 0.20 ? 0.01 : baseRate));
   };
 
   const handleReportPrice = async () => {
@@ -204,7 +215,7 @@ export default function DealRoomPage() {
       }).catch(() => {});
       toast({ title: '⚠️ Red Flag', description: `Pokles ${Math.round(priceDrop * 100)}%. Nahrajte sken zmluvy.`, variant: 'destructive' });
     } else {
-      toast({ title: 'Cena zaznamenaná', description: `Success fee (1%): €${fee.toLocaleString('sk-SK')}` });
+      toast({ title: 'Cena zaznamenaná', description: `Success fee: €${fee.toLocaleString('sk-SK')}` });
     }
   };
 
@@ -212,6 +223,32 @@ export default function DealRoomPage() {
     await updateMutation.mutateAsync({
       audit_log: [...(deal.audit_log || []), entry]
     });
+
+    // Email notifications for Q&A
+    const sellerUser = participantUsers.find(u => u.id === deal.seller_id);
+    const buyerUser = participantUsers.find(u => u.id === deal.buyer_id);
+    const dealUrl = `https://stavai.sk/DealRoomPage?id=${dealId}`;
+    const listingTitle = listing?.title || dealId;
+
+    if (!entry.reply_to && entry.reply_to !== 0) {
+      // New question — notify seller
+      if (sellerUser?.email && entry.user_id !== deal.seller_id) {
+        base44.integrations.Core.SendEmail({
+          to: sellerUser.email,
+          subject: `Nová otázka v Deal Room — ${listingTitle}`,
+          body: `Kupujúci položil novú otázku v Deal Room.\n\nOtázka: ${entry.action}\n\nOdpovedzte tu: ${dealUrl}\n\nTím stavai.sk`
+        }).catch(() => {});
+      }
+    } else {
+      // Reply — notify buyer (and original questioner if it's not the seller replying to themselves)
+      if (buyerUser?.email && entry.user_id !== deal.buyer_id) {
+        base44.integrations.Core.SendEmail({
+          to: buyerUser.email,
+          subject: `Odpoveď na vašu otázku — ${listingTitle}`,
+          body: `Predávajúci odpovedal na vašu otázku v Deal Room.\n\nOdpoveď: ${entry.action}\n\nZobrazit: ${dealUrl}\n\nTím stavai.sk`
+        }).catch(() => {});
+      }
+    }
   };
 
   if (isLoading) return (
@@ -265,18 +302,6 @@ export default function DealRoomPage() {
   const buyerSignedReservation = !!(deal.buyer_reservation_signed_at);
   const canMoveToReservation = deal.status === 'due_diligence' && ddComplete;
   const canClose = (deal.status === 'reservation_signed') && !!deal.reported_price && buyerSignedReservation;
-
-  // Fee with 14-day timeout logic
-  const computeFee = (price) => {
-    if (!price || !listing?.price) return Math.round(price * 0.01);
-    const listingPrice = listing.price;
-    const priceDrop = (listingPrice - price) / listingPrice;
-    // 14-day timeout: if deal in reservation_signed for more than 14 days without close → reduced fee
-    const reservedAt = deal.reservation_signed_at ? new Date(deal.reservation_signed_at) : null;
-    const daysSinceReservation = reservedAt ? Math.floor((Date.now() - reservedAt.getTime()) / 86400000) : 0;
-    const baseRate = daysSinceReservation > 14 ? 0.005 : 0.01; // 0.5% po timeout
-    return Math.round(price * (priceDrop > 0.20 ? 0.01 : baseRate));
-  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -334,7 +359,7 @@ export default function DealRoomPage() {
             </div>
           </div>
 
-          {/* DD Checklist — visible from phase 1 */}
+          {/* DD Checklist */}
           {checklist.length > 0 && (
             <DDChecklist
               checklist={checklist}
@@ -438,7 +463,6 @@ export default function DealRoomPage() {
 
               {isSeller && (
                 <div className="space-y-2">
-                  {/* Phase 1→2: Start Due Diligence */}
                   {deal.status === 'active' && (
                     <Button size="sm" className="w-full bg-violet-600 hover:bg-violet-700 text-white"
                       onClick={() => handleStatusChange('due_diligence')}>
@@ -446,7 +470,6 @@ export default function DealRoomPage() {
                     </Button>
                   )}
 
-                  {/* Phase 2→3: DD complete → Reservation */}
                   {deal.status === 'due_diligence' && (
                     <div className="space-y-1">
                       <Button size="sm" className="w-full bg-amber-500 hover:bg-amber-600 text-white disabled:opacity-50"
@@ -462,7 +485,6 @@ export default function DealRoomPage() {
                     </div>
                   )}
 
-                  {/* Phase 3→4: Close deal */}
                   {deal.status === 'reservation_signed' && (
                     <div className="space-y-1">
                       <Button size="sm" className="w-full bg-green-600 hover:bg-green-700 text-white disabled:opacity-50"
@@ -495,7 +517,6 @@ export default function DealRoomPage() {
                   <div className="text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
                     Správu dealu vykonáva predávajúci. Vy budete informovaný o každej zmene.
                   </div>
-                  {/* Phase 2: Buyer confirms DD complete */}
                   {deal.status === 'due_diligence' && (
                     <div className="space-y-2">
                       <label className="flex items-start gap-2 cursor-pointer">
@@ -510,7 +531,6 @@ export default function DealRoomPage() {
                       )}
                     </div>
                   )}
-                  {/* Phase 3: Buyer signs reservation */}
                   {deal.status === 'reservation_signed' && !buyerSignedReservation && (
                     <div className="space-y-1">
                       <Button size="sm" className="w-full bg-amber-500 hover:bg-amber-600 text-white"
@@ -527,7 +547,6 @@ export default function DealRoomPage() {
                       <CheckCircle2 className="w-3 h-3" /> Rezervácia podpísaná — {new Date(deal.buyer_reservation_signed_at).toLocaleDateString('sk-SK')}
                     </div>
                   )}
-                  {/* Cancellation request — rendered below */}
                 </div>
               )}
 
@@ -598,7 +617,7 @@ export default function DealRoomPage() {
                         <Button size="sm" variant="outline" className="flex-1 text-xs border-green-300 text-green-700 hover:bg-green-50"
                           onClick={async () => {
                             const p = deal.reported_price || deal.buyer_confirmed_price;
-                            const fee = p ? Math.round(p * 0.01) : deal.fee_calculated;
+                            const fee = p ? computeFee(p) : deal.fee_calculated;
                             const log = { user_id: user.id, action: `Admin overil zmluvu — fee: €${fee?.toLocaleString('sk-SK')}`, timestamp: new Date().toISOString() };
                             await updateMutation.mutateAsync({ red_flag: false, fee_calculated: fee, audit_log: [...(deal.audit_log || []), log] });
                             toast({ title: 'Zmluva overená' });
@@ -675,7 +694,9 @@ export default function DealRoomPage() {
               )}
               {deal.fee_calculated && (
                 <div className={`mt-3 p-3 rounded-xl ${deal.red_flag ? 'bg-red-50' : 'bg-indigo-50'}`}>
-                  <div className={`text-xs font-semibold ${deal.red_flag ? 'text-red-600' : 'text-indigo-600'}`}>Success Fee (1%){deal.red_flag ? ' · ⚠️ Red Flag' : ''}</div>
+                  <div className={`text-xs font-semibold ${deal.red_flag ? 'text-red-600' : 'text-indigo-600'}`}>
+                    Success Fee{deal.red_flag ? ' · ⚠️ Red Flag' : ''}
+                  </div>
                   <div className={`text-lg font-black ${deal.red_flag ? 'text-red-700' : 'text-indigo-700'}`}>€{deal.fee_calculated?.toLocaleString('sk-SK')}</div>
                   <div className={`text-xs mt-0.5 ${deal.red_flag ? 'text-red-500' : 'text-indigo-500'}`}>
                     {deal.fee_paid ? '✓ Zaplatené' : '⏳ Stripe platba — čoskoro'}
