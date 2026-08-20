@@ -1,0 +1,60 @@
+{
+  "name": "Project",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "N\u00e1zov projektu"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "residential",
+        "commercial",
+        "industrial",
+        "infrastructure",
+        "renovation"
+      ],
+      "description": "Typ projektu"
+    },
+    "location": {
+      "type": "string",
+      "description": "Lokalita projektu"
+    },
+    "area": {
+      "type": "number",
+      "description": "Rozloha v m\u00b2"
+    },
+    "floors": {
+      "type": "number",
+      "description": "Po\u010det podla\u017e\u00ed"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "analysis",
+        "in_progress",
+        "completed"
+      ],
+      "default": "planning",
+      "description": "Status projektu"
+    },
+    "estimated_cost": {
+      "type": "number",
+      "description": "Odhadovan\u00e9 n\u00e1klady v EUR"
+    },
+    "estimated_duration": {
+      "type": "number",
+      "description": "Odhadovan\u00e9 trvanie v mesiacoch"
+    },
+    "description": {
+      "type": "string",
+      "description": "Popis projektu"
+    }
+  },
+  "required": [
+    "name",
+    "type"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "LandConcept",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "N\u00e1zov konceptu"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "completed",
+        "transferred"
+      ],
+      "default": "draft",
+      "description": "Status konceptu"
+    },
+    "data_confidence": {
+      "type": "string",
+      "enum": [
+        "concept",
+        "concept_subdivision"
+      ],
+      "default": "concept",
+      "description": "Typ konceptu"
+    },
+    "inputs": {
+      "type": "object",
+      "description": "Vstupn\u00e9 \u00fadaje kalkul\u00e1cie"
+    },
+    "results": {
+      "type": "object",
+      "description": "V\u00fdsledky kalkul\u00e1cie"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

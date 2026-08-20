@@ -1,0 +1,56 @@
+{
+  "name": "NDARequest",
+  "type": "object",
+  "properties": {
+    "listing_id": {
+      "type": "string"
+    },
+    "requester_id": {
+      "type": "string"
+    },
+    "seller_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending"
+    },
+    "nda_accepted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "nda_ip_address": {
+      "type": "string"
+    },
+    "nda_text_version": {
+      "type": "string"
+    },
+    "seller_notes": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rejected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "access_log": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "required": [
+    "listing_id",
+    "requester_id",
+    "seller_id"
+  ]
+}

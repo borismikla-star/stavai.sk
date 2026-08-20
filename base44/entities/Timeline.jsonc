@@ -1,0 +1,66 @@
+{
+  "name": "Timeline",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "ID projektu"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "N\u00e1zov projektu"
+    },
+    "total_duration": {
+      "type": "number",
+      "description": "Celkov\u00e9 trvanie v mesiacoch"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Pl\u00e1novan\u00fd za\u010diatok"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Pl\u00e1novan\u00fd koniec"
+    },
+    "phases": {
+      "type": "array",
+      "description": "F\u00e1zy projektu",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Trvanie v mesiacoch"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "milestones": {
+      "type": "array",
+      "description": "K\u013e\u00fa\u010dov\u00e9 m\u00ed\u013eniky",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "project_name",
+    "total_duration"
+  ]
+}

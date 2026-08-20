@@ -1,0 +1,100 @@
+{
+  "name": "DealRoom",
+  "type": "object",
+  "properties": {
+    "listing_id": {
+      "type": "string"
+    },
+    "seller_id": {
+      "type": "string"
+    },
+    "buyer_id": {
+      "type": "string"
+    },
+    "agent_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "due_diligence",
+        "reservation_signed",
+        "completed",
+        "cancelled"
+      ],
+      "default": "active"
+    },
+    "reservation_signed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "buyer_reservation_signed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cancellation_fee_paid": {
+      "type": "boolean",
+      "default": false
+    },
+    "cancellation_paid_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "dd_items": {
+      "type": "array",
+      "description": "Due Diligence checklist items \u2014 {checklist_id, status, file_url, file_name, waive_reason, ...}",
+      "items": {
+        "type": "object"
+      }
+    },
+    "audit_log": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "deal_closed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reported_price": {
+      "type": "number"
+    },
+    "buyer_confirmed_price": {
+      "type": "number"
+    },
+    "contract_url": {
+      "type": "string"
+    },
+    "red_flag": {
+      "type": "boolean",
+      "default": false
+    },
+    "fee_calculated": {
+      "type": "number"
+    },
+    "fee_paid": {
+      "type": "boolean",
+      "default": false
+    },
+    "fee_paid_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "buyer_credit_issued": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "listing_id",
+    "seller_id",
+    "buyer_id"
+  ]
+}

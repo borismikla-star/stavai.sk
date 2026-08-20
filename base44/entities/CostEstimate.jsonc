@@ -1,0 +1,83 @@
+{
+  "name": "CostEstimate",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "ID projektu"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "N\u00e1zov projektu"
+    },
+    "building_type": {
+      "type": "string",
+      "enum": [
+        "residential",
+        "commercial",
+        "industrial",
+        "infrastructure",
+        "renovation"
+      ],
+      "description": "Typ stavby"
+    },
+    "area": {
+      "type": "number",
+      "description": "Rozloha v m\u00b2"
+    },
+    "floors": {
+      "type": "number",
+      "description": "Po\u010det podla\u017e\u00ed"
+    },
+    "location": {
+      "type": "string",
+      "description": "Lokalita"
+    },
+    "quality": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "premium",
+        "luxury"
+      ],
+      "description": "Kvalita v\u00fdstavby"
+    },
+    "total_cost": {
+      "type": "number",
+      "description": "Celkov\u00e9 n\u00e1klady v EUR"
+    },
+    "cost_per_sqm": {
+      "type": "number",
+      "description": "N\u00e1klady na m\u00b2"
+    },
+    "breakdown": {
+      "type": "object",
+      "description": "Detailn\u00fd rozpis n\u00e1kladov",
+      "properties": {
+        "materials": {
+          "type": "number"
+        },
+        "labor": {
+          "type": "number"
+        },
+        "equipment": {
+          "type": "number"
+        },
+        "permits": {
+          "type": "number"
+        },
+        "other": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_confidence": {
+      "type": "number",
+      "description": "AI confidence score (0-100)"
+    }
+  },
+  "required": [
+    "building_type",
+    "area"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "name": "FeasibilityAnalysis",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "ID projektu"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "N\u00e1zov projektu"
+    },
+    "investment_amount": {
+      "type": "number",
+      "description": "Investi\u010dn\u00e1 suma v EUR"
+    },
+    "expected_revenue": {
+      "type": "number",
+      "description": "O\u010dak\u00e1van\u00fd pr\u00edjem v EUR"
+    },
+    "roi": {
+      "type": "number",
+      "description": "Return on Investment (%)"
+    },
+    "irr": {
+      "type": "number",
+      "description": "Internal Rate of Return (%)"
+    },
+    "payback_period": {
+      "type": "number",
+      "description": "Doba n\u00e1vratnosti v rokoch"
+    },
+    "npv": {
+      "type": "number",
+      "description": "Net Present Value"
+    },
+    "risk_score": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Riziko projektu"
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": [
+        "proceed",
+        "review",
+        "reject"
+      ],
+      "description": "AI odpor\u00fa\u010danie"
+    },
+    "analysis_details": {
+      "type": "object",
+      "description": "Detaily anal\u00fdzy"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "free",
+        "premium"
+      ],
+      "default": "premium",
+      "description": "Free alebo premium anal\u00fdza"
+    }
+  },
+  "required": [
+    "project_name",
+    "investment_amount",
+    "expected_revenue"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "user"
+      ],
+      "default": "user"
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "free",
+        "pro",
+        "enterprise"
+      ],
+      "default": "free",
+      "description": "Predplatn\u00fd pl\u00e1n pou\u017e\u00edvate\u013ea"
+    },
+    "beta_access": {
+      "type": "boolean",
+      "default": false,
+      "description": "Beta pr\u00edstup k nov\u00fdm funkci\u00e1m"
+    }
+  },
+  "required": []
+}

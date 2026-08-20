@@ -1,0 +1,166 @@
+{
+  "name": "Listing",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "N\u00e1zov listingu"
+    },
+    "property_type": {
+      "type": "string",
+      "enum": [
+        "residential",
+        "commercial",
+        "land",
+        "development"
+      ]
+    },
+    "listing_type": {
+      "type": "string",
+      "enum": [
+        "sale",
+        "lease",
+        "investment"
+      ]
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "public",
+        "off_market"
+      ],
+      "default": "public"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "under_offer",
+        "sold",
+        "expired"
+      ],
+      "default": "draft"
+    },
+    "price": {
+      "type": "number",
+      "default": 0,
+      "description": "Cena v EUR (0 = na dopyt)"
+    },
+    "area_total": {
+      "type": "number",
+      "description": "Celkov\u00e1 plocha v m\u00b2"
+    },
+    "location_region": {
+      "type": "string",
+      "enum": [
+        "BA",
+        "TT",
+        "TN",
+        "NR",
+        "ZA",
+        "BB",
+        "PO",
+        "KE"
+      ]
+    },
+    "location_city": {
+      "type": "string"
+    },
+    "location_address": {
+      "type": "string"
+    },
+    "location_lat": {
+      "type": "number"
+    },
+    "location_lng": {
+      "type": "number"
+    },
+    "description": {
+      "type": "string"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contact_type": {
+      "type": "string",
+      "enum": [
+        "owner",
+        "agent",
+        "developer"
+      ]
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "category_data": {
+      "type": "object"
+    },
+    "analytics_project_id": {
+      "type": "string"
+    },
+    "view_count": {
+      "type": "number",
+      "default": 0
+    },
+    "inquiry_count": {
+      "type": "number",
+      "default": 0
+    },
+    "saved_count": {
+      "type": "number",
+      "default": 0
+    },
+    "payment_status": {
+      "type": "string",
+      "enum": [
+        "unpaid",
+        "paid",
+        "refunded"
+      ],
+      "default": "unpaid"
+    },
+    "payment_tier": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "standard",
+        "premium"
+      ]
+    },
+    "payment_amount": {
+      "type": "number"
+    },
+    "paid_at": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "title",
+    "property_type",
+    "listing_type",
+    "visibility",
+    "status",
+    "price",
+    "area_total",
+    "location_region",
+    "location_city",
+    "description",
+    "contact_type"
+  ]
+}

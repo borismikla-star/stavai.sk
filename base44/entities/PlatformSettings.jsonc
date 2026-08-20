@@ -1,0 +1,40 @@
+{
+  "name": "PlatformSettings",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Jednozna\u010dn\u00fd k\u013e\u00fa\u010d nastavenia (napr. 'main')"
+    },
+    "beta_mode": {
+      "type": "boolean",
+      "default": true,
+      "description": "Beta re\u017eim akt\u00edvny"
+    },
+    "beta_banner": {
+      "type": "string",
+      "description": "Text beta bannera"
+    },
+    "maintenance_mode": {
+      "type": "boolean",
+      "default": false
+    },
+    "allow_registrations": {
+      "type": "boolean",
+      "default": true
+    },
+    "platform_name": {
+      "type": "string",
+      "default": "stavai.sk"
+    },
+    "contact_email": {
+      "type": "string"
+    },
+    "announcement": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "key"
+  ]
+}

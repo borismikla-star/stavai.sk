@@ -1,0 +1,36 @@
+{
+  "name": "CancellationRequest",
+  "type": "object",
+  "properties": {
+    "deal_room_id": {
+      "type": "string"
+    },
+    "requester_id": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending"
+    },
+    "seller_note": {
+      "type": "string"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "deal_room_id",
+    "requester_id",
+    "reason"
+  ]
+}

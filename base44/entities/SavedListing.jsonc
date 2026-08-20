@@ -1,0 +1,22 @@
+{
+  "name": "SavedListing",
+  "type": "object",
+  "properties": {
+    "listing_id": {
+      "type": "string",
+      "description": "Ref na Listing"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Ref na User"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Osobn\u00e1 pozn\u00e1mka"
+    }
+  },
+  "required": [
+    "listing_id",
+    "user_id"
+  ]
+}

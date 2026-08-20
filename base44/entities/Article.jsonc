@@ -1,0 +1,64 @@
+{
+  "name": "Article",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "N\u00e1zov \u010dl\u00e1nku"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL slug"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "ai",
+        "construction",
+        "real_estate",
+        "investment",
+        "trends",
+        "tutorial"
+      ],
+      "description": "Kateg\u00f3ria"
+    },
+    "excerpt": {
+      "type": "string",
+      "description": "Kr\u00e1tky popis"
+    },
+    "content": {
+      "type": "string",
+      "description": "Obsah \u010dl\u00e1nku (markdown)"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "URL obr\u00e1zka"
+    },
+    "read_time": {
+      "type": "number",
+      "description": "\u010cas \u010d\u00edtania v min\u00fatach"
+    },
+    "published": {
+      "type": "boolean",
+      "default": true,
+      "description": "Je publikovan\u00fd?"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Featured \u010dl\u00e1nok?"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tagy"
+    }
+  },
+  "required": [
+    "title",
+    "category",
+    "content"
+  ]
+}
